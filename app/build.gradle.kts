@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(libs.lottie.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
