@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">SHMRFinance</string>
+    <string name="expenses">Расходы</string>
+    <string name="incomes">Доходы</string>
+    <string name="bank_account">Счет</string>
+    <string name="articles">Статьи</string>
+    <string name="settings">Настройки</string>
+    <string name="main_color">Основной цвет</string>
+    <string name="sounds">Звуки</string>
+    <string name="hapticks">Хаптики</string>
+    <string name="code_password">Код пароль</string>
+    <string name="synchronization">Синхронизация</string>
+    <string name="language">Язык</string>
+    <string name="about_app">О программе</string>
+    <string name="chnge_theme_title">Светлая темная авто</string>
+    <string name="search_article">Найти статью</string>
+    <string name="my_articles">Мои статьи</string>
+    <string name="total">Всего</string>
+    <string name="incomes_today">Доходы сегодня</string>
+    <string name="expenses_today">Расходы сегодня</string>
+    <string name="my_bank_account">Мой счет</string>
+    <string name="balance">Баланс</string>
+    <string name="currency">Валюта</string>
 </resources>
