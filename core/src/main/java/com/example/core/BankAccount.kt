@@ -1,7 +1,7 @@
 package com.example.core
 
 data class BankAccount(
-    val id: Int,
+    val id: String,
     val userId: Int? = null,
     val name: String,
     val balance: Float,
