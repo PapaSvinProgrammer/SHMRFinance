@@ -1,7 +1,7 @@
 package com.example.shmrfinance
 
-import com.example.core.BankAccount
-import com.example.core.Transaction
+import com.example.network.model.BankAccount
+import com.example.network.model.Transaction
 import com.example.network.model.Category
 
 val category1 = Category(

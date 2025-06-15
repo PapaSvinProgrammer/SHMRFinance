@@ -18,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.shmrfinance.R
 import com.example.shmrfinance.articleList
 import com.example.shmrfinance.ui.widget.components.CustomSearchBar
@@ -25,7 +27,10 @@ import com.example.shmrfinance.ui.widget.listItems.CategoryListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticlesScreen() {
+fun ArticlesScreen(
+    navController: NavController,
+    viewModel: ArticlesViewModel = hiltViewModel()
+) {
     var query by remember { mutableStateOf("") }
 
     Scaffold(

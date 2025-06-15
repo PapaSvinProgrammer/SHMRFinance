@@ -1,6 +1,6 @@
 package com.example.network.serivce
 
-import com.example.core.Transaction
+import com.example.network.model.Transaction
 import com.example.network.core.NetworkError
 import com.example.network.core.Operation
 import com.example.network.model.TransactionRequest

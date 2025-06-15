@@ -1,7 +1,8 @@
-package com.example.core
+package com.example.network.model
 
-import com.example.network.model.Category
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Transaction(
     val id: Int,
     val account: BankAccount,

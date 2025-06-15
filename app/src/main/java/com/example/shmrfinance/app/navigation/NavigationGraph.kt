@@ -25,7 +25,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = SplashRoute,
+        startDestination = startRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -57,9 +57,7 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            SplashScreen(
-                navController = navController
-            )
+            SplashScreen(navController = navController)
         }
 
         composable<ExpensesRoute>(
@@ -68,7 +66,7 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            ExpensesScreen()
+            ExpensesScreen(navController)
         }
 
         composable<IncomeRoute>(
@@ -77,7 +75,7 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            IncomeScreen()
+            IncomeScreen(navController)
         }
 
         composable<BankAccountRoute>(
@@ -86,7 +84,7 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            BankAccountScreen()
+            BankAccountScreen(navController)
         }
 
         composable<ArticlesRoute>(
@@ -95,7 +93,7 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            ArticlesScreen()
+            ArticlesScreen(navController)
         }
 
         composable<SettingsRoute>(

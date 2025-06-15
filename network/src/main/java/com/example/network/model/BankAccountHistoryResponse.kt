@@ -1,5 +1,8 @@
-package com.example.core
+package com.example.network.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class BankAccountHistoryResponse(
     val accountId: Int,
     val accountName: String,

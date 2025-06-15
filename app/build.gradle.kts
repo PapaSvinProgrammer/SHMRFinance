@@ -44,6 +44,7 @@ android {
 
 dependencies {
     implementation(project(":network"))
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.bundles.ktor)

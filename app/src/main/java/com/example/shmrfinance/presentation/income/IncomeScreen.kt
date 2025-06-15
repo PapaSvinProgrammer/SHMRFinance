@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.shmrfinance.R
 import com.example.shmrfinance.app.utils.ConvertData
 import com.example.shmrfinance.incomeList
@@ -33,7 +35,10 @@ import com.example.shmrfinance.ui.widget.listItems.TransactionListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IncomeScreen() {
+fun IncomeScreen(
+    navController: NavController,
+    viewModel: IncomeViewModel = hiltViewModel()
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

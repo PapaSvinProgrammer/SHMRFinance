@@ -1,5 +1,8 @@
-package com.example.core
+package com.example.network.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class StatItem(
     val categoryId: Int,
     val categoryName: String,

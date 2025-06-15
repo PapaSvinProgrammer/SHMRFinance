@@ -1,7 +1,7 @@
 package com.example.network.serviceImpl
 
-import com.example.core.BankAccount
-import com.example.core.BankAccountHistoryResponse
+import com.example.network.model.BankAccount
+import com.example.network.model.BankAccountHistoryResponse
 import com.example.network.core.NetworkError
 import com.example.network.core.Operation
 import com.example.network.model.AccountRequest

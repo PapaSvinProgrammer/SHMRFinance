@@ -1,5 +1,8 @@
-package com.example.core
+package com.example.network.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class BankAccountHistory(
     val id: Int,
     val accountId: Int,
