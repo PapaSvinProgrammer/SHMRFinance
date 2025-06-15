@@ -9,12 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.shmrfinance.ui.screens.ArticlesScreen
-import com.example.shmrfinance.ui.screens.BankAccountScreen
-import com.example.shmrfinance.ui.screens.ExpensesScreen
-import com.example.shmrfinance.ui.screens.IncomeScreen
-import com.example.shmrfinance.ui.screens.SettingsScreen
-import com.example.shmrfinance.ui.screens.SplashScreen
+import com.example.shmrfinance.presentation.articles.ArticlesScreen
+import com.example.shmrfinance.presentation.bankAccount.BankAccountScreen
+import com.example.shmrfinance.presentation.expenses.ExpensesScreen
+import com.example.shmrfinance.presentation.income.IncomeScreen
+import com.example.shmrfinance.presentation.settings.SettingsScreen
+import com.example.shmrfinance.presentation.SplashScreen
 
 @Composable
 fun NavigationGraph(
