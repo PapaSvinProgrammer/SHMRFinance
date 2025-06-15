@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SHMRFinance"
 include(":app")
-include(":core")
+include(":network")
