@@ -8,6 +8,7 @@ suspend inline fun <reified T> responseToResult(
     response: HttpResponse
 ): Operation<T, NetworkError> {
     return when(response.status.value) {
+        204 -> Operation.Error(NetworkError.SUCCESS_DELETE_TRANSACTION)
         in 200..299 -> {
             try {
                 Operation.Success(response.body<T>())
