@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,12 +25,15 @@ fun MainScreen(
     var bottomBarVisible by remember { mutableStateOf(false) }
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
 
-    bottomBarIsVisibility(
-        route = currentRoute,
-        onResult = { bottomBarVisible = it }
-    )
+    LaunchedEffect(backStackEntry) {
+        val currentRoute = backStackEntry?.destination?.route
+
+        bottomBarIsVisibility(
+            route = currentRoute,
+            onResult = { bottomBarVisible = it }
+        )
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
