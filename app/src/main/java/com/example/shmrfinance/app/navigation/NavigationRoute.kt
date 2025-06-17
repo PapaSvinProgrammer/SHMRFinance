@@ -21,3 +21,6 @@ data object BankAccountRoute: NavRoute
 
 @Serializable
 data object SettingsRoute: NavRoute
+
+@Serializable
+data object CreateBankAccountRoute: NavRoute

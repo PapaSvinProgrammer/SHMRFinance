@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.shmrfinance.presentation.createBankAccount.CreateBankAccountScreen
 import com.example.shmrfinance.presentation.articles.ArticlesScreen
 import com.example.shmrfinance.presentation.bankAccount.BankAccountScreen
 import com.example.shmrfinance.presentation.expenses.ExpensesScreen
@@ -25,7 +26,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startRoute,
+        startDestination = ExpensesRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -103,6 +104,10 @@ fun NavigationGraph(
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
             SettingsScreen()
+        }
+
+        composable<CreateBankAccountRoute> {
+            CreateBankAccountScreen(navController)
         }
     }
 }

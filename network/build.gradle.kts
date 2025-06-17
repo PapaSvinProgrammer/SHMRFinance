@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.hilt.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor)
     implementation(libs.androidx.core.ktx)

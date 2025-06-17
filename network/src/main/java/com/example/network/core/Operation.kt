@@ -1,6 +1,5 @@
 package com.example.network.core
 
-typealias RootError = Error
 
 sealed interface Operation<out D, out E: RootError> {
     data class Success<out D, out E: RootError>(val data: D): Operation<D, E>

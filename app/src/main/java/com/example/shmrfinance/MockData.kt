@@ -70,7 +70,7 @@ val account = BankAccount(
     balance = 1000f,
     currency = "RUB",
     createdAt = "",
-    updatedAr = ""
+    updatedAt = ""
 )
 
 val transactionList = listOf(

@@ -1,6 +1,6 @@
 package com.example.shmrfinance.data.repository
 
-import com.example.network.core.NetworkError
+import com.example.network.core.NetworkRootError
 import com.example.network.core.Operation
 import com.example.network.model.AccountRequest
 import com.example.network.model.BankAccount
@@ -12,23 +12,23 @@ import jakarta.inject.Inject
 class BankAccountRepositoryImpl @Inject constructor(
     private val service: BankAccountService
 ): BankAccountRepository {
-    override suspend fun getAll(): Operation<List<BankAccount>, NetworkError> {
+    override suspend fun getAll(): Operation<List<BankAccount>, NetworkRootError> {
         return service.getAll()
     }
 
-    override suspend fun getById(id: Int): Operation<BankAccount, NetworkError> {
+    override suspend fun getById(id: Int): Operation<BankAccount, NetworkRootError> {
         return service.getById(id)
     }
 
-    override suspend fun create(request: AccountRequest): Operation<BankAccount, NetworkError> {
+    override suspend fun create(request: AccountRequest): Operation<BankAccount, NetworkRootError> {
         return service.create(request)
     }
 
-    override suspend fun update(id: Int, request: AccountRequest): Operation<BankAccount, NetworkError> {
+    override suspend fun update(id: Int, request: AccountRequest): Operation<BankAccount, NetworkRootError> {
         return service.update(id, request)
     }
 
-    override suspend fun getUpdateHistory(id: Int): Operation<BankAccountHistoryResponse, NetworkError> {
+    override suspend fun getUpdateHistory(id: Int): Operation<BankAccountHistoryResponse, NetworkRootError> {
         return service.getUpdateHistory(id)
     }
 }

@@ -1,6 +1,6 @@
 package com.example.shmrfinance.data.repository
 
-import com.example.network.core.NetworkError
+import com.example.network.core.NetworkRootError
 import com.example.network.core.Operation
 import com.example.network.model.Transaction
 import com.example.network.model.TransactionRequest
@@ -11,22 +11,22 @@ import jakarta.inject.Inject
 class TransactionRepositoryImpl @Inject constructor(
     private val service: TransactionService
 ): TransactionRepository {
-    override suspend fun create(request: TransactionRequest): Operation<Transaction, NetworkError> {
+    override suspend fun create(request: TransactionRequest): Operation<Transaction, NetworkRootError> {
         return service.create(request)
     }
 
     override suspend fun update(
         id: Int,
         request: TransactionRequest
-    ): Operation<Transaction, NetworkError> {
+    ): Operation<Transaction, NetworkRootError> {
         return service.update(id, request)
     }
 
-    override suspend fun delete(id: Int): Operation<Unit, NetworkError> {
+    override suspend fun delete(id: Int): Operation<Unit, NetworkRootError> {
         return service.delete(id)
     }
 
-    override suspend fun getById(id: Int): Operation<Transaction, NetworkError> {
+    override suspend fun getById(id: Int): Operation<Transaction, NetworkRootError> {
         return service.getById(id)
     }
 
@@ -34,7 +34,7 @@ class TransactionRepositoryImpl @Inject constructor(
         accountId: Int,
         startDate: String,
         endDate: String
-    ): Operation<List<Transaction>, NetworkError> {
+    ): Operation<List<Transaction>, NetworkRootError> {
         return service.getByPeriod(accountId, startDate, endDate)
     }
 }

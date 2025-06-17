@@ -21,4 +21,8 @@
     <string name="my_bank_account">Мой счет</string>
     <string name="balance">Баланс</string>
     <string name="currency">Валюта</string>
+    <string name="name_account">Название счета</string>
+    <string name="name_account_error">Введите название счета</string>
+    <string name="success">Успешно</string>
+    <string name="error">Ошибка</string>
 </resources>

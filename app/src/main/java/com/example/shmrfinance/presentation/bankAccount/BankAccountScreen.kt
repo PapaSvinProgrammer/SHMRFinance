@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.shmrfinance.R
+import com.example.shmrfinance.app.navigation.CreateBankAccountRoute
 import com.example.shmrfinance.app.utils.ConvertData
 import com.example.shmrfinance.ui.widget.components.CustomFloatingActionButton
 import com.example.shmrfinance.ui.widget.components.EmojiCard
@@ -87,7 +88,7 @@ fun BankAccountScreen(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(15.dp),
-                onClick = {  }
+                onClick = { navController.navigate(CreateBankAccountRoute) }
             ) {
                 Icon(
                     modifier = Modifier.size(30.dp),
