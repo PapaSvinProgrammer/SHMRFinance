@@ -12,7 +12,7 @@
     <string name="synchronization">Синхронизация</string>
     <string name="language">Язык</string>
     <string name="about_app">О программе</string>
-    <string name="chnge_theme_title">Светлая темная авто</string>
+    <string name="change_theme_title">Светлая темная авто</string>
     <string name="search_article">Найти статью</string>
     <string name="my_articles">Мои статьи</string>
     <string name="total">Всего</string>
@@ -25,4 +25,8 @@
     <string name="name_account_error">Введите название счета</string>
     <string name="success">Успешно</string>
     <string name="error">Ошибка</string>
+    <string name="russian_currency">Российский рубль ₽</string>
+    <string name="american_currency">Американский доллар $</string>
+    <string name="euro_currency">Евро €</string>
+    <string name="cancel">Отмена</string>
 </resources>
