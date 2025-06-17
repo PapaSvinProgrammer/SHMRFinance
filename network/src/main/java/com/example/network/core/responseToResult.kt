@@ -6,18 +6,18 @@ import io.ktor.client.statement.HttpResponse
 
 suspend inline fun <reified T> responseToResult(
     response: HttpResponse
-): Operation<T, NetworkRootError> {
+): Operation<T, NetworkError> {
     return when(response.status.value) {
-        204 -> Operation.Error(NetworkRootError.SUCCESS_DELETE_TRANSACTION)
+        204 -> Operation.Error(NetworkError.SUCCESS_DELETE_TRANSACTION)
         in 200..299 -> {
             try {
                 Operation.Success(response.body<T>())
             } catch (e: NoTransformationFoundException) {
-                Operation.Error(NetworkRootError.SERIALIZATION)
+                Operation.Error(NetworkError.SERIALIZATION)
             }
         }
-        408 -> Operation.Error(NetworkRootError.REQUEST_TIMEOUT)
-        500 -> Operation.Error(NetworkRootError.SERVER_ERROR)
-        else -> Operation.Error(NetworkRootError.UNKNOWN)
+        408 -> Operation.Error(NetworkError.REQUEST_TIMEOUT)
+        500 -> Operation.Error(NetworkError.SERVER_ERROR)
+        else -> Operation.Error(NetworkError.UNKNOWN)
     }
 }

@@ -1,12 +1,17 @@
 package com.example.shmrfinance.presentation.createBankAccount
 
+import android.graphics.Path.Op
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shmrfinance.account
+import com.example.network.core.NetworkError
+import com.example.network.core.Operation
+import com.example.network.core.reRequest
+import com.example.network.model.BankAccount
 import com.example.shmrfinance.domain.model.CurrencyType
 import com.example.shmrfinance.domain.repository.BankAccountRepository
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
@@ -35,6 +40,13 @@ class CreateBankAccountViewModel @Inject constructor(
     var accountState by mutableStateOf(BankAccountUIState.Loading as BankAccountUIState)
         private set
 
+    var visibleCurrencySheet by mutableStateOf(false)
+        private set
+
+    fun updateVisibleCurrencySheet(state: Boolean) {
+        visibleCurrencySheet = state
+    }
+
     fun updateStartCreate(state: Boolean) {
         isStartCreate = state
     }
@@ -59,8 +71,27 @@ class CreateBankAccountViewModel @Inject constructor(
         isStartCreate = true
 
         viewModelScope.launch(Dispatchers.IO) {
-            delay(2000)
-            accountState = BankAccountUIState.Success(listOf(account))
+            var moreRequest = false
+
+            testTask().onError {
+                if (it == NetworkError.SERVER_ERROR) {
+                    moreRequest = true
+                }
+            }
+
+            if (moreRequest) {
+                Log.d("RRRR", "START RE_REQUEST")
+                reRequest {
+                    testTask()
+                }
+            }
+
+            accountState = BankAccountUIState.Error(NetworkError.UNKNOWN)
         }
+    }
+
+    suspend fun testTask(): Operation<List<BankAccount>, NetworkError> {
+        delay(100)
+        return Operation.Error(NetworkError.SERVER_ERROR)
     }
 }

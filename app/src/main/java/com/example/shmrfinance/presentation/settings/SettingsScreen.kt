@@ -63,7 +63,7 @@ private fun ChangeThemeContent() {
         modifier = Modifier.height(56.dp),
         colors = ListItemDefaults.colors(MaterialTheme.colorScheme.background),
         headlineContent = {
-            Text(text = stringResource(R.string.chnge_theme_title))
+            Text(text = stringResource(R.string.change_theme_title))
         },
         trailingContent = {
             Switch(
@@ -96,7 +96,7 @@ private fun SettingsList() {
     }
 }
 
-val settingsList = listOf(
+private val settingsList = listOf(
     R.string.main_color to ExpensesRoute,
     R.string.sounds to ExpensesRoute,
     R.string.hapticks to ExpensesRoute,

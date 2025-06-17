@@ -1,6 +1,6 @@
 package com.example.shmrfinance.presentation.createBankAccount
 
-import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,20 +18,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.shmrfinance.R
+import com.example.shmrfinance.app.utils.ConvertData
+import com.example.shmrfinance.domain.model.toSlug
 import com.example.shmrfinance.ui.dialog.ResultDialog
 import com.example.shmrfinance.ui.dialog.ResultDialogType
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
+import com.example.shmrfinance.ui.widget.bottomSheet.CurrencyBottomSheet
 import com.example.shmrfinance.ui.widget.components.CreateBankAccountCard
+import com.example.shmrfinance.ui.widget.listItems.TransactionListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,6 +87,16 @@ fun CreateBankAccountScreen(
 
             HorizontalDivider()
 
+            TransactionListItem(
+                title = stringResource(R.string.currency),
+                amount = ConvertData.getCurrencySymbol(viewModel.currency.toSlug()),
+                modifier = Modifier.clickable {
+                    viewModel.updateVisibleCurrencySheet(true)
+                }
+            )
+
+            HorizontalDivider()
+
             if (viewModel.errorName) {
                 Text(
                     modifier = Modifier.padding(horizontal = 15.dp),
@@ -93,6 +105,16 @@ fun CreateBankAccountScreen(
                     color = MaterialTheme.colorScheme.error
                 )
             }
+        }
+
+        if (viewModel.visibleCurrencySheet) {
+            CurrencyBottomSheet(
+                onDismissRequest = { viewModel.updateVisibleCurrencySheet(false) },
+                onResult = {
+                    viewModel.updateCurrency(it)
+                    viewModel.updateVisibleCurrencySheet(false)
+                }
+            )
         }
 
         if (viewModel.isStartCreate) {
@@ -104,6 +126,7 @@ fun CreateBankAccountScreen(
 
             ResultDialog(
                 type = type,
+                error = (viewModel.accountState as? BankAccountUIState.Error)?.error,
                 onDismissRequest = {
                     viewModel.updateStartCreate(false)
                     navController.popBackStack()

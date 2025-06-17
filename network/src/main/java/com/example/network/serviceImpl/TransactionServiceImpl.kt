@@ -1,7 +1,7 @@
 package com.example.network.serviceImpl
 
 import com.example.network.model.Transaction
-import com.example.network.core.NetworkRootError
+import com.example.network.core.NetworkError
 import com.example.network.core.Operation
 import com.example.network.core.safeCall
 import com.example.network.model.TransactionRequest
@@ -13,22 +13,22 @@ import jakarta.inject.Inject
 class TransactionServiceImpl @Inject constructor(
     private val client: HttpClient
 ): TransactionService {
-    override suspend fun create(request: TransactionRequest): Operation<Transaction, NetworkRootError> {
+    override suspend fun create(request: TransactionRequest): Operation<Transaction, NetworkError> {
         TODO("Not yet implemented")
     }
 
     override suspend fun update(
         id: Int,
         request: TransactionRequest
-    ): Operation<Transaction, NetworkRootError> {
+    ): Operation<Transaction, NetworkError> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(id: Int): Operation<Unit, NetworkRootError> {
+    override suspend fun delete(id: Int): Operation<Unit, NetworkError> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getById(id: Int): Operation<Transaction, NetworkRootError> {
+    override suspend fun getById(id: Int): Operation<Transaction, NetworkError> {
         TODO("Not yet implemented")
     }
 
@@ -36,7 +36,7 @@ class TransactionServiceImpl @Inject constructor(
         accountId: Int,
         startDate: String,
         endDate: String
-    ): Operation<List<Transaction>, NetworkRootError> {
+    ): Operation<List<Transaction>, NetworkError> {
         return safeCall {
             throw UnresolvedAddressException()
         }

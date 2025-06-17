@@ -13,6 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.network.core.NetworkError
+import com.example.network.core.RootError
+import com.example.network.core.toSlug
 import com.example.shmrfinance.R
 import com.example.shmrfinance.presentation.createBankAccount.BasicLoadScreen
 import kotlinx.coroutines.delay
@@ -26,11 +29,12 @@ enum class ResultDialogType {
 @Composable
 fun ResultDialog(
     type: ResultDialogType,
+    error: RootError? = null,
     onDismissRequest: () -> Unit
 ) {
     LaunchedEffect(type) {
         if (type != ResultDialogType.LOADING) {
-            delay(500)
+            delay(1000)
             onDismissRequest()
         }
     }
@@ -42,7 +46,7 @@ fun ResultDialog(
             when (type) {
                 ResultDialogType.SUCCESS -> SuccessContent()
                 ResultDialogType.LOADING -> BasicLoadScreen()
-                ResultDialogType.ERROR -> ErrorContent()
+                ResultDialogType.ERROR -> ErrorContent(error)
             }
         }
     }
@@ -60,10 +64,16 @@ private fun BoxScope.SuccessContent() {
 }
 
 @Composable
-private fun BoxScope.ErrorContent() {
+private fun BoxScope.ErrorContent(error: RootError?) {
+    var text = "ОШИБКА"
+
+    (error as? NetworkError)?.let {
+        text = it.toSlug()
+    }
+
     Text(
         modifier = Modifier.align(Alignment.Center),
-        text = stringResource(R.string.error).uppercase(),
+        text = text,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
         color = Color.White

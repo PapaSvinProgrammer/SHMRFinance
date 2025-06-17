@@ -6,5 +6,5 @@ import com.example.network.model.BankAccount
 sealed interface BankAccountUIState {
     data class Success(val data: List<BankAccount>): BankAccountUIState
     data object Loading: BankAccountUIState
-    data class Error(val rootError: RootError): BankAccountUIState
+    data class Error(val error: RootError): BankAccountUIState
 }

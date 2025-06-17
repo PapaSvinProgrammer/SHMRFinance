@@ -8,16 +8,16 @@ import kotlin.coroutines.coroutineContext
 
 suspend inline fun <reified T> safeCall(
     execute: () -> HttpResponse
-): Operation<T, NetworkRootError> {
+): Operation<T, NetworkError> {
     val response = try {
         execute()
     } catch (e: UnresolvedAddressException) {
-        return Operation.Error(NetworkRootError.NO_INTERNET)
+        return Operation.Error(NetworkError.NO_INTERNET)
     } catch (e: SerializationException) {
-        return Operation.Error(NetworkRootError.SERIALIZATION)
+        return Operation.Error(NetworkError.SERIALIZATION)
     } catch (e: Exception) {
         coroutineContext.ensureActive()
-        return Operation.Error(NetworkRootError.UNKNOWN)
+        return Operation.Error(NetworkError.UNKNOWN)
     }
 
     return responseToResult(response)
