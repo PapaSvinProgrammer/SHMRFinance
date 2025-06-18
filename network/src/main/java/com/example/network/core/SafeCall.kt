@@ -1,6 +1,5 @@
 package com.example.network.core
 
-import android.util.Log
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
@@ -17,7 +16,6 @@ suspend inline fun <reified T> safeCall(
     } catch (e: SerializationException) {
         return Operation.Error(NetworkError.SERIALIZATION)
     } catch (e: Exception) {
-        Log.d("RRRR", e.message.toString())
         coroutineContext.ensureActive()
         return Operation.Error(NetworkError.UNKNOWN)
     }

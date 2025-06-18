@@ -11,6 +11,6 @@ data class BankAccount(
     val currency: String,
     val incomeStats: List<StatItem> = listOf(),
     val expensesStats: List<StatItem> = listOf(),
-    val createdAt: String,
-    val updatedAt: String
+    val createdAt: String = "",
+    val updatedAt: String = ""
 )

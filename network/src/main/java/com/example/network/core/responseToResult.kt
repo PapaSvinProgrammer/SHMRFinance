@@ -17,7 +17,10 @@ suspend inline fun <reified T> responseToResult(
             }
         }
         408 -> Operation.Error(NetworkError.REQUEST_TIMEOUT)
+        409 -> Operation.Error(NetworkError.HAVE_TRANSACTION)
         500 -> Operation.Error(NetworkError.SERVER_ERROR)
-        else -> Operation.Error(NetworkError.UNKNOWN)
+        else -> {
+            Operation.Error(NetworkError.UNKNOWN)
+        }
     }
 }

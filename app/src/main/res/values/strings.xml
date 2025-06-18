@@ -30,4 +30,5 @@
     <string name="euro_currency">Евро €</string>
     <string name="cancel">Отмена</string>
     <string name="all_bank_accounts">Все счета</string>
+    <string name="my_history">Моя история</string>
 </resources>

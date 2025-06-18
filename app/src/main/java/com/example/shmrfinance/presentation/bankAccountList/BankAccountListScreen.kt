@@ -59,7 +59,7 @@ fun BankAccountListScreen(
 
         when (val state = viewModel.accountState) {
             is BankAccountUIState.Error -> {}
-            BankAccountUIState.Loading -> BasicLoadingScreen()
+            BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {
                 MainContent(
                     modifier = Modifier

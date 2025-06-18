@@ -27,3 +27,8 @@ data object CreateBankAccountRoute: NavRoute
 
 @Serializable
 data object BankAccountListScreenRoute: NavRoute
+
+@Serializable
+data class TransactionHistoryRoute(
+    val isIncome: Boolean
+): NavRoute

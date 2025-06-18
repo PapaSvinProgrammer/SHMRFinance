@@ -74,7 +74,7 @@ fun BankAccountScreen(
     ) { innerPadding ->
         when (val state = viewModel.currentBankAccount) {
             is BankAccountUIState.Error -> {}
-            BankAccountUIState.Loading -> BasicLoadingScreen()
+            BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {
                 MainContent(
                     modifier = Modifier

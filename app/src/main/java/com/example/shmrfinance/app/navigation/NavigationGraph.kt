@@ -27,7 +27,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = BankAccountRoute,
+        startDestination = ExpensesRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
