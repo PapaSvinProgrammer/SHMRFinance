@@ -12,6 +12,8 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.header
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -33,6 +35,7 @@ object HttpClientFactory {
             }
 
             defaultRequest {
+                contentType(ContentType.Application.Json)
                 url("https://shmr-finance.ru/api/")
                 header("accept", "application/json")
                 bearerAuth(BuildConfig.API_KEY)

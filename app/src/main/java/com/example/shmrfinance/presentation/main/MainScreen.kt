@@ -1,4 +1,4 @@
-package com.example.shmrfinance.presentation
+package com.example.shmrfinance.presentation.main
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

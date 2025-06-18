@@ -33,7 +33,9 @@ fun SplashScreen(navController: NavController) {
         )
 
         if (state.isAtEnd && state.isPlaying) {
-            navController.navigate(ExpensesRoute)
+            navController.navigate(ExpensesRoute) {
+                popUpTo(navController.graph.id)
+            }
         }
     }
 }

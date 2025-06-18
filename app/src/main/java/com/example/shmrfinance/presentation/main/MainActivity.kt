@@ -1,4 +1,4 @@
-package com.example.shmrfinance
+package com.example.shmrfinance.presentation.main
 
 import android.content.pm.ActivityInfo
 import android.os.Build
@@ -8,8 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import com.example.shmrfinance.app.navigation.ExpensesRoute
-import com.example.shmrfinance.app.navigation.SplashRoute
-import com.example.shmrfinance.presentation.MainScreen
 import com.example.shmrfinance.ui.theme.SHMRFinanceTheme
 import dagger.hilt.android.AndroidEntryPoint
 

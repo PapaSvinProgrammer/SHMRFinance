@@ -65,7 +65,7 @@ val articleList = listOf(
 )
 
 val account = BankAccount(
-    id = "asdasdsad",
+    id = 1,
     name = "Основной счет",
     balance = 1000f,
     currency = "RUB",

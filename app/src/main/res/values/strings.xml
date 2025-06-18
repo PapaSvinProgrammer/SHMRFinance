@@ -29,4 +29,5 @@
     <string name="american_currency">Американский доллар $</string>
     <string name="euro_currency">Евро €</string>
     <string name="cancel">Отмена</string>
+    <string name="all_bank_accounts">Все счета</string>
 </resources>

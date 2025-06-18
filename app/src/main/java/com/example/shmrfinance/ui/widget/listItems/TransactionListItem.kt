@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.shmrfinance.ui.theme.trailingIcon
+import com.example.shmrfinance.ui.theme.trailingIconColor
 
 @Composable
 fun TransactionListItem(
@@ -66,7 +66,7 @@ fun TransactionListItem(
                     imageVector = Icons.Rounded.KeyboardArrowDown,
                     contentDescription = null,
                     modifier = Modifier.rotate(-90f),
-                    tint = trailingIcon
+                    tint = trailingIconColor
                 )
             }
         }

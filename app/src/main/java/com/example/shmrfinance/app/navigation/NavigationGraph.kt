@@ -16,6 +16,7 @@ import com.example.shmrfinance.presentation.expenses.ExpensesScreen
 import com.example.shmrfinance.presentation.income.IncomeScreen
 import com.example.shmrfinance.presentation.settings.SettingsScreen
 import com.example.shmrfinance.presentation.SplashScreen
+import com.example.shmrfinance.presentation.bankAccountList.BankAccountListScreen
 
 @Composable
 fun NavigationGraph(
@@ -26,7 +27,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = CreateBankAccountRoute,
+        startDestination = BankAccountRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -108,6 +109,10 @@ fun NavigationGraph(
 
         composable<CreateBankAccountRoute> {
             CreateBankAccountScreen(navController)
+        }
+
+        composable<BankAccountListScreenRoute> {
+            BankAccountListScreen(navController)
         }
     }
 }

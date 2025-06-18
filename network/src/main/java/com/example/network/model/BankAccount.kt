@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BankAccount(
-    val id: String,
+    val id: Int,
     val userId: Int? = null,
     val name: String,
     val balance: Float,

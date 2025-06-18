@@ -17,7 +17,7 @@ import com.example.network.core.NetworkError
 import com.example.network.core.RootError
 import com.example.network.core.toSlug
 import com.example.shmrfinance.R
-import com.example.shmrfinance.presentation.createBankAccount.BasicLoadScreen
+import com.example.shmrfinance.ui.widget.components.BasicLoadingScreen
 import kotlinx.coroutines.delay
 
 enum class ResultDialogType {
@@ -45,7 +45,7 @@ fun ResultDialog(
         Box(modifier = Modifier.fillMaxSize()) {
             when (type) {
                 ResultDialogType.SUCCESS -> SuccessContent()
-                ResultDialogType.LOADING -> BasicLoadScreen()
+                ResultDialogType.LOADING -> BasicLoadingScreen()
                 ResultDialogType.ERROR -> ErrorContent(error)
             }
         }
