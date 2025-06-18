@@ -48,6 +48,12 @@ class BankAccountServiceImpl @Inject constructor(
         }
     }
 
+    override suspend fun delete(id: Int): Operation<Unit, NetworkError> {
+        return safeCall {
+            client.get("v1/accounts/$id")
+        }
+    }
+
     override suspend fun getUpdateHistory(id: Int): Operation<BankAccountHistoryResponse, NetworkError> {
         return safeCall {
             client.get("v1/accounts/$id/history")

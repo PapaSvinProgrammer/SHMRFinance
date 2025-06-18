@@ -26,4 +26,8 @@ class ChangeBankAccount @Inject constructor(
             )
         }
     }
+
+    suspend fun delete(id: Int): Operation<Unit, NetworkError> {
+        return request { bankAccountRepository.delete(id) }
+    }
 }

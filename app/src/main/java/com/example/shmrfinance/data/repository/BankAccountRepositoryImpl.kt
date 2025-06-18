@@ -28,6 +28,10 @@ class BankAccountRepositoryImpl @Inject constructor(
         return service.update(id, request)
     }
 
+    override suspend fun delete(id: Int): Operation<Unit, NetworkError> {
+        return service.delete(id)
+    }
+
     override suspend fun getUpdateHistory(id: Int): Operation<BankAccountHistoryResponse, NetworkError> {
         return service.getUpdateHistory(id)
     }

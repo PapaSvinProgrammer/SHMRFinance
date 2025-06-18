@@ -11,5 +11,6 @@ interface BankAccountService {
     suspend fun getById(id: Int): Operation<BankAccount, NetworkError>
     suspend fun create(request: AccountRequest): Operation<BankAccount, NetworkError>
     suspend fun update(id: Int, request: AccountRequest): Operation<BankAccount, NetworkError>
+    suspend fun delete(id: Int): Operation<Unit, NetworkError>
     suspend fun getUpdateHistory(id: Int): Operation<BankAccountHistoryResponse, NetworkError>
 }
