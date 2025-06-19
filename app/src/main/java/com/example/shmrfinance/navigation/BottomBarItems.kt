@@ -10,7 +10,7 @@ sealed class BottomBarTab(
 ) {
     data object ExpensesTab: BottomBarTab(
         title = R.string.expenses,
-        icon = R.drawable.ic_expenses,
+        icon = R.drawable.ic_expense,
         route = ExpensesRoute
     )
 
