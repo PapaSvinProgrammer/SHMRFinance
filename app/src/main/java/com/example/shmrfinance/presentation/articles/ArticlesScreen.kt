@@ -67,7 +67,7 @@ fun ArticlesScreen(
 }
 
 @Composable
-fun MainContent(
+private fun MainContent(
     modifier: Modifier = Modifier,
     list: List<Category>,
     query: String,

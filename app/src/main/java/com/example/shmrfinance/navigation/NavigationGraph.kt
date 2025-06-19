@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.shmrfinance.presentation.createBankAccount.CreateBankAccountScreen
 import com.example.shmrfinance.presentation.articles.ArticlesScreen
 import com.example.shmrfinance.presentation.bankAccount.BankAccountScreen
@@ -17,6 +18,7 @@ import com.example.shmrfinance.presentation.income.IncomeScreen
 import com.example.shmrfinance.presentation.settings.SettingsScreen
 import com.example.shmrfinance.presentation.SplashScreen
 import com.example.shmrfinance.presentation.bankAccountList.BankAccountListScreen
+import com.example.shmrfinance.presentation.transactionHistory.TransactionHistoryScreen
 
 @Composable
 fun NavigationGraph(
@@ -27,7 +29,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = ExpensesRoute,
+        startDestination = TransactionHistoryRoute(isIncome = true),
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -113,6 +115,15 @@ fun NavigationGraph(
 
         composable<BankAccountListScreenRoute> {
             BankAccountListScreen(navController)
+        }
+
+        composable<TransactionHistoryRoute> {
+            val route = it.toRoute<TransactionHistoryRoute>()
+
+            TransactionHistoryScreen(
+                navController = navController,
+                isIncome = route.isIncome
+            )
         }
     }
 }

@@ -9,7 +9,8 @@ fun TransactionDto.toDomain(): Transaction {
         account = this.account.toDomain(),
         category = this.category.toDomain(),
         amount = this.amount,
-        transactionDate = this.transactionDate
+        transactionDate = this.transactionDate,
+        comment = this.comment
     )
 }
 
