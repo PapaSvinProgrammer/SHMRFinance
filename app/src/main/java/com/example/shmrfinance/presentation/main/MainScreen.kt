@@ -12,10 +12,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.shmrfinance.app.navigation.NavRoute
-import com.example.shmrfinance.app.navigation.NavigationGraph
-import com.example.shmrfinance.app.navigation.SplashRoute
-import com.example.shmrfinance.ui.widget.components.BottomNavigationBar
+import com.example.shmrfinance.navigation.NavRoute
+import com.example.shmrfinance.navigation.NavigationGraph
+import com.example.shmrfinance.navigation.SplashRoute
+import com.example.shmrfinance.navigation.BottomNavigationBar
 
 @Composable
 fun MainScreen(

@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.network.model.Transaction
-import com.example.shmrfinance.app.utils.FormatDate
-import com.example.shmrfinance.domain.repository.PreferencesRepository
-import com.example.shmrfinance.domain.useCase.GetTransaction
+import com.example.data.repository.PreferencesRepository
+import com.example.domain.useCase.GetTransaction
+import com.example.model.Transaction
+import com.example.shmrfinance.utils.FormatDate
 import com.example.shmrfinance.ui.uiState.TransactionUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

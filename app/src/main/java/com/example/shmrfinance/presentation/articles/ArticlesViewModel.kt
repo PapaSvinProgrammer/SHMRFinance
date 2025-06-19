@@ -2,7 +2,7 @@ package com.example.shmrfinance.presentation.articles
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.shmrfinance.domain.repository.PreferencesRepository
+import com.example.data.repository.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 

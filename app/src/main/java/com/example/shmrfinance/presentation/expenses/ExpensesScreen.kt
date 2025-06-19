@@ -26,16 +26,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.network.model.Transaction
+import com.example.model.Transaction
 import com.example.shmrfinance.R
-import com.example.shmrfinance.app.navigation.TransactionHistoryRoute
-import com.example.shmrfinance.app.utils.ConvertData
-import com.example.shmrfinance.ui.uiState.TransactionUIState
+import com.example.shmrfinance.navigation.TransactionHistoryRoute
+import com.example.shmrfinance.utils.ConvertData
 import com.example.shmrfinance.ui.widget.components.BasicLoadingScreen
 import com.example.shmrfinance.ui.widget.components.CustomFloatingActionButton
 import com.example.shmrfinance.ui.widget.components.EmojiCard
 import com.example.shmrfinance.ui.widget.listItems.TotalListItem
 import com.example.shmrfinance.ui.widget.listItems.TransactionListItem
+import com.example.shmrfinance.ui.uiState.TransactionUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +67,7 @@ fun ExpensesScreen(
         }
     ) { innerPadding ->
         when (val state = viewModel.transactionState) {
-            is TransactionUIState.Error -> TODO()
+            is TransactionUIState.Error -> {}
             TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is TransactionUIState.Success -> {
                 MainContent(
@@ -101,7 +101,10 @@ private fun MainContent(
             HorizontalDivider()
 
             LazyColumn {
-                items(list) {
+                items(
+                    items = list,
+                    key = { it.id }
+                ) {
                     TransactionListItem(
                         modifier = Modifier
                             .height(70.dp)

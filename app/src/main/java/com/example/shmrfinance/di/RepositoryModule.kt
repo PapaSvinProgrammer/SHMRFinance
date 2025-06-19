@@ -1,14 +1,14 @@
 package com.example.shmrfinance.di
 
 import android.content.Context
-import com.example.shmrfinance.data.repository.BankAccountRepositoryImpl
-import com.example.shmrfinance.data.repository.CategoryRepositoryImpl
-import com.example.shmrfinance.data.repository.PreferencesRepositoryImpl
-import com.example.shmrfinance.data.repository.TransactionRepositoryImpl
-import com.example.shmrfinance.domain.repository.BankAccountRepository
-import com.example.shmrfinance.domain.repository.CategoryRepository
-import com.example.shmrfinance.domain.repository.PreferencesRepository
-import com.example.shmrfinance.domain.repository.TransactionRepository
+import com.example.data.repository.BankAccountRepository
+import com.example.data.repository.CategoryRepository
+import com.example.data.repository.PreferencesRepository
+import com.example.data.repository.TransactionRepository
+import com.example.data.repositoryImpl.BankAccountRepositoryImpl
+import com.example.data.repositoryImpl.CategoryRepositoryImpl
+import com.example.data.repositoryImpl.PreferencesRepositoryImpl
+import com.example.data.repositoryImpl.TransactionRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

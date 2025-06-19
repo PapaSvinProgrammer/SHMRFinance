@@ -24,10 +24,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.model.CurrencyType
+import com.example.model.toSlug
 import com.example.shmrfinance.R
-import com.example.shmrfinance.app.utils.ConvertData
-import com.example.shmrfinance.domain.model.CurrencyType
-import com.example.shmrfinance.domain.model.toSlug
+import com.example.shmrfinance.utils.ConvertData
 
 @Composable
 fun CreateBankAccountCard(

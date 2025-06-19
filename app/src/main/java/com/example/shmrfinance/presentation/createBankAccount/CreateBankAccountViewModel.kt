@@ -6,11 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.network.model.AccountRequest
-import com.example.shmrfinance.domain.model.CurrencyType
-import com.example.shmrfinance.domain.model.toSlug
-import com.example.shmrfinance.domain.useCase.ChangeBankAccount
+import com.example.domain.useCase.ChangeBankAccount
+import com.example.model.AccountRequest
+import com.example.model.CurrencyType
+import com.example.model.toSlug
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

@@ -21,15 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.model.toSlug
 import com.example.shmrfinance.R
-import com.example.shmrfinance.app.utils.ConvertData
-import com.example.shmrfinance.domain.model.toSlug
+import com.example.shmrfinance.utils.ConvertData
+import com.example.shmrfinance.ui.widget.components.CreateBankAccountCard
+import com.example.shmrfinance.ui.widget.listItems.TransactionListItem
 import com.example.shmrfinance.ui.dialog.ResultDialog
 import com.example.shmrfinance.ui.dialog.ResultDialogType
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
 import com.example.shmrfinance.ui.widget.bottomSheet.CurrencyBottomSheet
-import com.example.shmrfinance.ui.widget.components.CreateBankAccountCard
-import com.example.shmrfinance.ui.widget.listItems.TransactionListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

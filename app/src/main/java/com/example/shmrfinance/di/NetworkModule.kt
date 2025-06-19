@@ -1,6 +1,6 @@
 package com.example.shmrfinance.di
 
-import com.example.network.core.HttpClientFactory
+import com.example.network.common.HttpClientFactory
 import com.example.network.serivce.BankAccountService
 import com.example.network.serivce.CategoryService
 import com.example.network.serivce.TransactionService

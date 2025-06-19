@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.network.model.BankAccount
-import com.example.shmrfinance.domain.repository.PreferencesRepository
-import com.example.shmrfinance.domain.useCase.GetBankAccount
+import com.example.data.repository.PreferencesRepository
+import com.example.domain.useCase.GetBankAccount
+import com.example.model.BankAccount
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

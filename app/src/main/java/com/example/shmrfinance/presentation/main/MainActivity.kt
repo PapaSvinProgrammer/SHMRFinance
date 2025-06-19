@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import com.example.shmrfinance.app.navigation.ExpensesRoute
+import com.example.shmrfinance.navigation.ExpensesRoute
 import com.example.shmrfinance.ui.theme.SHMRFinanceTheme
 import dagger.hilt.android.AndroidEntryPoint
 

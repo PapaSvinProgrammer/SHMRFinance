@@ -25,16 +25,16 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.network.model.BankAccount
+import com.example.model.BankAccount
 import com.example.shmrfinance.R
-import com.example.shmrfinance.app.navigation.BankAccountListScreenRoute
-import com.example.shmrfinance.app.navigation.CreateBankAccountRoute
-import com.example.shmrfinance.app.utils.ConvertData
-import com.example.shmrfinance.ui.uiState.BankAccountUIState
+import com.example.shmrfinance.navigation.BankAccountListScreenRoute
+import com.example.shmrfinance.navigation.CreateBankAccountRoute
+import com.example.shmrfinance.utils.ConvertData
 import com.example.shmrfinance.ui.widget.components.BasicLoadingScreen
 import com.example.shmrfinance.ui.widget.components.CustomFloatingActionButton
 import com.example.shmrfinance.ui.widget.components.EmojiCard
 import com.example.shmrfinance.ui.widget.listItems.TotalListItem
+import com.example.shmrfinance.ui.uiState.BankAccountUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -9,14 +9,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.network.core.NetworkError
-import com.example.network.core.RootError
-import com.example.network.core.toSlug
-import com.example.shmrfinance.R
+import com.example.common.NetworkError
+import com.example.common.RootError
+import com.example.common.toSlug
 import com.example.shmrfinance.ui.widget.components.BasicLoadingScreen
 import kotlinx.coroutines.delay
 
@@ -34,7 +32,7 @@ fun ResultDialog(
 ) {
     LaunchedEffect(type) {
         if (type != ResultDialogType.LOADING) {
-            delay(1000)
+            delay(2000)
             onDismissRequest()
         }
     }
@@ -56,7 +54,7 @@ fun ResultDialog(
 private fun BoxScope.SuccessContent() {
     Text(
         modifier = Modifier.align(Alignment.Center),
-        text = stringResource(R.string.success).uppercase(),
+        text = "Успешно".uppercase(),
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
         color = Color.White

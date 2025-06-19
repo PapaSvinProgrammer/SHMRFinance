@@ -1,7 +1,7 @@
 package com.example.shmrfinance.ui.uiState
 
-import com.example.network.core.RootError
-import com.example.network.model.Transaction
+import com.example.common.RootError
+import com.example.model.Transaction
 
 sealed interface TransactionUIState {
     data class Success(val data: List<Transaction>): TransactionUIState

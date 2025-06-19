@@ -28,9 +28,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.network.model.BankAccount
+import com.example.model.BankAccount
 import com.example.shmrfinance.R
-import com.example.shmrfinance.app.utils.ConvertData
+import com.example.shmrfinance.utils.ConvertData
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
 import com.example.shmrfinance.ui.widget.components.BasicLoadingScreen
 
@@ -82,7 +82,10 @@ private fun MainContent(
     onClick: (Int) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
-        items(list) {
+        items(
+            items = list,
+            key = { it.id }
+        ) {
             ListItem(
                 modifier = Modifier.clickable { onClick(it.id) },
                 colors = ListItemDefaults.colors(MaterialTheme.colorScheme.background),

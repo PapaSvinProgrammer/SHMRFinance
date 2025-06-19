@@ -43,8 +43,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":network"))
-    implementation(libs.androidx.datastore.preferences)
+    implementation(project(":core:domain"))
+    implementation(project(":core:network"))
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
