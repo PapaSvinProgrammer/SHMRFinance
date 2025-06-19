@@ -25,6 +25,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.shmrfinance.R
@@ -42,6 +44,10 @@ fun IncomeScreen(
     navController: NavController,
     viewModel: IncomeViewModel = hiltViewModel()
 ) {
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        viewModel.getTransactions()
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

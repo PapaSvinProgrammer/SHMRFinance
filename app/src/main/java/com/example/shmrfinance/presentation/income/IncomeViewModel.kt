@@ -29,11 +29,7 @@ class IncomeViewModel @Inject constructor(
     var currency by mutableStateOf<String?>(null)
         private set
 
-    init {
-        getTransactions()
-    }
-
-    private fun getTransactions() {
+    fun getTransactions() {
         viewModelScope.launch(Dispatchers.IO) {
             val currentDate = FormatDate.getCurrentDate()
 

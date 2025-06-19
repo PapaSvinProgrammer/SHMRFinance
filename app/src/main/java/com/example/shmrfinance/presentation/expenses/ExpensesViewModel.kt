@@ -13,6 +13,7 @@ import com.example.shmrfinance.ui.uiState.TransactionUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -28,11 +29,7 @@ class ExpensesViewModel @Inject constructor(
     var currency by mutableStateOf<String?>(null)
         private set
 
-    init {
-        getTransactions()
-    }
-
-    private fun getTransactions() {
+    fun getTransactions() {
         viewModelScope.launch(Dispatchers.IO) {
             val currentDate = FormatDate.getCurrentDate()
 
@@ -51,6 +48,8 @@ class ExpensesViewModel @Inject constructor(
                         transactionState = TransactionUIState.Error(it)
                     }
                 }
+
+                cancel()
             }
         }
     }
