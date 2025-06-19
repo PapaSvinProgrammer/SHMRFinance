@@ -45,4 +45,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor)
     testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
 }
