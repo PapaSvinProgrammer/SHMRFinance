@@ -15,12 +15,14 @@ import androidx.compose.ui.unit.sp
 fun TotalListItem(
     modifier: Modifier = Modifier,
     colors: ListItemColors = ListItemDefaults.colors(MaterialTheme.colorScheme.primaryContainer),
+    leadingContent:( @Composable () -> Unit)? = null,
     title: String,
     value: String
 ) {
     ListItem(
         modifier = modifier,
         colors = colors,
+        leadingContent = leadingContent,
         headlineContent = {
             Text(
                 text = title,

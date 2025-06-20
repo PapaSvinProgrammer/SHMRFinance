@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.shmrfinance.ui.theme.trailingIcon
+import com.example.shmrfinance.ui.theme.trailingIconColor
 
 @Composable
 fun TransactionListItem(
@@ -29,6 +29,7 @@ fun TransactionListItem(
     title: String,
     amount: String,
     subtitle: String? = null,
+    time: String? = null,
     leadingContent: (@Composable () -> Unit)? = null,
 ) {
     ListItem(
@@ -54,11 +55,23 @@ fun TransactionListItem(
         },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = amount,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Normal
-                )
+                Column {
+                    Text(
+                        modifier = Modifier.align(Alignment.End),
+                        text = amount,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+
+                    time?.let {
+                        Text(
+                            modifier = Modifier.align(Alignment.End),
+                            text = it,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.width(12.dp))
 
@@ -66,7 +79,7 @@ fun TransactionListItem(
                     imageVector = Icons.Rounded.KeyboardArrowDown,
                     contentDescription = null,
                     modifier = Modifier.rotate(-90f),
-                    tint = trailingIcon
+                    tint = trailingIconColor
                 )
             }
         }
