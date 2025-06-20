@@ -15,11 +15,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.toSlug
 import com.example.shmrfinance.R
@@ -37,6 +39,14 @@ fun CreateBankAccountScreen(
     navController: NavController,
     viewModel: CreateBankAccountViewModel = hiltViewModel()
 ) {
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val balance by viewModel.balance.collectAsStateWithLifecycle()
+    val currency by viewModel.currency.collectAsStateWithLifecycle()
+    val errorName by viewModel.errorName.collectAsStateWithLifecycle()
+    val isStartCreate by viewModel.isStartCreate.collectAsStateWithLifecycle()
+    val accountState by viewModel.accountState.collectAsStateWithLifecycle()
+    val visibleCurrencySheet by viewModel.visibleCurrencySheet.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -54,7 +64,7 @@ fun CreateBankAccountScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            if (viewModel.name.isEmpty()) {
+                            if (name.isEmpty()) {
                                 viewModel.updateErrorName(true)
                             }
                             else {
@@ -73,19 +83,19 @@ fun CreateBankAccountScreen(
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             CreateBankAccountCard(
-                name = viewModel.name,
-                balance = viewModel.balance,
-                currencyType = viewModel.currency,
+                name = name,
+                balance = balance,
+                currencyType = currency,
                 onValueNameChange = { viewModel.updateName(it) },
                 onValueBalanceChange = { viewModel.updateBalance(it) },
-                isErrorName = viewModel.errorName
+                isErrorName = errorName
             )
 
             HorizontalDivider()
 
             TransactionListItem(
                 title = stringResource(R.string.currency),
-                amount = ConvertData.getCurrencySymbol(viewModel.currency.toSlug()),
+                amount = ConvertData.getCurrencySymbol(currency.toSlug()),
                 modifier = Modifier.clickable {
                     viewModel.updateVisibleCurrencySheet(true)
                 }
@@ -93,7 +103,7 @@ fun CreateBankAccountScreen(
 
             HorizontalDivider()
 
-            if (viewModel.errorName) {
+            if (errorName) {
                 Text(
                     modifier = Modifier.padding(horizontal = 15.dp),
                     text = stringResource(R.string.name_account_error),
@@ -103,7 +113,7 @@ fun CreateBankAccountScreen(
             }
         }
 
-        if (viewModel.visibleCurrencySheet) {
+        if (visibleCurrencySheet) {
             CurrencyBottomSheet(
                 onDismissRequest = { viewModel.updateVisibleCurrencySheet(false) },
                 onResult = {
@@ -113,8 +123,8 @@ fun CreateBankAccountScreen(
             )
         }
 
-        if (viewModel.isStartCreate) {
-            val type = when (viewModel.accountState) {
+        if (isStartCreate) {
+            val type = when (accountState) {
                 is BankAccountUIState.Error -> ResultDialogType.ERROR
                 BankAccountUIState.Loading -> ResultDialogType.LOADING
                 is BankAccountUIState.Success -> ResultDialogType.SUCCESS
@@ -122,7 +132,7 @@ fun CreateBankAccountScreen(
 
             ResultDialog(
                 type = type,
-                error = (viewModel.accountState as? BankAccountUIState.Error)?.error,
+                error = (accountState as? BankAccountUIState.Error)?.error,
                 onDismissRequest = {
                     viewModel.updateStartCreate(false)
                     navController.popBackStack()

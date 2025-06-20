@@ -1,7 +1,7 @@
 package com.example.network.common
 
-import com.example.common.NetworkError
-import com.example.common.Result
+import com.example.common.NoInternetException
+import com.example.common.UnknownException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
@@ -10,16 +10,16 @@ import kotlin.coroutines.coroutineContext
 
 suspend inline fun <reified T> safeCall(
     execute: () -> HttpResponse
-): Result<T, NetworkError> {
+): Result<T> {
     val response = try {
         execute()
     } catch (e: UnresolvedAddressException) {
-        return Result.Error(NetworkError.NO_INTERNET)
+        return Result.failure(NoInternetException())
     } catch (e: SerializationException) {
-        return Result.Error(NetworkError.SERIALIZATION)
+        return Result.failure(SerializationException())
     } catch (e: Exception) {
         coroutineContext.ensureActive()
-        return Result.Error(NetworkError.UNKNOWN)
+        return Result.failure(UnknownException())
     }
 
     return responseToResult(response)

@@ -1,9 +1,6 @@
 package com.example.network.serviceImpl
 
 import com.example.network.model.TransactionDto
-import com.example.common.NetworkError
-import com.example.common.Result
-import com.example.common.map
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.network.common.safeCall
@@ -19,7 +16,7 @@ import jakarta.inject.Inject
 class TransactionServiceImpl @Inject constructor(
     private val client: HttpClient
 ): com.example.network.serivce.TransactionService {
-    override suspend fun create(request: TransactionRequest): Result<Transaction, NetworkError> {
+    override suspend fun create(request: TransactionRequest): Result<Transaction> {
         return safeCall<TransactionDto> {
             client.post("v1/transactions") {
                 setBody(request)
@@ -30,7 +27,7 @@ class TransactionServiceImpl @Inject constructor(
     override suspend fun update(
         id: Int,
         request: TransactionRequest
-    ): Result<Transaction, NetworkError> {
+    ): Result<Transaction> {
         return safeCall<TransactionDto> {
             client.put("v1/transactions/$id") {
                 setBody(request)
@@ -38,13 +35,13 @@ class TransactionServiceImpl @Inject constructor(
         }.map { it.toDomain() }
     }
 
-    override suspend fun delete(id: Int): Result<Unit, NetworkError> {
+    override suspend fun delete(id: Int): Result<Unit> {
         return safeCall {
             client.delete("v1/transactions/$id")
         }
     }
 
-    override suspend fun getById(id: Int): Result<Transaction, NetworkError> {
+    override suspend fun getById(id: Int): Result<Transaction> {
         return safeCall<TransactionDto> {
             client.get("v1/transactions/$id")
         }.map { it.toDomain() }
@@ -54,7 +51,7 @@ class TransactionServiceImpl @Inject constructor(
         accountId: Int,
         startDate: String,
         endDate: String
-    ): Result<List<Transaction>, NetworkError> {
+    ): Result<List<Transaction>> {
         return safeCall<List<TransactionDto>> {
             client.get("v1/transactions/account/$accountId/period?") {
                 url {

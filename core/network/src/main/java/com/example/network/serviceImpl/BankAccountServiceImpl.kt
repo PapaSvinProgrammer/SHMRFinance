@@ -1,8 +1,5 @@
 package com.example.network.serviceImpl
 
-import com.example.common.NetworkError
-import com.example.common.Result
-import com.example.common.map
 import com.example.model.AccountRequest
 import com.example.model.BankAccount
 import com.example.model.BankAccountHistoryResponse
@@ -22,19 +19,19 @@ import jakarta.inject.Inject
 class BankAccountServiceImpl @Inject constructor(
     private val client: HttpClient
 ): BankAccountService {
-    override suspend fun getAll(): Result<List<BankAccount>, NetworkError> {
+    override suspend fun getAll(): Result<List<BankAccount>> {
         return safeCall<List<BankAccountDto>> {
             client.get("v1/accounts")
         }.map { it.toDomain() }
     }
 
-    override suspend fun getById(id: Int): Result<BankAccount, NetworkError> {
+    override suspend fun getById(id: Int): Result<BankAccount> {
         return safeCall<BankAccountDto> {
             client.get("v1/accounts/$id")
         }.map { it.toDomain() }
     }
 
-    override suspend fun create(request: AccountRequest): Result<BankAccount, NetworkError> {
+    override suspend fun create(request: AccountRequest): Result<BankAccount> {
         return safeCall<BankAccountDto> {
             client.post("v1/accounts") {
                 setBody(request.toDto())
@@ -45,7 +42,7 @@ class BankAccountServiceImpl @Inject constructor(
     override suspend fun update(
         id: Int,
         request: AccountRequest
-    ): Result<BankAccount, NetworkError> {
+    ): Result<BankAccount> {
         return safeCall<BankAccountDto> {
             client.put("v1/accounts/$id") {
                 setBody(request.toDto())
@@ -53,13 +50,13 @@ class BankAccountServiceImpl @Inject constructor(
         }.map { it.toDomain() }
     }
 
-    override suspend fun delete(id: Int): Result<Unit, NetworkError> {
+    override suspend fun delete(id: Int): Result<Unit> {
         return safeCall {
             client.get("v1/accounts/$id")
         }
     }
 
-    override suspend fun getUpdateHistory(id: Int): Result<BankAccountHistoryResponse, NetworkError> {
+    override suspend fun getUpdateHistory(id: Int): Result<BankAccountHistoryResponse> {
         return safeCall<BankAccountHistoryResponseDto> {
             client.get("v1/accounts/$id/history")
         }.map { it.toDomain() }

@@ -12,8 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.common.NetworkError
-import com.example.common.RootError
+import com.example.common.NetworkThrowable
 import com.example.common.toSlug
 import com.example.shmrfinance.ui.widget.components.BasicLoadingScreen
 import kotlinx.coroutines.delay
@@ -27,7 +26,7 @@ enum class ResultDialogType {
 @Composable
 fun ResultDialog(
     type: ResultDialogType,
-    error: RootError? = null,
+    error: Throwable? = null,
     onDismissRequest: () -> Unit
 ) {
     LaunchedEffect(type) {
@@ -62,10 +61,10 @@ private fun BoxScope.SuccessContent() {
 }
 
 @Composable
-private fun BoxScope.ErrorContent(error: RootError?) {
+private fun BoxScope.ErrorContent(error: Throwable?) {
     var text = "ОШИБКА"
 
-    (error as? NetworkError)?.let {
+    (error as? NetworkThrowable)?.let {
         text = it.toSlug()
     }
 

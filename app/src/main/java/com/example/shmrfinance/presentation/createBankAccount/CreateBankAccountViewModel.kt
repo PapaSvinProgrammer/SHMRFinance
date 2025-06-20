@@ -1,12 +1,8 @@
 package com.example.shmrfinance.presentation.createBankAccount
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.useCase.ChangeBankAccount
+import com.example.bankaccount.CreateBankAccount
 import com.example.model.AccountRequest
 import com.example.model.CurrencyType
 import com.example.model.toSlug
@@ -14,70 +10,73 @@ import com.example.shmrfinance.ui.uiState.BankAccountUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CreateBankAccountViewModel @Inject constructor(
-    private val changeBankAccount: ChangeBankAccount
+    private val createBankAccount: CreateBankAccount
 ): ViewModel() {
-    var name by mutableStateOf("")
-        private set
-    var balance by mutableFloatStateOf(0f)
-        private set
-    var currency by mutableStateOf(CurrencyType.RUB)
-        private set
+    private val _name = MutableStateFlow("")
+    private val _balance = MutableStateFlow(0f)
+    private val _currency = MutableStateFlow(CurrencyType.RUB)
+    var name: StateFlow<String> = _name
+    var balance: StateFlow<Float> = _balance
+    var currency: StateFlow<CurrencyType> = _currency
 
-    var errorName by mutableStateOf(false)
-        private set
+    private val _errorName = MutableStateFlow(false)
+    var errorName: StateFlow<Boolean> = _errorName
 
-    var isStartCreate by mutableStateOf(false)
-        private set
-    var accountState by mutableStateOf(BankAccountUIState.Loading as BankAccountUIState)
-        private set
+    private val _isStartCreate = MutableStateFlow(false)
+    private val _accountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    var isStartCreate: StateFlow<Boolean> = _isStartCreate
+    var accountState: StateFlow<BankAccountUIState> = _accountState
 
-    var visibleCurrencySheet by mutableStateOf(false)
-        private set
+    private val _visibleCurrencySheet = MutableStateFlow(false)
+    var visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
+
 
     fun updateVisibleCurrencySheet(state: Boolean) {
-        visibleCurrencySheet = state
+        _visibleCurrencySheet.value = state
     }
 
     fun updateStartCreate(state: Boolean) {
-        isStartCreate = state
+        _isStartCreate.value = state
     }
 
     fun updateName(text: String) {
-        name = text
+        _name.value = text
     }
 
     fun updateBalance(value: Float) {
-        balance = value
+        _balance.value = value
     }
 
     fun updateCurrency(value: CurrencyType) {
-        currency = value
+        _currency.value = value
     }
 
     fun updateErrorName(state: Boolean) {
-        errorName = state
+        _errorName.value = state
     }
 
     fun createBankAccount() {
-        isStartCreate = true
+        _isStartCreate.value = true
 
         val request = AccountRequest(
-            name = name,
+            name = name.value,
             balance = balance.toString(),
-            currency = currency.toSlug()
+            currency = currency.value.toSlug()
         )
 
         viewModelScope.launch(Dispatchers.IO) {
-            changeBankAccount.create(request)
+            createBankAccount.execute(request)
                 .onSuccess {
-                    accountState = BankAccountUIState.Success(listOf(it))
+                    _accountState.value = BankAccountUIState.Success(listOf(it))
                 }
-                .onError {
-                    accountState = BankAccountUIState.Error(it)
+                .onFailure {
+                    _accountState.value = BankAccountUIState.Error(it)
                 }
         }
     }

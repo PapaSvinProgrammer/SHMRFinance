@@ -1,33 +1,34 @@
 package com.example.shmrfinance.presentation.expenses
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.PreferencesRepository
 import com.example.model.Transaction
 import com.example.shmrfinance.utils.FormatDate
 import com.example.shmrfinance.ui.uiState.TransactionUIState
+import com.example.transaction.GetTransactionByType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ExpensesViewModel @Inject constructor(
-    private val getTransaction: com.example.domain.useCase.GetTransaction,
+    private val getTransactionByType: GetTransactionByType,
     preferencesRepository: PreferencesRepository
 ): ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
-    var transactionState by mutableStateOf(TransactionUIState.Loading as TransactionUIState)
-        private set
-    var totalAmount by mutableIntStateOf(0)
-        private set
-    var currency by mutableStateOf<String?>(null)
-        private set
+
+    private val _transactionState = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
+    private val _totalAmount = MutableStateFlow(0)
+    private val _currency = MutableStateFlow<String?>(null)
+
+    var transactionState: StateFlow<TransactionUIState> = _transactionState
+    var totalAmount: StateFlow<Int> = _totalAmount
+    var currency: StateFlow<String?> = _currency
 
     fun getTransactions() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -35,7 +36,7 @@ class ExpensesViewModel @Inject constructor(
 
             accountId.collect { id ->
                 if (id != null) {
-                    val response = getTransaction.getTransactionsType(
+                    val response = getTransactionByType.execute(
                         isIncome = false,
                         accountId = id,
                         startDate = currentDate,
@@ -44,8 +45,8 @@ class ExpensesViewModel @Inject constructor(
 
                     response.onSuccess {
                         updateTransactionState(it)
-                    }.onError {
-                        transactionState = TransactionUIState.Error(it)
+                    }.onFailure {
+                        _transactionState.value = TransactionUIState.Error(it)
                     }
                 }
 
@@ -55,8 +56,8 @@ class ExpensesViewModel @Inject constructor(
     }
 
     private fun updateTransactionState(data: List<Transaction>) {
-        transactionState = TransactionUIState.Success(data)
-        totalAmount = data.sumOf { it.amount.toInt() }
-        currency = data.firstOrNull()?.account?.currency
+        _transactionState.value = TransactionUIState.Success(data)
+        _totalAmount.value = data.sumOf { it.amount.toInt() }
+        _currency.value = data.firstOrNull()?.account?.currency
     }
 }

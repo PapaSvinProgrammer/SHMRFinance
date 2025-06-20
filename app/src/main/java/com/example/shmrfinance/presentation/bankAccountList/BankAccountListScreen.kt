@@ -20,13 +20,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.BankAccount
 import com.example.shmrfinance.R
@@ -40,6 +40,9 @@ fun BankAccountListScreen(
     navController: NavController,
     viewModel: BankAccountListViewModel = hiltViewModel()
 ) {
+    val accountState by viewModel.accountState.collectAsStateWithLifecycle()
+    val accountId by viewModel.accountId.collectAsStateWithLifecycle(null)
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -55,9 +58,7 @@ fun BankAccountListScreen(
             )
         }
     ) { innerPadding ->
-        val currentAccountId by viewModel.accountId.collectAsState(null)
-
-        when (val state = viewModel.accountState) {
+        when (val state = accountState) {
             is BankAccountUIState.Error -> {}
             BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {
@@ -66,7 +67,7 @@ fun BankAccountListScreen(
                         .fillMaxSize()
                         .padding(top = innerPadding.calculateTopPadding()),
                     list = state.data,
-                    currentId = currentAccountId,
+                    currentId = accountId,
                     onClick = { viewModel.updateAccountId(it) }
                 )
             }

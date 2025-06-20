@@ -1,26 +1,26 @@
 package com.example.shmrfinance.presentation.bankAccountList
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bankaccount.GetAllBankAccount
 import com.example.data.repository.PreferencesRepository
-import com.example.domain.useCase.GetBankAccount
 import com.example.shmrfinance.ui.uiState.BankAccountUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class BankAccountListViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
-    private val getBankAccount: GetBankAccount
+    private val getAllBankAccount: GetAllBankAccount
 ): ViewModel() {
     val accountId = preferencesRepository.getCurrentAccountId()
-    var accountState by mutableStateOf(BankAccountUIState.Loading as BankAccountUIState)
-        private set
+
+    private val _accountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    val accountState: StateFlow<BankAccountUIState> = _accountState
 
     init {
         getBankAccounts()
@@ -34,10 +34,10 @@ class BankAccountListViewModel @Inject constructor(
 
     private fun getBankAccounts() {
         viewModelScope.launch(Dispatchers.IO) {
-            getBankAccount.getAll().onSuccess {
-                accountState = BankAccountUIState.Success(it)
-            }.onError {
-                accountState = BankAccountUIState.Error(it)
+            getAllBankAccount.execute().onSuccess {
+                _accountState.value = BankAccountUIState.Success(it)
+            }.onFailure {
+                _accountState.value = BankAccountUIState.Error(it)
             }
         }
     }

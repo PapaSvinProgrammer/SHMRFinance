@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.shmrfinance.R
@@ -44,6 +46,10 @@ fun IncomeScreen(
     navController: NavController,
     viewModel: IncomeViewModel = hiltViewModel()
 ) {
+    val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
+    val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
+    val currency by viewModel.currency.collectAsStateWithLifecycle()
+
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransactions()
     }
@@ -71,14 +77,14 @@ fun IncomeScreen(
             )
         }
     ) { innerPadding ->
-        when (val state = viewModel.transactionState) {
+        when (val state = transactionState) {
             is TransactionUIState.Error -> {}
             TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is TransactionUIState.Success -> MainContent(
                 modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                 list = state.data,
-                totalAmount = viewModel.totalAmount.toFloat(),
-                currency = viewModel.currency ?: ""
+                totalAmount = totalAmount.toFloat(),
+                currency = currency ?: ""
             )
         }
     }

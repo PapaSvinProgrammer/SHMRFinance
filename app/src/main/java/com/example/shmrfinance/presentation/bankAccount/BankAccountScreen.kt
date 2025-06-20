@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.BankAccount
 import com.example.shmrfinance.R
@@ -42,6 +44,8 @@ fun BankAccountScreen(
     navController: NavController,
     viewModel: BankAccountViewModel = hiltViewModel()
 ) {
+    val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -72,7 +76,7 @@ fun BankAccountScreen(
             )
         }
     ) { innerPadding ->
-        when (val state = viewModel.currentBankAccount) {
+        when (val state = currentBankAccount) {
             is BankAccountUIState.Error -> {}
             BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {

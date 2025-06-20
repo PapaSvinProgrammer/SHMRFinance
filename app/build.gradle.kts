@@ -43,11 +43,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:domain"))
     implementation(project(":core:network"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))
     implementation(project(":core:common"))
+    implementation(project(":domain:transaction"))
+    implementation(project(":domain:bankAccount"))
+    implementation(project(":domain:category"))
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

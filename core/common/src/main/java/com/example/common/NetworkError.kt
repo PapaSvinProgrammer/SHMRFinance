@@ -1,23 +1,23 @@
 package com.example.common
 
-enum class NetworkError: RootError {
-    NO_INTERNET,
-    REQUEST_TIMEOUT,
-    SUCCESS_DELETE_TRANSACTION,
-    SERVER_ERROR,
-    SERIALIZATION,
-    HAVE_TRANSACTION,
-    UNKNOWN
-}
+sealed class NetworkThrowable: Throwable()
 
-fun NetworkError.toSlug(): String {
+class SuccessDeleteTransactionException: NetworkThrowable()
+class SerializationException: NetworkThrowable()
+class RequestTimeoutException: NetworkThrowable()
+class HaveTransactionException: NetworkThrowable()
+class ServerErrorException: NetworkThrowable()
+class UnknownException: NetworkThrowable()
+class NoInternetException: NetworkThrowable()
+
+fun NetworkThrowable.toSlug(): String {
     return when (this) {
-        NetworkError.NO_INTERNET -> "Отсутсвует интернет"
-        NetworkError.REQUEST_TIMEOUT -> "Превышено время ожидания"
-        NetworkError.SUCCESS_DELETE_TRANSACTION -> "Успешное удаление"
-        NetworkError.SERVER_ERROR -> "Ошибка на стороне сервера"
-        NetworkError.SERIALIZATION -> "Ошибка в представлении объекта"
-        NetworkError.UNKNOWN -> "Неизвестная ошибка"
-        NetworkError.HAVE_TRANSACTION -> "Нужно удалить все транзации счета для его удаления"
+        is HaveTransactionException -> "Нужно удалить все транзации счета для его удаления"
+        is NoInternetException -> "Отсутсвует интернет"
+        is RequestTimeoutException -> "Превышено время ожидания"
+        is SerializationException -> "Ошибка в представлении объекта"
+        is ServerErrorException -> "Ошибка на стороне сервера"
+        is SuccessDeleteTransactionException -> "Успешное удаление"
+        is UnknownException -> "Неизвестная ошибка"
     }
 }

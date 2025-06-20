@@ -3,21 +3,21 @@ package com.example.common
 import kotlinx.coroutines.delay
 
 suspend inline fun <reified T> reRequest(
-    block: () -> Result<T, NetworkError>
-): Result<T, NetworkError> {
+    block: () -> Result<T>
+): Result<T> {
     var count = 0
-    var result: Result<T, NetworkError> = Result.Error(NetworkError.SERVER_ERROR)
+    var result: Result<T> = Result.failure(UnknownException())
 
     while (count != 3) {
         delay(2000)
         count++
 
         block().onSuccess {
-            result = Result.Success(it)
+            result = Result.success(it)
             count = 3
-        }.onError {
-            if (it != NetworkError.SERVER_ERROR) {
-                result = Result.Error(it)
+        }.onFailure {
+            if (it !is ServerErrorException) {
+                result = Result.failure(it)
                 count = 3
             }
         }

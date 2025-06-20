@@ -13,9 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Category
 import com.example.shmrfinance.R
@@ -30,8 +32,12 @@ fun ArticlesScreen(
     navController: NavController,
     viewModel: ArticlesViewModel = hiltViewModel()
 ) {
+    val query by viewModel.query.collectAsStateWithLifecycle()
+    val categoryState by viewModel.categoryState.collectAsStateWithLifecycle()
+    val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
+
     LaunchedEffect(viewModel.query) {
-        if (viewModel.query.isNotEmpty()) {
+        if (query.isNotEmpty()) {
             viewModel.searchCategory()
         }
     }
@@ -45,20 +51,20 @@ fun ArticlesScreen(
             )
         }
     ) { innerPadding ->
-        when (val state = viewModel.categoryState) {
+        when (val state = categoryState) {
             is CategoryUIState.Error -> {}
             CategoryUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is CategoryUIState.Success -> {
                 var categoryList = state.data
 
-                if (viewModel.query.isNotEmpty()) {
-                    categoryList = viewModel.searchResult
+                if (query.isNotEmpty()) {
+                    categoryList = searchResult
                 }
 
                 MainContent(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                     list = categoryList,
-                    query = viewModel.query,
+                    query = query,
                     onQueryChange = { viewModel.updateQuery(it) }
                 )
             }

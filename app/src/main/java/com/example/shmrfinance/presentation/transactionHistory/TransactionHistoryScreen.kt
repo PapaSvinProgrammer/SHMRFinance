@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.shmrfinance.R
@@ -43,6 +45,12 @@ fun TransactionHistoryScreen(
     viewModel: TransactionHistoryViewModel = hiltViewModel(),
     isIncome: Boolean
 ) {
+    val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
+    val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
+    val currency by viewModel.currency.collectAsStateWithLifecycle()
+    val startDate by viewModel.startDate.collectAsStateWithLifecycle()
+    val endDate by viewModel.endDate.collectAsStateWithLifecycle()
+
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransaction(isIncome)
     }
@@ -71,17 +79,17 @@ fun TransactionHistoryScreen(
             )
         }
     ) { innerPadding ->
-        when (val state = viewModel.transactionState) {
+        when (val state = transactionState) {
             is TransactionUIState.Error -> {}
             TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is TransactionUIState.Success -> {
                 MainContent(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                     list = state.data,
-                    totalAmount = viewModel.totalAmount.toFloat(),
-                    currency = viewModel.currency,
-                    startDate = FormatDate.getPrettyDate(viewModel.startDate),
-                    endDate = FormatDate.getPrettyDate(viewModel.endDate)
+                    totalAmount = totalAmount.toFloat(),
+                    currency = currency,
+                    startDate = FormatDate.getPrettyDate(startDate),
+                    endDate = FormatDate.getPrettyDate(endDate)
                 )
             }
         }

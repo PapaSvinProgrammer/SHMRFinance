@@ -1,28 +1,32 @@
 package com.example.network.common
 
-import com.example.common.NetworkError
-import com.example.common.Result
+import com.example.common.HaveTransactionException
+import com.example.common.RequestTimeoutException
+import com.example.common.SerializationException
+import com.example.common.ServerErrorException
+import com.example.common.SuccessDeleteTransactionException
+import com.example.common.UnknownException
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 
 suspend inline fun <reified T> responseToResult(
     response: HttpResponse
-): Result<T, NetworkError> {
+): Result<T> {
     return when(response.status.value) {
-        204 -> Result.Error(NetworkError.SUCCESS_DELETE_TRANSACTION)
+        204 -> Result.failure(SuccessDeleteTransactionException())
         in 200..299 -> {
             try {
-                Result.Success(response.body<T>())
+                Result.success(response.body<T>())
             } catch (e: NoTransformationFoundException) {
-                Result.Error(NetworkError.SERIALIZATION)
+                Result.failure(SerializationException())
             }
         }
-        408 -> Result.Error(NetworkError.REQUEST_TIMEOUT)
-        409 -> Result.Error(NetworkError.HAVE_TRANSACTION)
-        500 -> Result.Error(NetworkError.SERVER_ERROR)
+        408 -> Result.failure(RequestTimeoutException())
+        409 -> Result.failure(HaveTransactionException())
+        500 -> Result.failure(ServerErrorException())
         else -> {
-            Result.Error(NetworkError.UNKNOWN)
+            Result.failure(UnknownException())
         }
     }
 }

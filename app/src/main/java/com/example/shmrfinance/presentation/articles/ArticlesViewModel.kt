@@ -1,12 +1,9 @@
 package com.example.shmrfinance.presentation.articles
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bankaccount.GetByIdBankAccount
 import com.example.data.repository.PreferencesRepository
-import com.example.domain.useCase.GetBankAccount
 import com.example.model.BankAccount
 import com.example.model.Category
 import com.example.model.StatItem
@@ -16,34 +13,39 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ArticlesViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
-    private val getBankAccount: GetBankAccount
+    private val getByIdBankAccount: GetByIdBankAccount
 ): ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
-    var categoryState by mutableStateOf(CategoryUIState.Loading as CategoryUIState)
-        private set
 
-    var query by mutableStateOf("")
-        private set
-    var searchResult by mutableStateOf<List<Category>>(listOf())
-        private set
+    private val _categoryState = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
+    private val _searchResult = MutableStateFlow<List<Category>>(listOf())
+    private val _query = MutableStateFlow("")
+
+    val categoryState: StateFlow<CategoryUIState> = _categoryState
+    val searchResult: StateFlow<List<Category>> = _searchResult
+    val query: StateFlow<String> = _query
 
     init {
         getCategories()
     }
 
     fun updateQuery(value: String) {
-        query = value
+        _query.value = value
     }
 
     fun searchCategory() {
         viewModelScope.launch(Dispatchers.Default) {
-           (categoryState as? CategoryUIState.Success)?.data?.let { data ->
-               searchResult = data.filter { it.name.lowercase().contains(query.lowercase()) }
+           (categoryState.value as? CategoryUIState.Success)?.data?.let { data ->
+               _searchResult.value = data.filter {
+                   it.name.lowercase().contains(query.value.lowercase())
+               }
            }
         }
     }
@@ -52,13 +54,13 @@ class ArticlesViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             accountId.collect { id ->
                 if (id == null) {
-                    categoryState = CategoryUIState.Success(listOf())
+                    _categoryState.value = CategoryUIState.Success(listOf())
                 }
                 else {
-                    getBankAccount.getById(id).onSuccess {
+                    getByIdBankAccount.execute(id).onSuccess {
                         updateCategoryList(it)
-                    }.onError {
-                        categoryState = CategoryUIState.Error(it)
+                    }.onFailure {
+                        _categoryState.value = CategoryUIState.Error(it)
                     }
                 }
 
@@ -73,6 +75,6 @@ class ArticlesViewModel @Inject constructor(
         res.addAll(account.expensesStats)
         res.addAll(account.incomeStats)
 
-        categoryState = CategoryUIState.Success(res.map { it.toCategory() })
+        _categoryState.value = CategoryUIState.Success(res.map { it.toCategory() })
     }
 }

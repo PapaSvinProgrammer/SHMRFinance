@@ -1,18 +1,17 @@
 package com.example.common
 
 suspend inline fun <reified T> request(
-    block: () -> Result<T, NetworkError>
-): Result<T, NetworkError> {
+    block: () -> Result<T>
+): Result<T> {
     var refresh = false
-    var result: Result<T, NetworkError> =
-        Result.Error(NetworkError.UNKNOWN)
+    var result: Result<T> = Result.failure(UnknownException())
 
     val response = block()
 
     response.onSuccess {
-        result = Result.Success(it)
-    }.onError {
-        if (it == NetworkError.SERVER_ERROR) {
+        result = Result.success(it)
+    }.onFailure {
+        if (it is ServerErrorException) {
             refresh = true
         }
     }
