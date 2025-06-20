@@ -26,7 +26,9 @@ class GetTransactionByType @Inject constructor(
         var filterResult: Result<List<Transaction>> = Result.failure(UnknownException())
 
         response.onSuccess { data ->
-            val res = data.filter { it.category.isIncome == isIncome }
+            val res = data.filter {
+                it.category.isIncome == isIncome
+            }.sortedByDescending { it.transactionDate }
             filterResult = Result.success(res)
         }.onFailure {
             filterResult = Result.failure(it)

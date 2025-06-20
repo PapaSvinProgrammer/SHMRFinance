@@ -134,7 +134,7 @@ private fun MainContent(
                     title = it.category.name,
                     leadingContent = { EmojiCard(emoji = it.category.emoji) },
                     subtitle = it.comment,
-                    time = FormatDate.getPrettyTime(it.transactionDate),
+                    time = FormatDate.getPrettyDayAndTime(it.transactionDate),
                     amount = ConvertData.createPrettyAmount(
                         amount = it.amount,
                         currency = it.account.currency

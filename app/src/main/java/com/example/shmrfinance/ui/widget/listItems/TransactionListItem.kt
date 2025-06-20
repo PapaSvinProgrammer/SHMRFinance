@@ -57,6 +57,7 @@ fun TransactionListItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column {
                     Text(
+                        modifier = Modifier.align(Alignment.End),
                         text = amount,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Normal
