@@ -10,26 +10,26 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.shmrfinance.presentation.createBankAccount.CreateBankAccountScreen
-import com.example.shmrfinance.presentation.articles.ArticlesScreen
-import com.example.shmrfinance.presentation.bankAccount.BankAccountScreen
-import com.example.shmrfinance.presentation.expenses.ExpensesScreen
-import com.example.shmrfinance.presentation.income.IncomeScreen
-import com.example.shmrfinance.presentation.settings.SettingsScreen
-import com.example.shmrfinance.presentation.SplashScreen
-import com.example.shmrfinance.presentation.bankAccountList.BankAccountListScreen
-import com.example.shmrfinance.presentation.transactionHistory.TransactionHistoryScreen
+import com.example.articles.ArticlesScreen
+import com.example.createbankaccount.CreateBankAccountScreen
+import com.example.expenses.ExpensesScreen
+import com.example.income.IncomeScreen
+import com.example.settings.SettingsScreen
+import com.example.splash.SplashScreen
+import com.example.bankaccountlist.BankAccountListScreen
+import com.example.bankaccountscreen.BankAccountScreen
+import com.example.transactionhistory.TransactionHistoryScreen
 
 @Composable
 fun NavigationGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startRoute: NavRoute
+    startRoute: com.example.navigationroute.NavRoute
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = TransactionHistoryRoute(isIncome = true),
+        startDestination = com.example.navigationroute.TransactionHistoryRoute(isIncome = true),
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -55,7 +55,7 @@ fun NavigationGraph(
             )
         }
     ) {
-        composable<SplashRoute>(
+        composable<com.example.navigationroute.SplashRoute>(
             enterTransition = { fadeIn(animationSpec = tween(500)) },
             exitTransition = { fadeOut(animationSpec = tween(500)) },
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -64,7 +64,7 @@ fun NavigationGraph(
             SplashScreen(navController = navController)
         }
 
-        composable<ExpensesRoute>(
+        composable<com.example.navigationroute.ExpensesRoute>(
             enterTransition = { fadeIn(animationSpec = tween(500)) },
             exitTransition = { fadeOut(animationSpec = tween(500)) },
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -73,7 +73,7 @@ fun NavigationGraph(
             ExpensesScreen(navController)
         }
 
-        composable<IncomeRoute>(
+        composable<com.example.navigationroute.IncomeRoute>(
             enterTransition = { fadeIn(animationSpec = tween(500)) },
             exitTransition = { fadeOut(animationSpec = tween(500)) },
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -82,7 +82,7 @@ fun NavigationGraph(
             IncomeScreen(navController)
         }
 
-        composable<BankAccountRoute>(
+        composable<com.example.navigationroute.BankAccountRoute>(
             enterTransition = { fadeIn(animationSpec = tween(500)) },
             exitTransition = { fadeOut(animationSpec = tween(500)) },
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -91,7 +91,7 @@ fun NavigationGraph(
             BankAccountScreen(navController)
         }
 
-        composable<ArticlesRoute>(
+        composable<com.example.navigationroute.ArticlesRoute>(
             enterTransition = { fadeIn(animationSpec = tween(500)) },
             exitTransition = { fadeOut(animationSpec = tween(500)) },
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -100,7 +100,7 @@ fun NavigationGraph(
             ArticlesScreen(navController)
         }
 
-        composable<SettingsRoute>(
+        composable<com.example.navigationroute.SettingsRoute>(
             enterTransition = { fadeIn(animationSpec = tween(500)) },
             exitTransition = { fadeOut(animationSpec = tween(500)) },
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -109,16 +109,16 @@ fun NavigationGraph(
             SettingsScreen()
         }
 
-        composable<CreateBankAccountRoute> {
+        composable<com.example.navigationroute.CreateBankAccountRoute> {
             CreateBankAccountScreen(navController)
         }
 
-        composable<BankAccountListScreenRoute> {
+        composable<com.example.navigationroute.BankAccountListScreenRoute> {
             BankAccountListScreen(navController)
         }
 
-        composable<TransactionHistoryRoute> {
-            val route = it.toRoute<TransactionHistoryRoute>()
+        composable<com.example.navigationroute.TransactionHistoryRoute> {
+            val route = it.toRoute<com.example.navigationroute.TransactionHistoryRoute>()
 
             TransactionHistoryScreen(
                 navController = navController,
