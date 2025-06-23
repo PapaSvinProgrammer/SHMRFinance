@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SHMRFinanceTheme {
                 MainScreen(
-                    startRoute = com.example.navigationroute.ExpensesRoute
+                    startRoute = ExpensesRoute
                 )
             }
         }
