@@ -30,11 +30,25 @@ object FormatDate {
         return sdf.format(Date())
     }
 
+    fun convertStringToMillis(value: String): Long {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+        val date = inputFormat.parse(value)
+        return date?.time ?: 0L
+    }
+
     fun getPrettyDate(value: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
 
         val date = inputFormat.parse(value) ?: return ""
         return outputFormat.format(date)
+    }
+
+    fun convertFromMillisToString(value: Long): String {
+        val date = Date(value)
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return formatter.format(date)
     }
 }

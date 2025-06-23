@@ -26,9 +26,9 @@ class ExpensesViewModel @Inject constructor(
     private val _totalAmount = MutableStateFlow(0)
     private val _currency = MutableStateFlow<String?>(null)
 
-    var transactionState: StateFlow<TransactionUIState> = _transactionState
-    var totalAmount: StateFlow<Int> = _totalAmount
-    var currency: StateFlow<String?> = _currency
+    val transactionState: StateFlow<TransactionUIState> = _transactionState
+    val totalAmount: StateFlow<Int> = _totalAmount
+    val currency: StateFlow<String?> = _currency
 
     fun getTransactions() {
         viewModelScope.launch(Dispatchers.IO) {

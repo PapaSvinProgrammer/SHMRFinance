@@ -26,16 +26,36 @@ class TransactionHistoryViewModel @Inject constructor(
     private val _currency = MutableStateFlow("")
     private val _startDate = MutableStateFlow("")
     private val _endDate = MutableStateFlow("")
+    private val _visibleStartDatePicker = MutableStateFlow(false)
+    private val _visibleEndDatePicker = MutableStateFlow(false)
 
-    var transactionState: StateFlow<TransactionUIState> = _transactionState
-    var totalAmount: StateFlow<Int> = _totalAmount
-    var currency: StateFlow<String> = _currency
-    var startDate: StateFlow<String> = _startDate
-    var endDate: StateFlow<String> = _endDate
+    val transactionState: StateFlow<TransactionUIState> = _transactionState
+    val totalAmount: StateFlow<Int> = _totalAmount
+    val currency: StateFlow<String> = _currency
+    val startDate: StateFlow<String> = _startDate
+    val endDate: StateFlow<String> = _endDate
+    val visibleStartDatePicker: StateFlow<Boolean> = _visibleStartDatePicker
+    val visibleEndDatePicker: StateFlow<Boolean> = _visibleEndDatePicker
 
     init {
         _startDate.value = FormatDate.getCurrentMonthDate()
         _endDate.value = FormatDate.getCurrentDate()
+    }
+
+    fun updateStartDate(value: Long) {
+        _startDate.value = FormatDate.convertFromMillisToString(value)
+    }
+
+    fun updateEndDate(value: Long) {
+        _endDate.value = FormatDate.convertFromMillisToString(value)
+    }
+
+    fun updateVisibleEndDatePicker(state: Boolean) {
+        _visibleEndDatePicker.value = state
+    }
+
+    fun updateVisibleStartDatePicker(state: Boolean) {
+        _visibleStartDatePicker.value = state
     }
 
     fun getTransaction(isIncome: Boolean) {

@@ -21,20 +21,20 @@ class CreateBankAccountViewModel @Inject constructor(
     private val _name = MutableStateFlow("")
     private val _balance = MutableStateFlow(0f)
     private val _currency = MutableStateFlow(CurrencyType.RUB)
-    var name: StateFlow<String> = _name
-    var balance: StateFlow<Float> = _balance
-    var currency: StateFlow<CurrencyType> = _currency
+    val name: StateFlow<String> = _name
+    val balance: StateFlow<Float> = _balance
+    val currency: StateFlow<CurrencyType> = _currency
 
     private val _errorName = MutableStateFlow(false)
-    var errorName: StateFlow<Boolean> = _errorName
+    val errorName: StateFlow<Boolean> = _errorName
 
     private val _isStartCreate = MutableStateFlow(false)
     private val _accountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
-    var isStartCreate: StateFlow<Boolean> = _isStartCreate
-    var accountState: StateFlow<BankAccountUIState> = _accountState
+    val isStartCreate: StateFlow<Boolean> = _isStartCreate
+    val accountState: StateFlow<BankAccountUIState> = _accountState
 
     private val _visibleCurrencySheet = MutableStateFlow(false)
-    var visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
+    val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
 
 
     fun updateVisibleCurrencySheet(state: Boolean) {

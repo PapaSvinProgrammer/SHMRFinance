@@ -1,5 +1,6 @@
 package com.example.transactionhistory
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -31,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
+import com.example.ui.widget.components.DefaultDatePicker
 import com.example.ui.widget.components.EmojiCard
 import com.example.ui.widget.listItems.TotalListItem
 import com.example.ui.widget.listItems.TransactionListItem
@@ -49,6 +51,8 @@ fun TransactionHistoryScreen(
     val currency by viewModel.currency.collectAsStateWithLifecycle()
     val startDate by viewModel.startDate.collectAsStateWithLifecycle()
     val endDate by viewModel.endDate.collectAsStateWithLifecycle()
+    val visibleStartDatePicker by viewModel.visibleStartDatePicker.collectAsStateWithLifecycle()
+    val visibleEndDatePicker by viewModel.visibleEndDatePicker.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransaction(isIncome)
@@ -88,10 +92,40 @@ fun TransactionHistoryScreen(
                     totalAmount = totalAmount.toFloat(),
                     currency = currency,
                     startDate = FormatDate.getPrettyDate(startDate),
-                    endDate = FormatDate.getPrettyDate(endDate)
+                    endDate = FormatDate.getPrettyDate(endDate),
+                    onStartDateChange = {
+                        viewModel.updateVisibleStartDatePicker(true)
+                    },
+                    onEndDateChange = {
+                        viewModel.updateVisibleEndDatePicker(true)
+                    }
                 )
             }
         }
+    }
+
+    if (visibleStartDatePicker) {
+        DefaultDatePicker(
+            selectedDate = FormatDate.convertStringToMillis(startDate),
+            onDateSelected = {
+                viewModel.updateStartDate(it ?: 0)
+            },
+            onDismiss = {
+                viewModel.updateVisibleStartDatePicker(false)
+            }
+        )
+    }
+
+    if (visibleEndDatePicker) {
+        DefaultDatePicker(
+            selectedDate = FormatDate.convertStringToMillis(endDate),
+            onDateSelected = {
+                viewModel.updateEndDate(it ?: 0)
+            },
+            onDismiss = {
+                viewModel.updateVisibleEndDatePicker(false)
+            }
+        )
     }
 }
 
@@ -102,15 +136,19 @@ private fun MainContent(
     totalAmount: Float,
     currency: String,
     startDate: String,
-    endDate: String
+    endDate: String,
+    onStartDateChange: () -> Unit,
+    onEndDateChange: () -> Unit
 ) {
     Column(modifier = modifier) {
         TotalListItem(
+            modifier = Modifier.clickable(onClick = onStartDateChange),
             title = stringResource(R.string.start),
             value = startDate
         )
         HorizontalDivider()
         TotalListItem(
+            modifier = Modifier.clickable(onClick = onEndDateChange),
             title = stringResource(R.string.end),
             value = endDate
         )
