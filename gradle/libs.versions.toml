@@ -66,3 +66,12 @@ ktor = [
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json"
 ]
+
+compose = [
+    "androidx-activity-compose",
+    "androidx-compose-bom",
+    "androidx-ui",
+    "androidx-ui-graphics",
+    "androidx-ui-tooling",
+    "androidx-material3"
+]

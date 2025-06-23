@@ -52,9 +52,9 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:navigationRoute"))
+
     implementation(libs.lottie.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.material3)
+    implementation(libs.bundles.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)

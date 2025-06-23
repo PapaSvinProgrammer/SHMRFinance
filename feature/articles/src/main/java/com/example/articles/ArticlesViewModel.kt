@@ -2,12 +2,9 @@ package com.example.articles
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bankaccountscreen.GetByIdBankAccount
+import com.example.category.GetAllCategory
 import com.example.data.repository.PreferencesRepository
-import com.example.model.BankAccount
 import com.example.model.Category
-import com.example.model.StatItem
-import com.example.model.toCategory
 import com.example.ui.uiState.CategoryUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -20,7 +17,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class ArticlesViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
-    private val getByIdBankAccount: GetByIdBankAccount
+    private val getAllCategory: GetAllCategory
 ): ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
 
@@ -57,8 +54,8 @@ class ArticlesViewModel @Inject constructor(
                     _categoryState.value = CategoryUIState.Success(listOf())
                 }
                 else {
-                    getByIdBankAccount.execute(id).onSuccess {
-                        updateCategoryList(it)
+                    getAllCategory.execute().onSuccess {
+                        _categoryState.value = CategoryUIState.Success(it)
                     }.onFailure {
                         _categoryState.value = CategoryUIState.Error(it)
                     }
@@ -67,14 +64,5 @@ class ArticlesViewModel @Inject constructor(
                 cancel()
             }
         }
-    }
-
-    private fun updateCategoryList(account: BankAccount) {
-        val res = mutableSetOf<StatItem>()
-
-        res.addAll(account.expensesStats)
-        res.addAll(account.incomeStats)
-
-        _categoryState.value = CategoryUIState.Success(res.map { it.toCategory() })
     }
 }

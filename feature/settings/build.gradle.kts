@@ -55,8 +55,8 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:data"))
     implementation(project(":core:navigationRoute"))
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.material3)
+
+    implementation(libs.bundles.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
