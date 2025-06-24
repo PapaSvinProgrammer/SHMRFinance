@@ -1,6 +1,6 @@
 package com.example.network.common
 
-import com.example.network.BuildConfig
+import com.example.shmrfinance.network.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory

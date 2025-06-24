@@ -10,15 +10,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.shmrfinance.presentation.createBankAccount.CreateBankAccountScreen
-import com.example.shmrfinance.presentation.articles.ArticlesScreen
-import com.example.shmrfinance.presentation.bankAccount.BankAccountScreen
-import com.example.shmrfinance.presentation.expenses.ExpensesScreen
-import com.example.shmrfinance.presentation.income.IncomeScreen
-import com.example.shmrfinance.presentation.settings.SettingsScreen
-import com.example.shmrfinance.presentation.SplashScreen
-import com.example.shmrfinance.presentation.bankAccountList.BankAccountListScreen
-import com.example.shmrfinance.presentation.transactionHistory.TransactionHistoryScreen
+import com.example.articles.ArticlesScreen
+import com.example.createbankaccount.CreateBankAccountScreen
+import com.example.expenses.ExpensesScreen
+import com.example.income.IncomeScreen
+import com.example.settings.SettingsScreen
+import com.example.splash.SplashScreen
+import com.example.bankaccountlist.BankAccountListScreen
+import com.example.bankaccountscreen.BankAccountScreen
+import com.example.navigationroute.ArticlesRoute
+import com.example.navigationroute.BankAccountListScreenRoute
+import com.example.navigationroute.BankAccountRoute
+import com.example.navigationroute.CreateBankAccountRoute
+import com.example.navigationroute.ExpensesRoute
+import com.example.navigationroute.IncomeRoute
+import com.example.navigationroute.NavRoute
+import com.example.navigationroute.SettingsRoute
+import com.example.navigationroute.SplashRoute
+import com.example.navigationroute.TransactionHistoryRoute
+import com.example.transactionhistory.TransactionHistoryScreen
 
 @Composable
 fun NavigationGraph(

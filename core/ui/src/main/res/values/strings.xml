@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_article">Найти статью</string>
+    <string name="russian_currency">Российский рубль</string>
+    <string name="american_currency">Американский доллар</string>
+    <string name="euro_currency">Евро</string>
+    <string name="cancel">Отмена</string>
+    <string name="name_account">Название счета</string>
+    <string name="select">Выбрать</string>
+</resources>
