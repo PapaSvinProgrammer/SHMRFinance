@@ -1,40 +1,46 @@
 package com.example.shmrfinance.navigation
 
+import com.example.navigationroute.ArticlesRoute
+import com.example.navigationroute.BankAccountRoute
+import com.example.navigationroute.ExpensesRoute
+import com.example.navigationroute.IncomeRoute
+import com.example.navigationroute.NavRoute
+import com.example.navigationroute.SettingsRoute
 import com.example.shmrfinance.app.R
 
 sealed class BottomBarTab(
     val title: Int,
     val icon: Int,
-    val route: com.example.navigationroute.NavRoute
+    val route: NavRoute
 ) {
     data object ExpensesTab: BottomBarTab(
         title = R.string.expenses,
         icon = R.drawable.ic_expense,
-        route = com.example.navigationroute.ExpensesRoute
+        route = ExpensesRoute
     )
 
     data object IncomeTab: BottomBarTab(
         title = R.string.incomes,
         icon = R.drawable.ic_income,
-        route = com.example.navigationroute.IncomeRoute
+        route = IncomeRoute
     )
 
     data object BankAccountTab: BottomBarTab(
         title = R.string.bank_account,
         icon = R.drawable.ic_bank_account,
-        route = com.example.navigationroute.BankAccountRoute
+        route = BankAccountRoute
     )
 
     data object ArticlesTab: BottomBarTab(
         title = R.string.articles,
         icon = R.drawable.ic_article,
-        route = com.example.navigationroute.ArticlesRoute
+        route = ArticlesRoute
     )
 
     data object SettingsTab: BottomBarTab(
         title = R.string.settings,
         icon = R.drawable.ic_settings,
-        route = com.example.navigationroute.SettingsRoute
+        route = SettingsRoute
     )
 }
 
