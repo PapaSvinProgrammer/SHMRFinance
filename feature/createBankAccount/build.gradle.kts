@@ -1,6 +1,6 @@
 plugins {
     id("android-feature-module")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 dependencies {

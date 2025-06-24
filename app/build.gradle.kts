@@ -1,3 +1,8 @@
+import com.asarkar.gradle.buildtimetracker.BarPosition
+import com.asarkar.gradle.buildtimetracker.Output
+import com.asarkar.gradle.buildtimetracker.Sort
+import java.time.Duration
+
 plugins {
     id("android-app-module")
     alias(libs.plugins.graph)
@@ -5,8 +10,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.time.tracker)
+    id("com.spotify.ruler")
 }
 
 android {
@@ -16,6 +23,21 @@ android {
         versionName = "1.0"
         targetSdk = Const.COMPILE_SKD
     }
+}
+
+buildTimeTracker {
+    barPosition = BarPosition.TRAILING
+    sortBy = Sort.ASC
+    output = Output.CSV
+    minTaskDuration = Duration.ofSeconds(1)
+    reportsDir.set(File(layout.buildDirectory.get().asFile, "reports/buildTimeTracker"))
+}
+
+ruler {
+    abi.set("arm64-v8a")
+    locale.set("en")
+    screenDensity.set(480)
+    sdkVersion.set(27)
 }
 
 dependencies {

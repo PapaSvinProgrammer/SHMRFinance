@@ -12,6 +12,12 @@ plugins {
     alias(libs.plugins.graph) apply false
 }
 
+buildscript {
+    dependencies {
+        classpath(libs.ruler.plugin)
+    }
+}
+
 val properties = Properties()
 val file = rootProject.file("local.properties")
 properties.load(FileInputStream(file))

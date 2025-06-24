@@ -8,7 +8,7 @@ object Const {
     const val NAMESPACE = "com.example.shmrfinance"
     const val COMPILE_SKD = 35
     const val MIN_SKD = 24
-    val COMPILE_JDK_VERSION = JavaVersion.VERSION_11
+    val COMPILE_JDK_VERSION = JavaVersion.VERSION_17
 }
 
 fun BaseExtension.baseAndroidConfig(project: Project) {
@@ -23,7 +23,7 @@ fun BaseExtension.baseAndroidConfig(project: Project) {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
