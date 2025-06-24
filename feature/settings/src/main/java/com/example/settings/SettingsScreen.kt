@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.navigationroute.ExpensesRoute
+import com.example.shmrfinance.settings.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

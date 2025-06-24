@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Category
+import com.example.shmrfinance.articles.R
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomSearchBar

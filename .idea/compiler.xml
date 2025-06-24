@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="21">
+      <module name="SHMRFinance.core.common" target="21" />
+      <module name="SHMRFinance.core.connectivityState" target="21" />
+      <module name="SHMRFinance.core.data" target="21" />
+      <module name="SHMRFinance.core.model" target="21" />
+      <module name="SHMRFinance.core.navigationRoute" target="21" />
+      <module name="SHMRFinance.core.network" target="21" />
+      <module name="SHMRFinance.core.ui" target="21" />
+      <module name="SHMRFinance.core.utils" target="21" />
+      <module name="SHMRFinance.domain.bankAccount" target="21" />
+      <module name="SHMRFinance.domain.category" target="21" />
+      <module name="SHMRFinance.domain.transaction" target="21" />
+      <module name="SHMRFinance.feature.articles" target="21" />
+      <module name="SHMRFinance.feature.bankAccountList" target="21" />
+      <module name="SHMRFinance.feature.bankAccountScreen" target="21" />
+      <module name="SHMRFinance.feature.createBankAccount" target="21" />
+      <module name="SHMRFinance.feature.expenses" target="21" />
+      <module name="SHMRFinance.feature.income" target="21" />
+      <module name="SHMRFinance.feature.settings" target="21" />
+      <module name="SHMRFinance.feature.splash" target="21" />
+      <module name="SHMRFinance.feature.transactionHistory" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,49 +1,11 @@
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("android-core-module")
     alias(libs.plugins.kotlin.serialization)
-    id("org.jlleitschuh.gradle.ktlint")
-}
-
-ktlint {
-    android = true
-    ignoreFailures = true
-    reporters {
-        reporter(ReporterType.PLAIN)
-        reporter(ReporterType.CHECKSTYLE)
-        reporter(ReporterType.SARIF)
-    }
 }
 
 android {
-    namespace = "com.example.network"
-    compileSdk = 35
-
     defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "API_KEY", "\"${rootProject.extra["apiKey"]}\"")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -52,8 +14,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:common"))
+    implementation(project(":model"))
+    implementation(project(":common"))
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor)

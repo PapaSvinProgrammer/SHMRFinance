@@ -1,86 +1,38 @@
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-
 plugins {
+    id("android-app-module")
+    alias(libs.plugins.graph)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id("org.jlleitschuh.gradle.ktlint")
-}
-
-ktlint {
-    android = true
-    ignoreFailures = true
-    reporters {
-        reporter(ReporterType.PLAIN)
-        reporter(ReporterType.CHECKSTYLE)
-        reporter(ReporterType.SARIF)
-    }
 }
 
 android {
-    namespace = "com.example.shmrfinance"
-    compileSdk = 35
-
     defaultConfig {
-        applicationId = "com.example.shmrfinance"
-        minSdk = 24
-        targetSdk = 35
+        applicationId = Const.NAMESPACE
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
+        targetSdk = Const.COMPILE_SKD
     }
 }
 
 dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:navigationRoute"))
-    implementation(project(":core:ui"))
-    implementation(project(":core:network"))
-    implementation(project(":feature:articles"))
-    implementation(project(":feature:bankAccountList"))
-    implementation(project(":feature:bankAccountScreen"))
-    implementation(project(":feature:createBankAccount"))
-    implementation(project(":feature:expenses"))
-    implementation(project(":feature:income"))
-    implementation(project(":feature:settings"))
-    implementation(project(":feature:splash"))
-    implementation(project(":feature:transactionHistory"))
-    implementation(project(":core:connectivityState"))
+    implementation(project(":articles"))
+    implementation(project(":bankAccountList"))
+    implementation(project(":bankAccountScreen"))
+    implementation(project(":createBankAccount"))
+    implementation(project(":expenses"))
+    implementation(project(":income"))
+    implementation(project(":settings"))
+    implementation(project(":splash"))
+    implementation(project(":transactionHistory"))
+    implementation(project(":connectivityState"))
+    implementation(project(":network"))
 
-    implementation(libs.bundles.ktor)
-    implementation(libs.bundles.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

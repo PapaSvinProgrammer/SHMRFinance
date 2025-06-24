@@ -1,3 +1,7 @@
+@file:Suppress("UnstableApiUsage")
+
+includeBuild("build-logic")
+
 pluginManagement {
     repositories {
         google {
@@ -21,25 +25,41 @@ dependencyResolutionManagement {
 
 rootProject.name = "SHMRFinance"
 include(":app")
-include(":core:model")
-include(":core:common")
-include(":core:data")
-include(":core:network")
-include(":domain")
-include(":domain:transaction")
-include(":domain:bankAccount")
-include(":domain:category")
-include(":feature")
-include(":feature:articles")
-include(":feature:bankAccountList")
-include(":feature:createBankAccount")
-include(":feature:expenses")
-include(":feature:income")
-include(":feature:settings")
-include(":feature:transactionHistory")
-include(":feature:splash")
-include(":core:ui")
-include(":core:utils")
-include(":core:navigationRoute")
-include(":feature:bankAccountScreen")
-include(":core:connectivityState")
+
+listOf(
+    "common",
+    "connectivityState",
+    "data",
+    "model",
+    "navigationRoute",
+    "network",
+    "ui",
+    "utils"
+).forEach {
+    include(":$it")
+    project(":$it").projectDir = file("core/$it")
+}
+
+listOf(
+    "bankAccount",
+    "category",
+    "transaction"
+).forEach {
+    include(":$it")
+    project(":$it").projectDir = file("domain/$it")
+}
+
+listOf(
+    "articles",
+    "bankAccountList",
+    "bankAccountScreen",
+    "createBankAccount",
+    "expenses",
+    "income",
+    "settings",
+    "splash",
+    "transactionHistory"
+).forEach {
+    include(":$it")
+    project(":$it").projectDir = file("feature/$it")
+}

@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
+import com.example.shmrfinance.transactionHistory.R
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultDatePicker

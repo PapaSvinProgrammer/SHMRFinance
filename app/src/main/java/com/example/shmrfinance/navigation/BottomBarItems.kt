@@ -1,7 +1,6 @@
 package com.example.shmrfinance.navigation
 
-import com.example.shmrfinance.R
-
+import com.example.shmrfinance.app.R
 
 sealed class BottomBarTab(
     val title: Int,

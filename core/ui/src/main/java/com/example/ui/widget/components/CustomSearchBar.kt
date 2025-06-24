@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.example.ui.R
+import com.example.shmrfinance.ui.R
 
 @Composable
 fun CustomSearchBar(

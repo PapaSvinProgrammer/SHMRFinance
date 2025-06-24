@@ -19,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.connectivitystate.NetworkConnectionState
 import com.example.connectivitystate.rememberConnectivityState
 import com.example.navigationroute.NavRoute
-import com.example.shmrfinance.R
+import com.example.shmrfinance.app.R
 import com.example.shmrfinance.navigation.NavigationGraph
 import com.example.shmrfinance.navigation.BottomNavigationBar
 

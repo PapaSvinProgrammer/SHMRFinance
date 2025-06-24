@@ -19,7 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.model.CurrencyType
-import com.example.ui.R
+import com.example.shmrfinance.ui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

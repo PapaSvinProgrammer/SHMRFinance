@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.toSlug
+import com.example.shmrfinance.createBankAccount.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.ResultDialogType
 import com.example.ui.uiState.BankAccountUIState

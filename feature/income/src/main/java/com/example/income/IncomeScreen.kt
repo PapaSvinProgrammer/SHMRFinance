@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.navigationroute.TransactionHistoryRoute
+import com.example.shmrfinance.income.R
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomFloatingActionButton

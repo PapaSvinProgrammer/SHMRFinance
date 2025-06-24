@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.model.CurrencyType
 import com.example.model.toSlug
-import com.example.ui.R
+import com.example.shmrfinance.ui.R
 import com.example.utils.ConvertData
 
 @Composable

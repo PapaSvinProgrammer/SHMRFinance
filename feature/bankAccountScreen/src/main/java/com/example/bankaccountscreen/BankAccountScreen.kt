@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.example.model.BankAccount
 import com.example.navigationroute.BankAccountListScreenRoute
 import com.example.navigationroute.CreateBankAccountRoute
+import com.example.shmrfinance.bankAccountScreen.R
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomFloatingActionButton

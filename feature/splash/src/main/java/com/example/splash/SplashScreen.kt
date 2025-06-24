@@ -15,6 +15,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.navigationroute.ExpensesRoute
+import com.example.shmrfinance.splash.R
 
 @Composable
 fun SplashScreen(navController: NavController) {
