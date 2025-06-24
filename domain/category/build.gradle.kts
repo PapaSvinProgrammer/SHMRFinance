@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":data"))
+    api(project(":core:data"))
     implementation(libs.hilt.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

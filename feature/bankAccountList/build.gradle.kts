@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":bankAccount"))
-    api(project(":ui"))
+    implementation(project(":domain:bankAccount"))
+    api(project(":core:ui"))
     ksp(libs.hilt.android.compiler)
 }

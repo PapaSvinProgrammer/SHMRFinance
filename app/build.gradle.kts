@@ -41,17 +41,17 @@ ruler {
 }
 
 dependencies {
-    implementation(project(":articles"))
-    implementation(project(":bankAccountList"))
-    implementation(project(":bankAccountScreen"))
-    implementation(project(":createBankAccount"))
-    implementation(project(":expenses"))
-    implementation(project(":income"))
-    implementation(project(":settings"))
-    implementation(project(":splash"))
-    implementation(project(":transactionHistory"))
-    implementation(project(":connectivityState"))
-    implementation(project(":network"))
+    implementation(project(":feature:articles"))
+    implementation(project(":feature:bankAccountList"))
+    implementation(project(":feature:bankAccountScreen"))
+    implementation(project(":feature:createBankAccount"))
+    implementation(project(":feature:expenses"))
+    implementation(project(":feature:income"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:splash"))
+    implementation(project(":feature:transactionHistory"))
+    implementation(project(":core:connectivityState"))
+    implementation(project(":core:network"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

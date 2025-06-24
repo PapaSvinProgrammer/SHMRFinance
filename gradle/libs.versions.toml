@@ -23,6 +23,7 @@ jetbrainsKotlinJvm = "2.0.21"
 graph-plugin = "2.8.0"
 time-tracker = "5.0.1"
 ruler = "2.0.0-beta-3"
+detekt = "1.23.8"
 
 [libraries]
 agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -70,6 +71,7 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 graph = { id = "com.jraska.module.graph.assertion", version.ref = "graph-plugin" }
 time-tracker = { id = "com.asarkar.gradle.build-time-tracker", version.ref = "time-tracker" }
 ruler = { id = "com.spotify.ruler", version.ref = "ruler" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 [bundles]
 ktor = [

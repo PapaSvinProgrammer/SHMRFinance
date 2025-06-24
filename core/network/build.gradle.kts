@@ -14,8 +14,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":model"))
-    implementation(project(":common"))
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor)

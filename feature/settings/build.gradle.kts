@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    api(project(":ui"))
+    api(project(":core:ui"))
 }

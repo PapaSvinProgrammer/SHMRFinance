@@ -36,8 +36,7 @@ listOf(
     "ui",
     "utils"
 ).forEach {
-    include(":$it")
-    project(":$it").projectDir = file("core/$it")
+    include(":core:$it")
 }
 
 listOf(
@@ -45,8 +44,7 @@ listOf(
     "category",
     "transaction"
 ).forEach {
-    include(":$it")
-    project(":$it").projectDir = file("domain/$it")
+    include(":domain:$it")
 }
 
 listOf(
@@ -60,6 +58,5 @@ listOf(
     "splash",
     "transactionHistory"
 ).forEach {
-    include(":$it")
-    project(":$it").projectDir = file("feature/$it")
+    include(":feature:$it")
 }

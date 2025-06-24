@@ -5,10 +5,10 @@ plugins {
 }
 
 dependencies {
-    api(project(":common"))
-    api(project(":model"))
-    api(project(":utils"))
-    api(project(":navigationRoute"))
+    api(project(":core:common"))
+    api(project(":core:model"))
+    api(project(":core:utils"))
+    api(project(":core:navigationRoute"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material3)
