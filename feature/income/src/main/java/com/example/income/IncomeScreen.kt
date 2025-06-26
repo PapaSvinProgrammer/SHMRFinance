@@ -25,11 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.Transaction
 import com.example.navigationroute.TransactionHistoryRoute
 import com.example.shmrfinance.income.R
@@ -43,9 +44,10 @@ import com.example.utils.ConvertData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IncomeScreen(
-    navController: NavController,
-    viewModel: IncomeViewModel = hiltViewModel()
+    navController: NavController
 ) {
+    val viewModel: IncomeViewModel = viewModel(factory = LocalViewModelFactory.current)
+
     val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
     val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
     val currency by viewModel.currency.collectAsStateWithLifecycle()

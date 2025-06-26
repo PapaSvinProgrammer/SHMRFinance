@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:localViewModelFactory")
+
+
 includeBuild("build-logic")
 
 pluginManagement {

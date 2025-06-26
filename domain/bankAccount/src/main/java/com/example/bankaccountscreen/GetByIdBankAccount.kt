@@ -3,7 +3,7 @@ package com.example.bankaccountscreen
 import com.example.common.request
 import com.example.data.repository.BankAccountRepository
 import com.example.model.BankAccount
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class GetByIdBankAccount @Inject constructor(
     private val bankAccountRepository: BankAccountRepository

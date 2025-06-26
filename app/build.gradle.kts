@@ -10,10 +10,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.time.tracker)
     id("com.spotify.ruler")
+    id("kotlin-kapt")
 }
 
 android {
@@ -52,9 +51,11 @@ dependencies {
     implementation(project(":feature:transactionHistory"))
     implementation(project(":core:connectivityState"))
     implementation(project(":core:network"))
+    implementation(project(":core:localViewModelFactory"))
 
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

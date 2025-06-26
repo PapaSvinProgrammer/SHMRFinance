@@ -3,7 +3,7 @@ package com.example.data.repositoryImpl
 import com.example.data.repository.CategoryRepository
 import com.example.model.Category
 import com.example.network.serivce.CategoryService
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
     private val service: CategoryService

@@ -7,7 +7,7 @@ import com.example.network.model.CategoryDto
 import com.example.network.serivce.CategoryService
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class CategoryServiceImpl @Inject constructor(
     private val client: HttpClient

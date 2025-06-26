@@ -7,14 +7,12 @@ import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.FormatDate
-import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@HiltViewModel
 class IncomeViewModel @Inject constructor(
     private val getTransactionByType: GetTransactionByType,
     preferencesRepository: PreferencesRepository

@@ -24,9 +24,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.BankAccount
 import com.example.navigationroute.BankAccountListScreenRoute
 import com.example.navigationroute.CreateBankAccountRoute
@@ -41,9 +42,10 @@ import com.example.utils.ConvertData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BankAccountScreen(
-    navController: NavController,
-    viewModel: BankAccountViewModel = hiltViewModel()
+    navController: NavController
 ) {
+    val viewModel: BankAccountViewModel = viewModel(factory = LocalViewModelFactory.current)
+
     val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
 
     Scaffold(

@@ -5,7 +5,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,6 +20,7 @@ import com.example.settings.SettingsScreen
 import com.example.splash.SplashScreen
 import com.example.bankaccountlist.BankAccountListScreen
 import com.example.bankaccountscreen.BankAccountScreen
+import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.navigationroute.ArticlesRoute
 import com.example.navigationroute.BankAccountListScreenRoute
 import com.example.navigationroute.BankAccountRoute
@@ -34,106 +37,109 @@ import com.example.transactionhistory.TransactionHistoryScreen
 fun NavigationGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    viewModelFactory: ViewModelProvider.Factory,
     startRoute: NavRoute
 ) {
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = TransactionHistoryRoute(isIncome = true),
-        enterTransition = {
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(300)
-            )
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(300)
-            )
-        },
-        popEnterTransition = {
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(300)
-            )
-        },
-        popExitTransition = {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(300)
-            )
-        }
-    ) {
-        composable<SplashRoute>(
-            enterTransition = { fadeIn(animationSpec = tween(500)) },
-            exitTransition = { fadeOut(animationSpec = tween(500)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(500)) },
-            popExitTransition = { fadeOut(animationSpec = tween(500)) }
+    CompositionLocalProvider(LocalViewModelFactory provides viewModelFactory) {
+        NavHost(
+            modifier = modifier,
+            navController = navController,
+            startDestination = TransactionHistoryRoute(isIncome = true),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(300)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(300)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(300)
+                )
+            }
         ) {
-            SplashScreen(navController = navController)
-        }
+            composable<SplashRoute>(
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                SplashScreen(navController = navController)
+            }
 
-        composable<ExpensesRoute>(
-            enterTransition = { fadeIn(animationSpec = tween(500)) },
-            exitTransition = { fadeOut(animationSpec = tween(500)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(500)) },
-            popExitTransition = { fadeOut(animationSpec = tween(500)) }
-        ) {
-            ExpensesScreen(navController)
-        }
+            composable<ExpensesRoute>(
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                ExpensesScreen(navController)
+            }
 
-        composable<IncomeRoute>(
-            enterTransition = { fadeIn(animationSpec = tween(500)) },
-            exitTransition = { fadeOut(animationSpec = tween(500)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(500)) },
-            popExitTransition = { fadeOut(animationSpec = tween(500)) }
-        ) {
-            IncomeScreen(navController)
-        }
+            composable<IncomeRoute>(
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                IncomeScreen(navController)
+            }
 
-        composable<BankAccountRoute>(
-            enterTransition = { fadeIn(animationSpec = tween(500)) },
-            exitTransition = { fadeOut(animationSpec = tween(500)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(500)) },
-            popExitTransition = { fadeOut(animationSpec = tween(500)) }
-        ) {
-            BankAccountScreen(navController)
-        }
+            composable<BankAccountRoute>(
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                BankAccountScreen(navController)
+            }
 
-        composable<ArticlesRoute>(
-            enterTransition = { fadeIn(animationSpec = tween(500)) },
-            exitTransition = { fadeOut(animationSpec = tween(500)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(500)) },
-            popExitTransition = { fadeOut(animationSpec = tween(500)) }
-        ) {
-            ArticlesScreen(navController)
-        }
+            composable<ArticlesRoute>(
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                ArticlesScreen(navController)
+            }
 
-        composable<SettingsRoute>(
-            enterTransition = { fadeIn(animationSpec = tween(500)) },
-            exitTransition = { fadeOut(animationSpec = tween(500)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(500)) },
-            popExitTransition = { fadeOut(animationSpec = tween(500)) }
-        ) {
-            SettingsScreen()
-        }
+            composable<SettingsRoute>(
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                SettingsScreen()
+            }
 
-        composable<CreateBankAccountRoute> {
-            CreateBankAccountScreen(navController)
-        }
+            composable<CreateBankAccountRoute> {
+                CreateBankAccountScreen(navController)
+            }
 
-        composable<BankAccountListScreenRoute> {
-            BankAccountListScreen(navController)
-        }
+            composable<BankAccountListScreenRoute> {
+                BankAccountListScreen(navController)
+            }
 
-        composable<TransactionHistoryRoute> {
-            val route = it.toRoute<TransactionHistoryRoute>()
+            composable<TransactionHistoryRoute> {
+                val route = it.toRoute<TransactionHistoryRoute>()
 
-            TransactionHistoryScreen(
-                navController = navController,
-                isIncome = route.isIncome
-            )
+                TransactionHistoryScreen(
+                    navController = navController,
+                    isIncome = route.isIncome
+                )
+            }
         }
     }
 }

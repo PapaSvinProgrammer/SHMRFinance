@@ -4,7 +4,7 @@ import com.example.data.repository.TransactionRepository
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.network.serivce.TransactionService
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
     private val service: TransactionService

@@ -2,7 +2,7 @@ package com.example.bankaccountscreen
 
 import com.example.common.request
 import com.example.data.repository.BankAccountRepository
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class DeleteBankAccount @Inject constructor(
     private val bankAccountRepository: BankAccountRepository

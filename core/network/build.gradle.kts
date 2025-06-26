@@ -16,7 +16,7 @@ android {
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:common"))
-    implementation(libs.hilt.android)
+    implementation(libs.dagger)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor)
     testImplementation(libs.junit)

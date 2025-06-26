@@ -7,11 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.remember
 import com.example.navigationroute.ExpensesRoute
+import com.example.shmrfinance.appComponent
 import com.example.ui.theme.SHMRFinanceTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +19,13 @@ class MainActivity : ComponentActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         enableEdgeToEdge()
 
+        appComponent.inject(this)
+
         setContent {
             SHMRFinanceTheme {
                 MainScreen(
-                    startRoute = ExpensesRoute
+                    startRoute = ExpensesRoute,
+                    viewModelFactory = remember { appComponent.viewModelFactory() }
                 )
             }
         }

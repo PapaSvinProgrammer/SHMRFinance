@@ -7,14 +7,12 @@ import com.example.model.AccountRequest
 import com.example.model.CurrencyType
 import com.example.model.toSlug
 import com.example.ui.uiState.BankAccountUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@HiltViewModel
 class CreateBankAccountViewModel @Inject constructor(
     private val createBankAccount: CreateBankAccount
 ): ViewModel() {

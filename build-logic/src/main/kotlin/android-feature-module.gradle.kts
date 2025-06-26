@@ -29,5 +29,4 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation)
     implementation(libs.material)
-    implementation(libs.androidx.hilt.navigation.compose)
 }

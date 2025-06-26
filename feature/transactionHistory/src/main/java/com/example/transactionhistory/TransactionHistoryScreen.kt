@@ -24,11 +24,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.Transaction
 import com.example.shmrfinance.transactionHistory.R
 import com.example.ui.uiState.TransactionUIState
@@ -44,9 +45,10 @@ import com.example.utils.FormatDate
 @Composable
 fun TransactionHistoryScreen(
     navController: NavController,
-    viewModel: TransactionHistoryViewModel = hiltViewModel(),
     isIncome: Boolean
 ) {
+    val viewModel: TransactionHistoryViewModel = viewModel(factory = LocalViewModelFactory.current)
+
     val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
     val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
     val currency by viewModel.currency.collectAsStateWithLifecycle()

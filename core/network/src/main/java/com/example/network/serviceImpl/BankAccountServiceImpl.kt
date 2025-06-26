@@ -14,7 +14,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class BankAccountServiceImpl @Inject constructor(
     private val client: HttpClient

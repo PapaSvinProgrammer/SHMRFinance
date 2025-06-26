@@ -5,14 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.repository.PreferencesRepository
 import com.example.model.BankAccount
 import com.example.ui.uiState.BankAccountUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@HiltViewModel
 class BankAccountViewModel @Inject constructor(
     private val getAllBankAccount: GetAllBankAccount,
     private val getByIdBankAccount: GetByIdBankAccount,

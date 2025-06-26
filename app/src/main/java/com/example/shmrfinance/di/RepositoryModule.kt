@@ -12,18 +12,14 @@ import com.example.data.repositoryImpl.TransactionRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 interface RepositoryModule {
     companion object {
         @Provides
         @Singleton
-        fun bindPreferencesRepositoryImpl(@ApplicationContext context: Context): PreferencesRepository {
+        fun bindPreferencesRepositoryImpl(context: Context): PreferencesRepository {
             return PreferencesRepositoryImpl(context)
         }
     }

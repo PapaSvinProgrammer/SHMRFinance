@@ -5,7 +5,7 @@ import com.example.model.AccountRequest
 import com.example.model.BankAccount
 import com.example.model.BankAccountHistoryResponse
 import com.example.network.serivce.BankAccountService
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class BankAccountRepositoryImpl @Inject constructor(
     private val service: BankAccountService

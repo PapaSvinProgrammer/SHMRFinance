@@ -21,7 +21,6 @@ configure<BaseAppModuleExtension> {
 dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.appcompat)

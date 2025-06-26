@@ -6,15 +6,13 @@ import com.example.category.GetAllCategory
 import com.example.data.repository.PreferencesRepository
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@HiltViewModel
 class ArticlesViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val getAllCategory: GetAllCategory
