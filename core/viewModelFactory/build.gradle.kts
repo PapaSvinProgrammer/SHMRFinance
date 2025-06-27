@@ -3,7 +3,5 @@ plugins {
 }
 
 dependencies {
-    api(project(":core:ui"))
-    api(project(":domain:bankAccount"))
     implementation(libs.dagger)
 }

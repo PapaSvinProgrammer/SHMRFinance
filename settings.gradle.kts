@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":core:localViewModelFactory")
+include(":core:viewModelFactory")
+
 
 
 includeBuild("build-logic")
@@ -31,7 +32,6 @@ include(":app")
 
 listOf(
     "common",
-    "connectivityState",
     "data",
     "model",
     "navigationRoute",
@@ -59,7 +59,8 @@ listOf(
     "income",
     "settings",
     "splash",
-    "transactionHistory"
+    "transactionHistory",
+    "connectivityState"
 ).forEach {
     include(":feature:$it")
 }

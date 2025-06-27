@@ -1,4 +1,4 @@
-package com.example.shmrfinance.di.viewModel
+package com.example.viewmodelfactory
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

@@ -25,14 +25,13 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
-            <option value="$PROJECT_DIR$/core/connectivityState" />
             <option value="$PROJECT_DIR$/core/data" />
-            <option value="$PROJECT_DIR$/core/localViewModelFactory" />
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/navigationRoute" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/utils" />
+            <option value="$PROJECT_DIR$/core/viewModelFactory" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/bankAccount" />
             <option value="$PROJECT_DIR$/domain/category" />
@@ -41,6 +40,7 @@
             <option value="$PROJECT_DIR$/feature/articles" />
             <option value="$PROJECT_DIR$/feature/bankAccountList" />
             <option value="$PROJECT_DIR$/feature/bankAccountScreen" />
+            <option value="$PROJECT_DIR$/feature/connectivityState" />
             <option value="$PROJECT_DIR$/feature/createBankAccount" />
             <option value="$PROJECT_DIR$/feature/expenses" />
             <option value="$PROJECT_DIR$/feature/income" />

@@ -15,7 +15,6 @@ import javax.inject.Singleton
         ViewModelModule::class
     ]
 )
-@Singleton
 interface AppComponent {
     @Component.Factory
     interface Factory {

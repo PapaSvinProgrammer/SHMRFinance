@@ -1,4 +1,4 @@
-package com.example.shmrfinance.di.viewModel
+package com.example.articles.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,12 +10,12 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-interface ViewModelModule {
+internal interface ArticlesModule {
     @Binds
     fun bindsViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     @IntoMap
     @ViewModelKey(ArticlesViewModel::class)
-    fun bindsArticleViewModel(viewModel: ArticlesViewModel): ViewModel
+    fun bindsArticlesViewModel(viewModel: ArticlesViewModel): ViewModel
 }
