@@ -1,3 +1,10 @@
+@file:Suppress("UnstableApiUsage")
+
+include(":core:localViewModelFactory")
+
+
+includeBuild("build-logic")
+
 pluginManagement {
     repositories {
         google {
@@ -21,11 +28,38 @@ dependencyResolutionManagement {
 
 rootProject.name = "SHMRFinance"
 include(":app")
-include(":core:model")
-include(":core:common")
-include(":core:data")
-include(":core:network")
-include(":domain")
-include(":domain:transaction")
-include(":domain:bankAccount")
-include(":domain:category")
+
+listOf(
+    "common",
+    "connectivityState",
+    "data",
+    "model",
+    "navigationRoute",
+    "network",
+    "ui",
+    "utils"
+).forEach {
+    include(":core:$it")
+}
+
+listOf(
+    "bankAccount",
+    "category",
+    "transaction"
+).forEach {
+    include(":domain:$it")
+}
+
+listOf(
+    "articles",
+    "bankAccountList",
+    "bankAccountScreen",
+    "createBankAccount",
+    "expenses",
+    "income",
+    "settings",
+    "splash",
+    "transactionHistory"
+).forEach {
+    include(":feature:$it")
+}

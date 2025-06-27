@@ -1,70 +1,61 @@
+import com.asarkar.gradle.buildtimetracker.BarPosition
+import com.asarkar.gradle.buildtimetracker.Output
+import com.asarkar.gradle.buildtimetracker.Sort
+import java.time.Duration
+
 plugins {
+    id("android-app-module")
+    alias(libs.plugins.graph)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.time.tracker)
+    id("com.spotify.ruler")
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.shmrfinance"
-    compileSdk = 35
-
     defaultConfig {
-        applicationId = "com.example.shmrfinance"
-        minSdk = 24
-        targetSdk = 35
+        applicationId = Const.NAMESPACE
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
+        targetSdk = Const.COMPILE_SKD
     }
 }
 
+buildTimeTracker {
+    barPosition = BarPosition.TRAILING
+    sortBy = Sort.ASC
+    output = Output.CSV
+    minTaskDuration = Duration.ofSeconds(1)
+    reportsDir.set(File(layout.buildDirectory.get().asFile, "reports/buildTimeTracker"))
+}
+
+ruler {
+    abi.set("arm64-v8a")
+    locale.set("en")
+    screenDensity.set(480)
+    sdkVersion.set(27)
+}
+
 dependencies {
+    implementation(project(":feature:articles"))
+    implementation(project(":feature:bankAccountList"))
+    implementation(project(":feature:bankAccountScreen"))
+    implementation(project(":feature:createBankAccount"))
+    implementation(project(":feature:expenses"))
+    implementation(project(":feature:income"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:splash"))
+    implementation(project(":feature:transactionHistory"))
+    implementation(project(":core:connectivityState"))
     implementation(project(":core:network"))
-    implementation(project(":core:data"))
-    implementation(project(":core:model"))
-    implementation(project(":core:common"))
-    implementation(project(":domain:transaction"))
-    implementation(project(":domain:bankAccount"))
-    implementation(project(":domain:category"))
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.bundles.ktor)
-    implementation(libs.lottie.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(project(":core:localViewModelFactory"))
+
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

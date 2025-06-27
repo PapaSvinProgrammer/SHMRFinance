@@ -3,7 +3,7 @@ package com.example.transaction
 import com.example.common.request
 import com.example.data.repository.TransactionRepository
 import com.example.model.Transaction
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class GetByIdTransaction @Inject constructor(
     private val transactionRepository: TransactionRepository

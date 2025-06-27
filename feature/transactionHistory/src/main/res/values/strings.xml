@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_articles">Мои статьи</string>
+    <string name="my_history">Моя история</string>
+    <string name="start">Начало</string>
+    <string name="end">Конец\n</string>
+    <string name="total">Сумма</string>
+</resources>

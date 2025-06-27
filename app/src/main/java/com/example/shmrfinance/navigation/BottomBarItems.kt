@@ -1,7 +1,12 @@
 package com.example.shmrfinance.navigation
 
-import com.example.shmrfinance.R
-
+import com.example.navigationroute.ArticlesRoute
+import com.example.navigationroute.BankAccountRoute
+import com.example.navigationroute.ExpensesRoute
+import com.example.navigationroute.IncomeRoute
+import com.example.navigationroute.NavRoute
+import com.example.navigationroute.SettingsRoute
+import com.example.shmrfinance.app.R
 
 sealed class BottomBarTab(
     val title: Int,

@@ -6,3 +6,12 @@ data class StatItem(
     val emoji: String,
     val amount: Float
 )
+
+fun StatItem.toCategory(): Category {
+    return Category(
+        id = this.categoryId,
+        name = this.categoryName,
+        emoji = this.emoji,
+        isIncome = false
+    )
+}
