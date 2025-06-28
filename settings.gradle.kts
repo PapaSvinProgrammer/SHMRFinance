@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:updateBankAccount")
+
+
+include(":core:navigationRoute")
+
+
 include(":core:localViewModelFactory")
 
 
