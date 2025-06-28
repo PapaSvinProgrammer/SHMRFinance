@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":feature:settings"))
     implementation(project(":feature:splash"))
     implementation(project(":feature:transactionHistory"))
+    implementation(project(":feature:updateBankAccount"))
     implementation(project(":core:connectivityState"))
     implementation(project(":core:network"))
     implementation(project(":core:localViewModelFactory"))

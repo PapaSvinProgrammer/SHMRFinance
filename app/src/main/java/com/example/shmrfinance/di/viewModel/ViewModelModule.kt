@@ -9,6 +9,7 @@ import com.example.createbankaccount.CreateBankAccountViewModel
 import com.example.expenses.ExpensesViewModel
 import com.example.income.IncomeViewModel
 import com.example.transactionhistory.TransactionHistoryViewModel
+import com.example.updatebankaccount.UpdateBankAccountViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -52,4 +53,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(TransactionHistoryViewModel::class)
     fun bindsTransactionViewModel(viewModel: TransactionHistoryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UpdateBankAccountViewModel::class)
+    fun bindsUpdateBankAccountViewModel(viewMode: UpdateBankAccountViewModel): ViewModel
 }

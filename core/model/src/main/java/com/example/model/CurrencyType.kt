@@ -13,3 +13,12 @@ fun CurrencyType.toSlug(): String {
         CurrencyType.EUR -> "EUR"
     }
 }
+
+fun String.toCurrencyType(): CurrencyType {
+    return when (this) {
+        "RUB" -> CurrencyType.RUB
+        "USD" -> CurrencyType.USD
+        "EUR" -> CurrencyType.EUR
+        else -> CurrencyType.RUB
+    }
+}

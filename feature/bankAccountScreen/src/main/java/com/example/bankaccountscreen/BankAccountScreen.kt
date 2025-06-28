@@ -31,6 +31,7 @@ import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.BankAccount
 import com.example.navigationroute.BankAccountListScreenRoute
 import com.example.navigationroute.CreateBankAccountRoute
+import com.example.navigationroute.UpdateBankAccountRoute
 import com.example.shmrfinance.bankAccountScreen.R
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
@@ -55,7 +56,11 @@ fun BankAccountScreen(
                     Text(text = stringResource(R.string.my_bank_account))
                 },
                 actions = {
-                    IconButton(onClick = {  }) {
+                    IconButton(
+                        onClick = {
+                            navigateToUpdate(navController, currentBankAccount)
+                        }
+                    ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.ic_edit),
                             contentDescription = null
@@ -141,6 +146,17 @@ private fun MainContent(
                 imageVector = Icons.Rounded.Add,
                 contentDescription = null
             )
+        }
+    }
+}
+
+private fun navigateToUpdate(
+    navController: NavController,
+    state: BankAccountUIState
+) {
+    (state as? BankAccountUIState.Success)?.data?.firstOrNull()?.let {
+        navController.navigate(UpdateBankAccountRoute(it.id)) {
+            launchSingleTop = true
         }
     }
 }

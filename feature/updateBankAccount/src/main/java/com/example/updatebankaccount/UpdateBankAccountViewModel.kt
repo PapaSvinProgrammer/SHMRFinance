@@ -1,0 +1,80 @@
+package com.example.updatebankaccount
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.bankaccountscreen.GetByIdBankAccount
+import com.example.bankaccountscreen.UpdateBankAccount
+import com.example.model.AccountRequest
+import com.example.model.BankAccount
+import com.example.model.CurrencyType
+import com.example.model.toCurrencyType
+import com.example.model.toSlug
+import com.example.ui.uiState.BankAccountUIState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+class UpdateBankAccountViewModel @Inject constructor(
+    private val getBankAccount: GetByIdBankAccount,
+    private val updateBankAccount: UpdateBankAccount
+): ViewModel() {
+    private val _bankAccountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    private val _name = MutableStateFlow("")
+    private val _currency = MutableStateFlow(CurrencyType.RUB)
+    private val _balance = MutableStateFlow(0f)
+
+    val bankAccountState: StateFlow<BankAccountUIState> = _bankAccountState
+    val name: StateFlow<String> = _name
+    val currency: StateFlow<CurrencyType> = _currency
+    val balance: StateFlow<Float> = _balance
+
+    private val _visibleCurrencySheet = MutableStateFlow(false)
+    val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
+
+    fun getBankAccount(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getBankAccount.execute(id).onSuccess {
+                updateFields(it)
+            }.onFailure {
+                _bankAccountState.value = BankAccountUIState.Error(it)
+            }
+        }
+    }
+
+    fun updateVisibleCurrencySheet(state: Boolean) {
+        _visibleCurrencySheet.value = state
+    }
+
+    fun updateName(value: String) {
+        _name.value = value
+    }
+
+    fun updateCurrency(value: CurrencyType) {
+        _currency.value = value
+    }
+
+    fun updateBankAccount(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val request = AccountRequest(
+                name = name.value,
+                balance = balance.value.toString(),
+                currency = currency.value.toSlug()
+            )
+
+            updateBankAccount.execute(
+                id = id,
+                accountRequest = request
+            )
+        }
+    }
+
+    private fun updateFields(account: BankAccount) {
+        _name.value = account.name
+        _balance.value = account.balance
+        _currency.value = account.currency.toCurrencyType()
+
+        _bankAccountState.value = BankAccountUIState.Success(listOf(account))
+    }
+}

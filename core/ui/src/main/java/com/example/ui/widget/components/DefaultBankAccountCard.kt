@@ -30,12 +30,13 @@ import com.example.shmrfinance.ui.R
 import com.example.utils.ConvertData
 
 @Composable
-fun CreateBankAccountCard(
+fun DefaultBankAccountCard(
     name: String,
     balance: Float,
     currencyType: CurrencyType,
     onValueNameChange: (String) -> Unit,
     onValueBalanceChange: (Float) -> Unit,
+    balanceIsEnable: Boolean = true,
     isErrorName: Boolean
 ) {
     ListItem(
@@ -57,7 +58,8 @@ fun CreateBankAccountCard(
             BalanceValueField(
                 value = balance,
                 currency = currencyType.toSlug(),
-                onValueChange = onValueBalanceChange
+                onValueChange = onValueBalanceChange,
+                enable = balanceIsEnable
             )
         }
     )
@@ -107,7 +109,8 @@ private fun AccountNameField(
 private fun BalanceValueField(
     value: Float,
     currency: String,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    enable: Boolean
 ) {
     val focusManager = LocalFocusManager.current
     val formatText = remember(value) { ConvertData.getPrettyInt(value) }
@@ -117,6 +120,7 @@ private fun BalanceValueField(
         modifier = Modifier.width(120.dp),
         value = "$formatText $formatCurrency",
         singleLine = true,
+        enabled = enable,
         onValueChange = { onValueChange(it.toNormalFloat()) },
         textStyle = LocalTextStyle.current.copy(
             color = MaterialTheme.colorScheme.onSurfaceVariant,

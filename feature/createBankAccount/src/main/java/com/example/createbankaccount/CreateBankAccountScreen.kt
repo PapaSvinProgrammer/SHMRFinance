@@ -30,7 +30,7 @@ import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.ResultDialogType
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.bottomSheet.CurrencyBottomSheet
-import com.example.ui.widget.components.CreateBankAccountCard
+import com.example.ui.widget.components.DefaultBankAccountCard
 import com.example.ui.widget.listItems.TransactionListItem
 import com.example.utils.ConvertData
 
@@ -84,7 +84,7 @@ fun CreateBankAccountScreen(
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            CreateBankAccountCard(
+            DefaultBankAccountCard(
                 name = name,
                 balance = balance,
                 currencyType = currency,

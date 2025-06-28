@@ -31,7 +31,9 @@ import com.example.navigationroute.NavRoute
 import com.example.navigationroute.SettingsRoute
 import com.example.navigationroute.SplashRoute
 import com.example.navigationroute.TransactionHistoryRoute
+import com.example.navigationroute.UpdateBankAccountRoute
 import com.example.transactionhistory.TransactionHistoryScreen
+import com.example.updatebankaccount.UpdateBankAccountScreen
 
 @Composable
 fun NavigationGraph(
@@ -138,6 +140,15 @@ fun NavigationGraph(
                 TransactionHistoryScreen(
                     navController = navController,
                     isIncome = route.isIncome
+                )
+            }
+
+            composable<UpdateBankAccountRoute> {
+                val route = it.toRoute<UpdateBankAccountRoute>()
+
+                UpdateBankAccountScreen(
+                    navController = navController,
+                    bankAccountId = route.id
                 )
             }
         }
