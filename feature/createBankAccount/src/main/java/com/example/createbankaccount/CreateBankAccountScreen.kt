@@ -27,7 +27,7 @@ import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.toSlug
 import com.example.shmrfinance.createBankAccount.R
 import com.example.ui.dialog.ResultDialog
-import com.example.ui.dialog.ResultDialogType
+import com.example.ui.dialog.toResultType
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.bottomSheet.CurrencyBottomSheet
 import com.example.ui.widget.components.DefaultBankAccountCard
@@ -126,14 +126,8 @@ fun CreateBankAccountScreen(
         }
 
         if (isStartCreate) {
-            val type = when (accountState) {
-                is BankAccountUIState.Error -> ResultDialogType.ERROR
-                BankAccountUIState.Loading -> ResultDialogType.LOADING
-                is BankAccountUIState.Success -> ResultDialogType.SUCCESS
-            }
-
             ResultDialog(
-                type = type,
+                type = accountState.toResultType(),
                 error = (accountState as? BankAccountUIState.Error)?.error,
                 onDismissRequest = {
                     viewModel.updateStartCreate(false)

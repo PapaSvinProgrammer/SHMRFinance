@@ -38,7 +38,7 @@ fun ArticlesScreen(
     val categoryState by viewModel.categoryState.collectAsStateWithLifecycle()
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel.query) {
+    LaunchedEffect(query) {
         if (query.isNotEmpty()) {
             viewModel.searchCategory()
         }
