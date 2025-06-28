@@ -46,7 +46,7 @@ fun NavigationGraph(
         NavHost(
             modifier = modifier,
             navController = navController,
-            startDestination = TransactionHistoryRoute(isIncome = true),
+            startDestination = UpdateBankAccountRoute(57),
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Start,

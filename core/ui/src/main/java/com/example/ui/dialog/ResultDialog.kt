@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.common.NetworkThrowable
 import com.example.common.toSlug
+import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import kotlinx.coroutines.delay
 
@@ -21,6 +22,14 @@ enum class ResultDialogType {
     SUCCESS,
     LOADING,
     ERROR
+}
+
+fun BankAccountUIState.toResultType(): ResultDialogType {
+    return when (this) {
+        is BankAccountUIState.Error -> ResultDialogType.ERROR
+        BankAccountUIState.Loading -> ResultDialogType.LOADING
+        is BankAccountUIState.Success -> ResultDialogType.SUCCESS
+    }
 }
 
 @Composable
@@ -31,7 +40,7 @@ fun ResultDialog(
 ) {
     LaunchedEffect(type) {
         if (type != ResultDialogType.LOADING) {
-            delay(2000)
+            delay(3000)
             onDismissRequest()
         }
     }

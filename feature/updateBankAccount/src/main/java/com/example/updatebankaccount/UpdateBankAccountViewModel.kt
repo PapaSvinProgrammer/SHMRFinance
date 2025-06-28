@@ -24,11 +24,15 @@ class UpdateBankAccountViewModel @Inject constructor(
     private val _name = MutableStateFlow("")
     private val _currency = MutableStateFlow(CurrencyType.RUB)
     private val _balance = MutableStateFlow(0f)
-
     val bankAccountState: StateFlow<BankAccountUIState> = _bankAccountState
     val name: StateFlow<String> = _name
     val currency: StateFlow<CurrencyType> = _currency
     val balance: StateFlow<Float> = _balance
+
+    private val _resultState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    private val _visibleResultDialog = MutableStateFlow(false)
+    val resultState: StateFlow<BankAccountUIState> = _resultState
+    val visibleResultDialog: StateFlow<Boolean> = _visibleResultDialog
 
     private val _visibleCurrencySheet = MutableStateFlow(false)
     val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
@@ -56,6 +60,8 @@ class UpdateBankAccountViewModel @Inject constructor(
     }
 
     fun updateBankAccount(id: Int) {
+        _visibleResultDialog.value = true
+
         viewModelScope.launch(Dispatchers.IO) {
             val request = AccountRequest(
                 name = name.value,
@@ -66,7 +72,11 @@ class UpdateBankAccountViewModel @Inject constructor(
             updateBankAccount.execute(
                 id = id,
                 accountRequest = request
-            )
+            ).onSuccess {
+                _resultState.value = BankAccountUIState.Success(listOf(it))
+            }.onFailure {
+                _resultState.value = BankAccountUIState.Error(it)
+            }
         }
     }
 

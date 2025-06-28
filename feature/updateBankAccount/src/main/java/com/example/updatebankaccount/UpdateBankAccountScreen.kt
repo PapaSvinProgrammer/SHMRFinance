@@ -26,6 +26,8 @@ import androidx.navigation.NavController
 import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.toSlug
 import com.example.shmrfinance.updateBankAccount.R
+import com.example.ui.dialog.ResultDialog
+import com.example.ui.dialog.toResultType
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.bottomSheet.CurrencyBottomSheet
 import com.example.ui.widget.components.BasicLoadingScreen
@@ -43,6 +45,8 @@ fun UpdateBankAccountScreen(
 
     val bankAccount by viewModel.bankAccountState.collectAsStateWithLifecycle()
     val visibleCurrencySheet by viewModel.visibleCurrencySheet.collectAsStateWithLifecycle()
+    val visibleResultDialog by viewModel.visibleResultDialog.collectAsStateWithLifecycle()
+    val resultState by viewModel.resultState.collectAsStateWithLifecycle()
 
     val name by viewModel.name.collectAsStateWithLifecycle()
     val balance by viewModel.balance.collectAsStateWithLifecycle()
@@ -67,7 +71,13 @@ fun UpdateBankAccountScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(
+                        onClick = {
+                            if (name.isNotEmpty()) {
+                                viewModel.updateBankAccount(bankAccountId)
+                            }
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = null
@@ -102,7 +112,7 @@ fun UpdateBankAccountScreen(
                         title = stringResource(R.string.currency),
                         amount = ConvertData.getCurrencySymbol(currency.toSlug()),
                         modifier = Modifier.clickable {
-
+                            viewModel.updateVisibleCurrencySheet(true)
                         }
                     )
 
@@ -120,6 +130,14 @@ fun UpdateBankAccountScreen(
                     viewModel.updateCurrency(it)
                     viewModel.updateVisibleCurrencySheet(false)
                 }
+            )
+        }
+
+        if (visibleResultDialog) {
+            ResultDialog(
+                type = resultState.toResultType(),
+                error = (resultState as? BankAccountUIState.Error)?.error,
+                onDismissRequest = { navController.popBackStack() }
             )
         }
     }
