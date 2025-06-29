@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.common.NetworkThrowable
@@ -40,7 +41,7 @@ fun ResultDialog(
 ) {
     LaunchedEffect(type) {
         if (type != ResultDialogType.LOADING) {
-            delay(3000)
+            delay(2000)
             onDismissRequest()
         }
     }
@@ -62,6 +63,7 @@ fun ResultDialog(
 private fun BoxScope.SuccessContent() {
     Text(
         modifier = Modifier.align(Alignment.Center),
+        textAlign = TextAlign.Center,
         text = "Успешно".uppercase(),
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
@@ -79,6 +81,7 @@ private fun BoxScope.ErrorContent(error: Throwable?) {
 
     Text(
         modifier = Modifier.align(Alignment.Center),
+        textAlign = TextAlign.Center,
         text = text,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,

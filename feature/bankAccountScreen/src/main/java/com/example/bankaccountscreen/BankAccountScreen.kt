@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -48,6 +50,10 @@ fun BankAccountScreen(
     val viewModel: BankAccountViewModel = viewModel(factory = LocalViewModelFactory.current)
 
     val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
+
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        viewModel.getBankAccount()
+    }
 
     Scaffold(
         topBar = {

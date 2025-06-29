@@ -8,6 +8,7 @@ import java.util.TimeZone
 
 object FormatDate {
     fun getPrettyDayAndTime(value: String): String {
+        //TODO
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 

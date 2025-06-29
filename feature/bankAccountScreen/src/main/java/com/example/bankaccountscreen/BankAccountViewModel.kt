@@ -21,17 +21,13 @@ class BankAccountViewModel @Inject constructor(
     private val _currentBankAccount = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
     val currentBankAccount: StateFlow<BankAccountUIState> = _currentBankAccount
 
-    init {
-        getBankAccount()
-    }
-
     private fun updateAccountId(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             preferencesRepository.setCurrentAccountId(id)
         }
     }
 
-    private fun getBankAccount() {
+    fun getBankAccount() {
         viewModelScope.launch(Dispatchers.IO) {
             accountFlow.collect { accountId ->
                 if (accountId == null) {

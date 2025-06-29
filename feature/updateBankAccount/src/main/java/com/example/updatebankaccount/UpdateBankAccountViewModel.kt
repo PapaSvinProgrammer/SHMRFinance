@@ -1,9 +1,12 @@
 package com.example.updatebankaccount
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
+import com.example.common.SuccessDeleteTransactionException
 import com.example.model.AccountRequest
 import com.example.model.BankAccount
 import com.example.model.CurrencyType
@@ -18,7 +21,8 @@ import javax.inject.Inject
 
 class UpdateBankAccountViewModel @Inject constructor(
     private val getBankAccount: GetByIdBankAccount,
-    private val updateBankAccount: UpdateBankAccount
+    private val updateBankAccount: UpdateBankAccount,
+    private val deleteBankAccount: DeleteBankAccount
 ): ViewModel() {
     private val _bankAccountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
     private val _name = MutableStateFlow("")
@@ -76,6 +80,24 @@ class UpdateBankAccountViewModel @Inject constructor(
                 _resultState.value = BankAccountUIState.Success(listOf(it))
             }.onFailure {
                 _resultState.value = BankAccountUIState.Error(it)
+            }
+        }
+    }
+
+    fun deleteBankAccount(id: Int) {
+        _visibleResultDialog.value = true
+
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteBankAccount.execute(id).onFailure {
+                Log.d("RRRR", it.toString())
+                when (it) {
+                    is SuccessDeleteTransactionException -> {
+                        _resultState.value = BankAccountUIState.Success(listOf())
+                    }
+                    else -> {
+                        _resultState.value = BankAccountUIState.Error(it)
+                    }
+                }
             }
         }
     }

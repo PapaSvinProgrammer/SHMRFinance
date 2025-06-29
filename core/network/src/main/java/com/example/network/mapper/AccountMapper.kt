@@ -63,6 +63,6 @@ fun AccountRequest.toDto(): AccountRequestDto {
     return AccountRequestDto(
         name = this.name,
         balance = this.balance,
-        currency = this.name
+        currency = this.currency
     )
 }

@@ -14,6 +14,9 @@ suspend inline fun <reified T> request(
         if (it is ServerErrorException) {
             refresh = true
         }
+        else {
+            result = Result.failure(it)
+        }
     }
 
     if (refresh) {

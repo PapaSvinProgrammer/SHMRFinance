@@ -10,6 +10,7 @@ import com.example.network.model.BankAccountDto
 import com.example.network.model.BankAccountHistoryResponseDto
 import com.example.network.serivce.BankAccountService
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -52,7 +53,7 @@ class BankAccountServiceImpl @Inject constructor(
 
     override suspend fun delete(id: Int): Result<Unit> {
         return safeCall {
-            client.get("v1/accounts/$id")
+            client.delete("v1/accounts/$id")
         }
     }
 
