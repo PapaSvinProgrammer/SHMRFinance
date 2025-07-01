@@ -20,7 +20,7 @@ android {
         applicationId = Const.NAMESPACE
         versionCode = 1
         versionName = "1.0"
-        targetSdk = Const.COMPILE_SKD
+        targetSdk = Const.COMPILE_SDK
     }
 }
 
