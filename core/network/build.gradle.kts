@@ -1,6 +1,7 @@
 plugins {
     id("android-core-module")
     alias(libs.plugins.kotlin.serialization)
+    id("kotlin-kapt")
 }
 
 android {
@@ -17,6 +18,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:common"))
     implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor)
     testImplementation(libs.junit)

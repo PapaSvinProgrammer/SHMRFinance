@@ -6,16 +6,17 @@ import org.gradle.api.plugins.ExtensionAware
 
 object Const {
     const val NAMESPACE = "com.example.shmrfinance"
-    const val COMPILE_SKD = 35
-    const val MIN_SKD = 24
+    const val COMPILE_SDK = 35
+    const val MIN_SDK = 26
     val COMPILE_JDK_VERSION = JavaVersion.VERSION_17
 }
 
 fun BaseExtension.baseAndroidConfig(project: Project) {
     namespace = "${Const.NAMESPACE}.${project.name}"
-    setCompileSdkVersion(Const.COMPILE_SKD)
+    setCompileSdkVersion(Const.COMPILE_SDK)
     defaultConfig {
-        minSdk = Const.MIN_SKD
+        minSdk = Const.MIN_SDK
+        multiDexEnabled = true
 
         vectorDrawables {
             useSupportLibrary = true

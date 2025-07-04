@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.connectivitystate.NetworkConnectionState
@@ -27,7 +26,6 @@ import com.example.shmrfinance.navigation.BottomNavigationBar
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    viewModelFactory: ViewModelProvider.Factory,
     startRoute: NavRoute
 ) {
     var bottomBarVisible by remember { mutableStateOf(false) }
@@ -71,7 +69,6 @@ fun MainScreen(
         NavigationGraph(
             modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
             navController = navController,
-            viewModelFactory = viewModelFactory,
             startRoute = startRoute
         )
     }

@@ -11,8 +11,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.time.tracker)
+    alias(libs.plugins.ksp)
     id("com.spotify.ruler")
-    id("kotlin-kapt")
 }
 
 android {
@@ -20,7 +20,8 @@ android {
         applicationId = Const.NAMESPACE
         versionCode = 1
         versionName = "1.0"
-        targetSdk = Const.COMPILE_SKD
+        targetSdk = Const.COMPILE_SDK
+        multiDexEnabled = true
     }
 }
 
@@ -51,11 +52,9 @@ dependencies {
     implementation(project(":feature:transactionHistory"))
     implementation(project(":feature:updateBankAccount"))
     implementation(project(":core:connectivityState"))
-    implementation(project(":core:network"))
-    implementation(project(":core:localViewModelFactory"))
 
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

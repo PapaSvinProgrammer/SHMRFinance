@@ -3,27 +3,30 @@ package com.example.updatebankaccount
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.toSlug
 import com.example.shmrfinance.updateBankAccount.R
 import com.example.ui.dialog.ResultDialog
@@ -39,10 +42,9 @@ import com.example.utils.ConvertData
 @Composable
 fun UpdateBankAccountScreen(
     navController: NavController,
+    viewModel: UpdateBankAccountViewModel,
     bankAccountId: Int
 ) {
-    val viewModel: UpdateBankAccountViewModel = viewModel(factory = LocalViewModelFactory.current)
-
     val bankAccount by viewModel.bankAccountState.collectAsStateWithLifecycle()
     val visibleCurrencySheet by viewModel.visibleCurrencySheet.collectAsStateWithLifecycle()
     val visibleResultDialog by viewModel.visibleResultDialog.collectAsStateWithLifecycle()
@@ -117,6 +119,20 @@ fun UpdateBankAccountScreen(
                     )
 
                     HorizontalDivider()
+
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp, vertical = 30.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer
+                        ),
+                        onClick = {
+                            viewModel.deleteBankAccount(bankAccountId)
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.delete_bank_account))
+                    }
                 }
             }
         }
