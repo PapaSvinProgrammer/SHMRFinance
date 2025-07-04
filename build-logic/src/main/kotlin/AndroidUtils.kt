@@ -16,6 +16,7 @@ fun BaseExtension.baseAndroidConfig(project: Project) {
     setCompileSdkVersion(Const.COMPILE_SDK)
     defaultConfig {
         minSdk = Const.MIN_SDK
+        multiDexEnabled = true
 
         vectorDrawables {
             useSupportLibrary = true

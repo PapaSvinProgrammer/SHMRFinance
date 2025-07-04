@@ -1,6 +1,6 @@
 plugins {
     id("android-core-module")
-    alias(libs.plugins.ksp)
+    id("kotlin-kapt")
 }
 
 dependencies {
@@ -9,7 +9,7 @@ dependencies {
     api(project(":core:common"))
     implementation(libs.dagger)
     implementation(libs.bundles.ktor)
-    ksp(libs.dagger.compiler)
+    kapt(libs.dagger.compiler)
     implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

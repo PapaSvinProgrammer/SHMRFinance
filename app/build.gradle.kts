@@ -13,7 +13,6 @@ plugins {
     alias(libs.plugins.time.tracker)
     alias(libs.plugins.ksp)
     id("com.spotify.ruler")
-    id("kotlin-kapt")
 }
 
 android {
@@ -22,6 +21,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         targetSdk = Const.COMPILE_SDK
+        multiDexEnabled = true
     }
 }
 
@@ -42,18 +42,16 @@ ruler {
 
 dependencies {
     implementation(project(":feature:articles"))
-//    implementation(project(":feature:bankAccountList"))
-//    implementation(project(":feature:bankAccountScreen"))
-//    implementation(project(":feature:createBankAccount"))
-//    implementation(project(":feature:expenses"))
-//    implementation(project(":feature:income"))
-//    implementation(project(":feature:settings"))
-//    implementation(project(":feature:splash"))
-//    implementation(project(":feature:transactionHistory"))
-//    implementation(project(":feature:updateBankAccount"))
+    implementation(project(":feature:bankAccountList"))
+    implementation(project(":feature:bankAccountScreen"))
+    implementation(project(":feature:createBankAccount"))
+    implementation(project(":feature:expenses"))
+    implementation(project(":feature:income"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:splash"))
+    implementation(project(":feature:transactionHistory"))
+    implementation(project(":feature:updateBankAccount"))
     implementation(project(":core:connectivityState"))
-//    implementation(project(":core:network"))
-//    implementation(project(":core:localViewModelFactory"))
 
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)

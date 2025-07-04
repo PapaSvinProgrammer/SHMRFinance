@@ -1,6 +1,6 @@
 plugins {
     id("android-feature-module")
-    alias(libs.plugins.ksp)
+    id("kotlin-kapt")
 }
 
 dependencies {
@@ -10,5 +10,5 @@ dependencies {
     implementation(project(":core:network"))
     implementation(libs.bundles.ktor)
     implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
+    kapt(libs.dagger.compiler)
 }

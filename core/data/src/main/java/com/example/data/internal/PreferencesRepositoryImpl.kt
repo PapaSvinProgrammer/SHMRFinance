@@ -18,8 +18,6 @@ private val ACCOUNT_ID = intPreferencesKey("account_id")
 internal class PreferencesRepositoryImpl @Inject constructor(
     private val context: Context
 ): PreferencesRepository {
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)
-
     override suspend fun setCurrentAccountId(id: Int) {
         context.dataStore.edit {
             it[ACCOUNT_ID] = id
@@ -30,5 +28,10 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         return context.dataStore.data.map {
             it[ACCOUNT_ID]
         }
+    }
+
+    companion object {
+        private val Context.dataStore: DataStore<Preferences>
+        by preferencesDataStore(name = DATA_STORE_NAME)
     }
 }
