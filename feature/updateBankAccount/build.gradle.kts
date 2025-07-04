@@ -1,5 +1,6 @@
 plugins {
     id("android-feature-module")
+    id("kotlin-kapt")
 }
 
 dependencies {
@@ -7,5 +8,8 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:ui"))
     implementation(project(":core:localViewModelFactory"))
+    implementation(project(":core:network"))
+    implementation(libs.bundles.ktor)
     implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
 }

@@ -3,7 +3,7 @@ package com.example.articles
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.category.GetAllCategory
-import com.example.data.repository.PreferencesRepository
+import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
 import kotlinx.coroutines.Dispatchers

@@ -17,9 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.Category
 import com.example.shmrfinance.articles.R
 import com.example.ui.uiState.CategoryUIState
@@ -30,10 +28,9 @@ import com.example.ui.widget.listItems.CategoryListItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ArticlesViewModel
 ) {
-    val viewModel: ArticlesViewModel = viewModel(factory = LocalViewModelFactory.current)
-
     val query by viewModel.query.collectAsStateWithLifecycle()
     val categoryState by viewModel.categoryState.collectAsStateWithLifecycle()
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()

@@ -1,14 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:updateBankAccount")
-
-
-include(":core:navigationRoute")
-
-
-include(":core:localViewModelFactory")
-
-
 includeBuild("build-logic")
 
 pluginManagement {
@@ -43,7 +34,9 @@ listOf(
     "navigationRoute",
     "network",
     "ui",
-    "utils"
+    "utils",
+    "navigationRoute",
+    "localViewModelFactory"
 ).forEach {
     include(":core:$it")
 }
@@ -65,7 +58,8 @@ listOf(
     "income",
     "settings",
     "splash",
-    "transactionHistory"
+    "transactionHistory",
+    "updateBankAccount"
 ).forEach {
     include(":feature:$it")
 }

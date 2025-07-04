@@ -1,7 +1,7 @@
 package com.example.category
 
 import com.example.common.request
-import com.example.data.repository.CategoryRepository
+import com.example.data.external.CategoryRepository
 import com.example.model.Category
 import javax.inject.Inject
 

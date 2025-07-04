@@ -2,7 +2,7 @@ package com.example.bankaccountscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.repository.PreferencesRepository
+import com.example.data.external.PreferencesRepository
 import com.example.model.BankAccount
 import com.example.ui.uiState.BankAccountUIState
 import kotlinx.coroutines.Dispatchers

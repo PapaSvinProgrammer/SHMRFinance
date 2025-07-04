@@ -2,7 +2,7 @@ package com.example.expenses
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.repository.PreferencesRepository
+import com.example.data.external.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
 import com.example.ui.uiState.TransactionUIState
