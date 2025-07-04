@@ -1,7 +1,7 @@
 package com.example.transaction
 
 import com.example.common.request
-import com.example.data.repository.TransactionRepository
+import com.example.data.external.TransactionRepository
 import com.example.model.Transaction
 import javax.inject.Inject
 

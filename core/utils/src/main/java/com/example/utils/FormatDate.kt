@@ -1,6 +1,8 @@
 package com.example.utils
 
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -8,15 +10,11 @@ import java.util.TimeZone
 
 object FormatDate {
     fun getPrettyDayAndTime(value: String): String {
-        //TODO
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+        val inputFormatter = DateTimeFormatter.ISO_DATE_TIME
+        val outputFormatter = DateTimeFormatter.ofPattern("d MMMM HH:mm")
 
-        val outputFormat = SimpleDateFormat("d MMMM HH:mm", Locale.getDefault())
-        outputFormat.timeZone = TimeZone.getDefault()
-
-        val date = inputFormat.parse(value) ?: return ""
-        return outputFormat.format(date)
+        val zonedDateTime = ZonedDateTime.parse(value, inputFormatter)
+        return zonedDateTime.format(outputFormatter)
     }
 
     fun getCurrentMonthDate(): String {

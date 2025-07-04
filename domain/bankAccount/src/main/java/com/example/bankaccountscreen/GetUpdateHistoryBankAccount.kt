@@ -1,7 +1,7 @@
 package com.example.bankaccountscreen
 
 import com.example.common.request
-import com.example.data.repository.BankAccountRepository
+import com.example.data.external.BankAccountRepository
 import com.example.model.BankAccountHistoryResponse
 import javax.inject.Inject
 

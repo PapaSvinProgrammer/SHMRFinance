@@ -3,7 +3,7 @@ package com.example.bankaccountlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bankaccountscreen.GetAllBankAccount
-import com.example.data.repository.PreferencesRepository
+import com.example.data.external.PreferencesRepository
 import com.example.ui.uiState.BankAccountUIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

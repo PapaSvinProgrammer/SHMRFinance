@@ -21,9 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.toSlug
 import com.example.shmrfinance.createBankAccount.R
 import com.example.ui.dialog.ResultDialog
@@ -37,10 +35,9 @@ import com.example.utils.ConvertData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateBankAccountScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: CreateBankAccountViewModel
 ) {
-    val viewModel: CreateBankAccountViewModel = viewModel(factory = LocalViewModelFactory.current)
-
     val name by viewModel.name.collectAsStateWithLifecycle()
     val balance by viewModel.balance.collectAsStateWithLifecycle()
     val currency by viewModel.currency.collectAsStateWithLifecycle()

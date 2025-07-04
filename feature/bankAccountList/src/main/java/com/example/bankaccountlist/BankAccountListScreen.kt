@@ -26,9 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.BankAccount
 import com.example.shmrfinance.bankAccountList.R
 import com.example.ui.uiState.BankAccountUIState
@@ -38,10 +36,9 @@ import com.example.utils.ConvertData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BankAccountListScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: BankAccountListViewModel
 ) {
-    val viewModel: BankAccountListViewModel = viewModel(factory = LocalViewModelFactory.current)
-
     val accountState by viewModel.accountState.collectAsStateWithLifecycle()
     val accountId by viewModel.accountId.collectAsStateWithLifecycle(null)
 

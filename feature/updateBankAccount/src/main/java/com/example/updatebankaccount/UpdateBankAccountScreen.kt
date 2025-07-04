@@ -26,9 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.localviewmodelfactory.LocalViewModelFactory
 import com.example.model.toSlug
 import com.example.shmrfinance.updateBankAccount.R
 import com.example.ui.dialog.ResultDialog
@@ -44,10 +42,9 @@ import com.example.utils.ConvertData
 @Composable
 fun UpdateBankAccountScreen(
     navController: NavController,
+    viewModel: UpdateBankAccountViewModel,
     bankAccountId: Int
 ) {
-    val viewModel: UpdateBankAccountViewModel = viewModel(factory = LocalViewModelFactory.current)
-
     val bankAccount by viewModel.bankAccountState.collectAsStateWithLifecycle()
     val visibleCurrencySheet by viewModel.visibleCurrencySheet.collectAsStateWithLifecycle()
     val visibleResultDialog by viewModel.visibleResultDialog.collectAsStateWithLifecycle()
