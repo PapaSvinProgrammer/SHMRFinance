@@ -5,24 +5,30 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.articles.ArticlesScreen
+import com.example.articles.ArticlesViewModel
 import com.example.articles.di.DaggerArticlesComponent
 import com.example.bankaccountlist.BankAccountListScreen
+import com.example.bankaccountlist.BankAccountListViewModel
 import com.example.bankaccountlist.di.DaggerBankAccountListComponent
 import com.example.bankaccountscreen.BankAccountScreen
+import com.example.bankaccountscreen.BankAccountViewModel
 import com.example.bankaccountscreen.di.DaggerBankAccountComponent
 import com.example.createbankaccount.CreateBankAccountScreen
+import com.example.createbankaccount.CreateBankAccountViewModel
 import com.example.createbankaccount.di.DaggerCreateBankAccountComponent
 import com.example.expenses.ExpensesScreen
+import com.example.expenses.ExpensesViewModel
 import com.example.expenses.di.DaggerExpensesComponent
 import com.example.income.IncomeScreen
+import com.example.income.IncomeViewModel
 import com.example.income.di.DaggerIncomeComponent
 import com.example.navigationroute.ArticlesRoute
 import com.example.navigationroute.BankAccountListScreenRoute
@@ -38,8 +44,10 @@ import com.example.navigationroute.UpdateBankAccountRoute
 import com.example.settings.SettingsScreen
 import com.example.splash.SplashScreen
 import com.example.transactionhistory.TransactionHistoryScreen
+import com.example.transactionhistory.TransactionHistoryViewModel
 import com.example.transactionhistory.di.DaggerTransactionComponent
 import com.example.updatebankaccount.UpdateBankAccountScreen
+import com.example.updatebankaccount.UpdateBankAccountViewModel
 import com.example.updatebankaccount.di.DaggerUpdateBankAccountComponent
 
 @Composable
@@ -92,10 +100,14 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            val component = DaggerExpensesComponent.factory().create(LocalContext.current)
+            val component = DaggerExpensesComponent
+                .factory()
+                .create(LocalContext.current)
+            val viewModel: ExpensesViewModel = viewModel(factory = component.viewModelFactory)
+
             ExpensesScreen(
                 navController = navController,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
@@ -105,10 +117,14 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            val component = DaggerIncomeComponent.factory().create(LocalContext.current)
+            val component = DaggerIncomeComponent
+                .factory()
+                .create(LocalContext.current)
+            val viewModel: IncomeViewModel = viewModel(factory = component.viewModelFactory)
+
             IncomeScreen(
                 navController = navController,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
@@ -118,10 +134,14 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            val component = DaggerBankAccountComponent.factory().create(LocalContext.current)
+            val component = DaggerBankAccountComponent
+                .factory()
+                .create(LocalContext.current)
+            val viewModel: BankAccountViewModel = viewModel(factory = component.viewModelFactory)
+
             BankAccountScreen(
                 navController = navController,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
@@ -131,10 +151,14 @@ fun NavigationGraph(
             popEnterTransition = { fadeIn(animationSpec = tween(500)) },
             popExitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
-            val component = DaggerArticlesComponent.factory().create(LocalContext.current)
+            val component = DaggerArticlesComponent
+                .factory()
+                .create(LocalContext.current)
+            val viewModel: ArticlesViewModel = viewModel(factory = component.viewModelFactory)
+
             ArticlesScreen(
                 navController = navController,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
@@ -148,40 +172,63 @@ fun NavigationGraph(
         }
 
         composable<CreateBankAccountRoute> {
-            val component = DaggerCreateBankAccountComponent.factory().create(LocalContext.current)
+            val component = DaggerCreateBankAccountComponent
+                .factory()
+                .create(LocalContext.current)
+            val viewModel: CreateBankAccountViewModel = viewModel(
+                factory = component.viewModelFactory
+            )
+
             CreateBankAccountScreen(
                 navController = navController,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
         composable<BankAccountListScreenRoute> {
-            val component = DaggerBankAccountListComponent.factory().create(LocalContext.current)
+            val component = DaggerBankAccountListComponent
+                .factory()
+                .create(LocalContext.current)
+            val viewModel: BankAccountListViewModel = viewModel(
+                factory = component.viewModelFactory
+            )
+
             BankAccountListScreen(
                 navController = navController,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
         composable<TransactionHistoryRoute> {
             val route = it.toRoute<TransactionHistoryRoute>()
-            val component = DaggerTransactionComponent.factory().create(LocalContext.current)
+            val component = DaggerTransactionComponent
+                .factory()
+                .create(LocalContext.current)
+
+            val viewModel: TransactionHistoryViewModel = viewModel(
+                factory = component.viewModelFactory
+            )
 
             TransactionHistoryScreen(
                 navController = navController,
                 isIncome = route.isIncome,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
 
         composable<UpdateBankAccountRoute> {
             val route = it.toRoute<UpdateBankAccountRoute>()
-            val component = DaggerUpdateBankAccountComponent.factory().create()
+            val component = DaggerUpdateBankAccountComponent
+                .factory()
+                .create()
+            val viewModel: UpdateBankAccountViewModel = viewModel(
+                factory = component.viewModelFactory
+            )
 
             UpdateBankAccountScreen(
                 navController = navController,
                 bankAccountId = route.id,
-                viewModel = remember { component.viewModel }
+                viewModel = viewModel
             )
         }
     }

@@ -1,6 +1,7 @@
 package com.example.createbankaccount.di
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import com.example.createbankaccount.CreateBankAccountViewModel
 import dagger.BindsInstance
 import dagger.Component
@@ -15,5 +16,5 @@ interface CreateBankAccountComponent {
         fun create(@BindsInstance context: Context): CreateBankAccountComponent
     }
 
-    val viewModel: CreateBankAccountViewModel
+    val viewModelFactory: ViewModelProvider.Factory
 }
