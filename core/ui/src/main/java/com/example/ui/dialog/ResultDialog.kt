@@ -16,6 +16,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.common.NetworkThrowable
 import com.example.common.toSlug
 import com.example.ui.uiState.BankAccountUIState
+import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import kotlinx.coroutines.delay
 
@@ -23,14 +24,6 @@ enum class ResultDialogType {
     SUCCESS,
     LOADING,
     ERROR
-}
-
-fun BankAccountUIState.toResultType(): ResultDialogType {
-    return when (this) {
-        is BankAccountUIState.Error -> ResultDialogType.ERROR
-        BankAccountUIState.Loading -> ResultDialogType.LOADING
-        is BankAccountUIState.Success -> ResultDialogType.SUCCESS
-    }
 }
 
 @Composable
@@ -87,4 +80,20 @@ private fun BoxScope.ErrorContent(error: Throwable?) {
         fontWeight = FontWeight.Bold,
         color = Color.White
     )
+}
+
+fun BankAccountUIState.toResultType(): ResultDialogType {
+    return when (this) {
+        is BankAccountUIState.Error -> ResultDialogType.ERROR
+        BankAccountUIState.Loading -> ResultDialogType.LOADING
+        is BankAccountUIState.Success -> ResultDialogType.SUCCESS
+    }
+}
+
+fun TransactionUIState.toResultType(): ResultDialogType {
+    return when (this) {
+        is TransactionUIState.Error -> ResultDialogType.ERROR
+        TransactionUIState.Loading -> ResultDialogType.LOADING
+        is TransactionUIState.Success -> ResultDialogType.SUCCESS
+    }
 }

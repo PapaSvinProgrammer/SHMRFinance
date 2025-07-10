@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.navigationroute.CreateTransactionRoute
 import com.example.navigationroute.TransactionHistoryRoute
+import com.example.navigationroute.UpdateTransactionRoute
 import com.example.shmrfinance.income.R
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
@@ -90,6 +91,13 @@ fun IncomeScreen(
                     navController.navigate(CreateTransactionRoute(true)) {
                         launchSingleTop = true
                     }
+                },
+                onTransactionClick = {
+                    navController.navigate(
+                        UpdateTransactionRoute(
+                            id = it.id
+                        )
+                    ) { launchSingleTop = true }
                 }
             )
         }
@@ -102,7 +110,8 @@ private fun MainContent(
     list: List<Transaction>,
     totalAmount: BigDecimal,
     currency: String,
-    onFabClick: () -> Unit
+    onFabClick: () -> Unit,
+    onTransactionClick: (Transaction) -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Column {
@@ -124,7 +133,7 @@ private fun MainContent(
                     TransactionListItem(
                         modifier = Modifier
                             .height(72.dp)
-                            .clickable { },
+                            .clickable { onTransactionClick(it) },
                         title = it.category.name,
                         amount = ConvertData.createPrettyAmount(
                             amount = it.amount,

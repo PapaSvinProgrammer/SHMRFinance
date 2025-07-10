@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":feature:transactionHistory"))
     implementation(project(":feature:updateBankAccount"))
     implementation(project(":feature:createTransaction"))
+    implementation(project(":feature:updateTransaction"))
     implementation(project(":core:connectivityState"))
 
     implementation(libs.dagger)

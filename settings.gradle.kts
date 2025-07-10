@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:updateTransaction")
+
+
 include(":feature:createTransaction")
 
 

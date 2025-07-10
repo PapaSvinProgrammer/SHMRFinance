@@ -1,12 +1,14 @@
 package com.example.utils
 
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -64,5 +66,10 @@ object FormatDate {
         return dateTime
             .atOffset(ZoneOffset.UTC)
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
+    }
+
+    fun convertDateFromISO(inputDate: String): String {
+        val zonedDateTime = ZonedDateTime.parse(inputDate)
+        return zonedDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
     }
 }

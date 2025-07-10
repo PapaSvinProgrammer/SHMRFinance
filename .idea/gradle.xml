@@ -49,6 +49,7 @@
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/transactionHistory" />
             <option value="$PROJECT_DIR$/feature/updateBankAccount" />
+            <option value="$PROJECT_DIR$/feature/updateTransaction" />
           </set>
         </option>
       </GradleProjectSettings>

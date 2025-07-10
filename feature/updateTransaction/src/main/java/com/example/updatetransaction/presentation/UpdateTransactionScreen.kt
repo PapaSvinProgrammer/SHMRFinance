@@ -1,4 +1,4 @@
-package com.example.createtransaction.presentation
+package com.example.updatetransaction.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,18 +22,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.createtransaction.presentation.widget.TransactionResponseUIState
-import com.example.createtransaction.utils.toResultType
 import com.example.navigationroute.BankAccountListRoute
-import com.example.shmrfinance.createTransaction.R
+import com.example.shmrfinance.updateTransaction.R
 import com.example.ui.dialog.ResultDialog
+import com.example.ui.dialog.toResultType
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.CategoryUIState
+import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.bottomSheet.CategoriesBottomSheet
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.MainTransactionContent
@@ -44,12 +43,12 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTransactionScreen(
+fun UpdateTransactionScreen(
     navController: NavController,
-    viewModel: CreateTransactionViewModel,
-    isIncome: Boolean
+    viewModel: UpdateTransactionViewModel,
+    transactionId: Int
 ) {
-    val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
+    val transaction by viewModel.transaction.collectAsStateWithLifecycle()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
     val currentCategory by viewModel.currentCategory.collectAsStateWithLifecycle()
     val date by viewModel.date.collectAsStateWithLifecycle()
@@ -59,7 +58,7 @@ fun CreateTransactionScreen(
     val datePickerVisible by viewModel.datePickerVisible.collectAsStateWithLifecycle()
     val timePickerVisible by viewModel.timePickerVisible.collectAsStateWithLifecycle()
     val categorySheetVisible by viewModel.categorySheetVisible.collectAsStateWithLifecycle()
-    val createResult by viewModel.createResult.collectAsStateWithLifecycle()
+    val updateResult by viewModel.updateResult.collectAsStateWithLifecycle()
     val resultDialogVisible by viewModel.resultDialogVisible.collectAsStateWithLifecycle()
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -68,7 +67,8 @@ fun CreateTransactionScreen(
     var isCategoryError by remember { mutableStateOf(false) }
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
-        viewModel.getAllCategories(isIncome)
+        viewModel.getTransactionById(transactionId)
+        viewModel.getAllCategories()
     }
 
     LaunchedEffect(isBalanceError) {
@@ -93,12 +93,7 @@ fun CreateTransactionScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    val text = if (isIncome)
-                        stringResource(R.string.my_income)
-                    else
-                        stringResource(R.string.my_expenses)
-
-                    Text(text = text)
+                    Text(text = "Редактирование")
                 },
                 navigationIcon = {
                     IconButton(
@@ -120,7 +115,7 @@ fun CreateTransactionScreen(
                                 isCategoryError = true
                             }
                             else {
-                                viewModel.createTransaction()
+
                             }
                         }
                     ) {
@@ -136,13 +131,13 @@ fun CreateTransactionScreen(
             SnackbarHost(hostState = snackBarHostState)
         }
     ) { innerPadding ->
-        when (val state = currentBankAccount) {
-            is BankAccountUIState.Error -> {}
-            BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
-            is BankAccountUIState.Success -> {
+        when (val state = transaction) {
+            is TransactionUIState.Error -> {}
+            TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
+            is TransactionUIState.Success -> {
                 MainTransactionContent(
                     modifier = Modifier.padding(innerPadding),
-                    bankAccount = state.data.first(),
+                    bankAccount = state.data.first().account,
                     balance = balance,
                     category = currentCategory,
                     date = FormatDate.getPrettyDate(date),
@@ -207,8 +202,8 @@ fun CreateTransactionScreen(
 
     if (resultDialogVisible) {
         ResultDialog(
-            type = createResult.toResultType(),
-            error = (createResult as? TransactionResponseUIState.Error)?.error,
+            type = updateResult.toResultType(),
+            error = (updateResult as? TransactionUIState.Error)?.error,
             onDismissRequest = {
                 viewModel.updateResultDialogVisible(false)
                 navController.popBackStack()

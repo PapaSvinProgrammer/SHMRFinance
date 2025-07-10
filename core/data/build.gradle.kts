@@ -4,11 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core:network"))
-    api(project(":core:model"))
-    api(project(":core:common"))
+    api(project(":core:network"))
     implementation(libs.dagger)
-    implementation(libs.bundles.ktor)
     kapt(libs.dagger.compiler)
     implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)

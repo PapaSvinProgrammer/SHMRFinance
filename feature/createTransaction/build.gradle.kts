@@ -9,8 +9,6 @@ dependencies {
     implementation(project(":domain:category"))
     implementation(project(":domain:bankAccount"))
     implementation(project(":core:localViewModelFactory"))
-    implementation(project(":core:network"))
-    implementation(libs.bundles.ktor)
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

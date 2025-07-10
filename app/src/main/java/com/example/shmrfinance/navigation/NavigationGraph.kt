@@ -45,6 +45,7 @@ import com.example.navigationroute.SettingsRoute
 import com.example.navigationroute.SplashRoute
 import com.example.navigationroute.TransactionHistoryRoute
 import com.example.navigationroute.UpdateBankAccountRoute
+import com.example.navigationroute.UpdateTransactionRoute
 import com.example.settings.SettingsScreen
 import com.example.splash.SplashScreen
 import com.example.transactionhistory.presentation.TransactionHistoryScreen
@@ -53,6 +54,9 @@ import com.example.transactionhistory.di.DaggerTransactionComponent
 import com.example.updatebankaccount.presentation.UpdateBankAccountScreen
 import com.example.updatebankaccount.presentation.UpdateBankAccountViewModel
 import com.example.updatebankaccount.di.DaggerUpdateBankAccountComponent
+import com.example.updatetransaction.di.DaggerUpdateTransactionComponent
+import com.example.updatetransaction.presentation.UpdateTransactionScreen
+import com.example.updatetransaction.presentation.UpdateTransactionViewModel
 
 @Composable
 fun NavigationGraph(
@@ -250,6 +254,23 @@ fun NavigationGraph(
                 navController = navController,
                 viewModel = viewModel,
                 isIncome = route.isIncome
+            )
+        }
+
+        composable<UpdateTransactionRoute> {
+            val route = it.toRoute<UpdateTransactionRoute>()
+            val component = DaggerUpdateTransactionComponent
+                .factory()
+                .create()
+
+            val viewModel: UpdateTransactionViewModel = viewModel(
+                factory = component.viewModelFactory
+            )
+
+            UpdateTransactionScreen(
+                navController = navController,
+                viewModel = viewModel,
+                transactionId = route.id
             )
         }
     }
