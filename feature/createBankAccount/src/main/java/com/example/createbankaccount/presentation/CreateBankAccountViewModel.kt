@@ -8,6 +8,7 @@ import com.example.model.CurrencyType
 import com.example.model.toSlug
 import com.example.ui.uiState.BankAccountUIState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,6 +18,8 @@ import javax.inject.Inject
 class CreateBankAccountViewModel @Inject constructor(
     private val createBankAccount: CreateBankAccount
 ): ViewModel() {
+    private var jobCreateBankAccount: Job? = null
+
     private val _name = MutableStateFlow("")
     private val _balance = MutableStateFlow(BigDecimal(0))
     private val _currency = MutableStateFlow(CurrencyType.RUB)
@@ -69,7 +72,9 @@ class CreateBankAccountViewModel @Inject constructor(
             currency = currency.value.toSlug()
         )
 
-        viewModelScope.launch(Dispatchers.IO) {
+        jobCreateBankAccount?.cancel()
+
+        jobCreateBankAccount = viewModelScope.launch(Dispatchers.IO) {
             createBankAccount.execute(request)
                 .onSuccess {
                     _accountState.value = BankAccountUIState.Success(listOf(it))

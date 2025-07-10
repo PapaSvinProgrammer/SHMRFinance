@@ -8,6 +8,7 @@ import com.example.transaction.GetTransactionByType
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.FormatDate
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class IncomeViewModel @Inject constructor(
     private val getTransactionByType: GetTransactionByType,
     preferencesRepository: PreferencesRepository
 ): ViewModel() {
+    private var jobGetTransaction: Job? = null
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _transactionState = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
@@ -29,7 +31,7 @@ class IncomeViewModel @Inject constructor(
     val currency: StateFlow<String?> = _currency
 
     fun getTransactions() {
-        viewModelScope.launch(Dispatchers.IO) {
+        jobGetTransaction = viewModelScope.launch(Dispatchers.IO) {
             val currentDate = FormatDate.getCurrentDate()
 
             accountId.collect { id ->

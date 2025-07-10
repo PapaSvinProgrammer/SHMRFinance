@@ -8,6 +8,7 @@ import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +20,8 @@ class ArticlesViewModel @Inject constructor(
     private val getAllCategory: GetAllCategory,
     private val searchCategory: SearchCategory
 ): ViewModel() {
+    private var jobGetAllCategory: Job? = null
+
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _categoryState = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
@@ -49,7 +52,9 @@ class ArticlesViewModel @Inject constructor(
     }
 
     private fun getCategories() {
-        viewModelScope.launch(Dispatchers.IO) {
+        jobGetAllCategory?.cancel()
+
+        jobGetAllCategory = viewModelScope.launch(Dispatchers.IO) {
             accountId.collect { id ->
                 if (id == null) {
                     _categoryState.value = CategoryUIState.Success(listOf())

@@ -1,6 +1,5 @@
 package com.example.updatebankaccount.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bankaccountscreen.DeleteBankAccount
@@ -14,6 +13,7 @@ import com.example.model.toCurrencyType
 import com.example.model.toSlug
 import com.example.ui.uiState.BankAccountUIState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +25,10 @@ class UpdateBankAccountViewModel @Inject constructor(
     private val updateBankAccount: UpdateBankAccount,
     private val deleteBankAccount: DeleteBankAccount
 ): ViewModel() {
+    private var jobUpdateBankAccount: Job? = null
+    private var jobDeleteBankAccount: Job? = null
+    private var jobGetBankAccount: Job? = null
+
     private val _bankAccountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
     private val _name = MutableStateFlow("")
     private val _currency = MutableStateFlow(CurrencyType.RUB)
@@ -43,7 +47,7 @@ class UpdateBankAccountViewModel @Inject constructor(
     val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
 
     fun getBankAccount(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        jobGetBankAccount = viewModelScope.launch(Dispatchers.IO) {
             getBankAccount.execute(id).onSuccess {
                 updateFields(it)
             }.onFailure {
@@ -65,9 +69,10 @@ class UpdateBankAccountViewModel @Inject constructor(
     }
 
     fun updateBankAccount(id: Int) {
+        jobUpdateBankAccount?.cancel()
         _visibleResultDialog.value = true
 
-        viewModelScope.launch(Dispatchers.IO) {
+        jobUpdateBankAccount = viewModelScope.launch(Dispatchers.IO) {
             val request = AccountRequest(
                 name = name.value,
                 balance = balance.value.toString(),
@@ -86,11 +91,11 @@ class UpdateBankAccountViewModel @Inject constructor(
     }
 
     fun deleteBankAccount(id: Int) {
+        jobDeleteBankAccount?.cancel()
         _visibleResultDialog.value = true
 
-        viewModelScope.launch(Dispatchers.IO) {
+        jobDeleteBankAccount = viewModelScope.launch(Dispatchers.IO) {
             deleteBankAccount.execute(id).onFailure {
-                Log.d("RRRR", it.toString())
                 when (it) {
                     is SuccessDeleteTransactionException -> {
                         _resultState.value = BankAccountUIState.Success(listOf())
