@@ -37,6 +37,7 @@ import com.example.navigationroute.BankAccountListRoute
 import com.example.shmrfinance.updateTransaction.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.toResultType
+import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.bottomSheet.CategoriesBottomSheet
@@ -54,7 +55,6 @@ fun UpdateTransactionScreen(
     viewModel: UpdateTransactionViewModel,
     transactionId: Int
 ) {
-    val transaction by viewModel.transaction.collectAsStateWithLifecycle()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
     val currentCategory by viewModel.currentCategory.collectAsStateWithLifecycle()
     val date by viewModel.date.collectAsStateWithLifecycle()
@@ -66,6 +66,7 @@ fun UpdateTransactionScreen(
     val categorySheetVisible by viewModel.categorySheetVisible.collectAsStateWithLifecycle()
     val updateResult by viewModel.updateResult.collectAsStateWithLifecycle()
     val resultDialogVisible by viewModel.resultDialogVisible.collectAsStateWithLifecycle()
+    val bankAccount by viewModel.bankAccount.collectAsStateWithLifecycle()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -75,6 +76,7 @@ fun UpdateTransactionScreen(
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransactionById(transactionId)
         viewModel.getAllCategories()
+        viewModel.getBankAccount()
     }
 
     LaunchedEffect(isBalanceError) {
@@ -135,17 +137,19 @@ fun UpdateTransactionScreen(
             SnackbarHost(hostState = snackBarHostState)
         }
     ) { innerPadding ->
-        when (val state = transaction) {
-            is TransactionUIState.Error -> {}
-            TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
-            is TransactionUIState.Success -> {
+        when (val state = bankAccount) {
+            is BankAccountUIState.Error -> {}
+            BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
+            is BankAccountUIState.Success -> {
                 Column {
+                    val dateStr = if (date.isEmpty()) "" else FormatDate.getPrettyDate(date)
+
                     MainTransactionContent(
                         modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
-                        bankAccount = state.data.first().account,
+                        bankAccount = state.data.first(),
                         balance = balance,
                         category = currentCategory,
-                        date = FormatDate.getPrettyDate(date),
+                        date = dateStr,
                         time = time,
                         comment = comment ?: "",
                         onBankAccountClick = {

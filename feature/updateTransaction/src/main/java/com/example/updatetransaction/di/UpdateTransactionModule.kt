@@ -2,7 +2,9 @@ package com.example.updatetransaction.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
+import com.example.data.external.BankAccountRepository
 import com.example.data.external.CategoryRepository
 import com.example.data.external.TransactionRepository
 import com.example.data.internal.di.DataModule
@@ -49,6 +51,12 @@ internal interface UpdateTransactionModule {
         @UpdateTransactionScope
         fun providesGetAllCategory(repository: CategoryRepository): GetAllCategory {
             return GetAllCategory(repository)
+        }
+
+        @Provides
+        @UpdateTransactionScope
+        fun providesGetByIdBankAccount(repository: BankAccountRepository): GetByIdBankAccount {
+            return GetByIdBankAccount(repository)
         }
     }
 }

@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     api(project(":domain:transaction"))
+    implementation(project(":domain:bankAccount"))
     implementation(project(":domain:category"))
     implementation(project(":core:ui"))
     implementation(project(":core:localViewModelFactory"))

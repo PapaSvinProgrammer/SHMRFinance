@@ -1,16 +1,18 @@
 package com.example.updatetransaction.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.common.SuccessDeleteTransactionException
+import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.transaction.DeleteTransaction
 import com.example.transaction.GetByIdTransaction
 import com.example.transaction.UpdateTransaction
+import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.FormatDate
@@ -27,17 +29,24 @@ class UpdateTransactionViewModel @Inject constructor(
     private val updateTransaction: UpdateTransaction,
     private val getByIdTransaction: GetByIdTransaction,
     private val deleteTransaction: DeleteTransaction,
-    private val getAllCategory: GetAllCategory
+    private val getAllCategory: GetAllCategory,
+    private val getByIdBankAccount: GetByIdBankAccount,
+    preferencesRepository: PreferencesRepository
 ) : ViewModel() {
+    private var currentBankAccountId: Int? = null
+
     private var jobGetAllCategory: Job? = null
     private var jobUpdateTransaction: Job? = null
     private var jobGetTransactionById: Job? = null
     private var jobDeleteTransaction: Job? = null
+    private var jobGetBankAccount: Job? = null
 
+    private val _bankAccountId = preferencesRepository.getCurrentAccountId()
     private val _transaction = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
     private val _categories = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
-    val transaction: StateFlow<TransactionUIState> = _transaction
+    private val _bankAccount = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
     val categories: StateFlow<CategoryUIState> = _categories
+    val bankAccount: StateFlow<BankAccountUIState> = _bankAccount
 
     private val _currentCategory = MutableStateFlow<Category?>(null)
     private val _date = MutableStateFlow("")
@@ -112,34 +121,32 @@ class UpdateTransactionViewModel @Inject constructor(
     }
 
     fun updateTransaction(transactionId: Int) {
-        (transaction.value as? TransactionUIState.Success)?.data?.firstOrNull()?.let { transaction ->
-            if (balance.value == BigDecimal(0)) return
+        if (balance.value == BigDecimal(0)) return
 
-            if (currentCategory.value == null) return
+        if (currentCategory.value == null) return
 
-            val request = TransactionRequest(
-                accountId = transaction.account.id,
-                categoryId = currentCategory.value?.id ?: -1,
-                amount = balance.value.toString(),
-                transactionDate = FormatDate.createRequestDate(
-                    dateStr = date.value,
-                    timeStr = time.value
-                ),
-                comment = comment.value
-            )
+        val request = TransactionRequest(
+            accountId = currentBankAccountId ?: -1,
+            categoryId = currentCategory.value?.id ?: -1,
+            amount = balance.value.toString(),
+            transactionDate = FormatDate.createRequestDate(
+                dateStr = date.value,
+                timeStr = time.value
+            ),
+            comment = comment.value
+        )
 
-            jobUpdateTransaction?.cancel()
-            _resultDialogVisible.value = true
+        jobUpdateTransaction?.cancel()
+        _resultDialogVisible.value = true
 
-            jobUpdateTransaction = viewModelScope.launch(Dispatchers.IO) {
-                updateTransaction.execute(
-                    id = transactionId,
-                    request = request
-                ).onSuccess { transaction ->
-                    _updateResult.value = TransactionUIState.Success(listOf(transaction))
-                }.onFailure { error ->
-                    _updateResult.value = TransactionUIState.Error(error)
-                }
+        jobUpdateTransaction = viewModelScope.launch(Dispatchers.IO) {
+            updateTransaction.execute(
+                id = transactionId,
+                request = request
+            ).onSuccess { transaction ->
+                _updateResult.value = TransactionUIState.Success(listOf(transaction))
+            }.onFailure { error ->
+                _updateResult.value = TransactionUIState.Error(error)
             }
         }
     }
@@ -154,6 +161,7 @@ class UpdateTransactionViewModel @Inject constructor(
                     is SuccessDeleteTransactionException -> {
                         _updateResult.value = TransactionUIState.Success(listOf())
                     }
+
                     else -> {
                         _updateResult.value = TransactionUIState.Error(it)
                     }
@@ -170,6 +178,24 @@ class UpdateTransactionViewModel @Inject constructor(
                 _categories.value = CategoryUIState.Success(it)
             }.onFailure {
                 _categories.value = CategoryUIState.Error(it)
+            }
+        }
+    }
+
+    fun getBankAccount() {
+        jobGetBankAccount?.cancel()
+
+        jobGetBankAccount = viewModelScope.launch(Dispatchers.IO) {
+            _bankAccountId.collect { id ->
+                currentBankAccountId = id
+
+                if (id != null) {
+                    getByIdBankAccount.execute(id).onSuccess {
+                        _bankAccount.value = BankAccountUIState.Success(listOf(it))
+                    }.onFailure {
+                        _bankAccount.value = BankAccountUIState.Error(it)
+                    }
+                }
             }
         }
     }

@@ -261,7 +261,7 @@ fun NavigationGraph(
             val route = it.toRoute<UpdateTransactionRoute>()
             val component = DaggerUpdateTransactionComponent
                 .factory()
-                .create()
+                .create(LocalContext.current)
 
             val viewModel: UpdateTransactionViewModel = viewModel(
                 factory = component.viewModelFactory
