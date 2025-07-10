@@ -26,7 +26,7 @@ data object SettingsRoute : NavRoute
 data object CreateBankAccountRoute : NavRoute
 
 @Serializable
-data object BankAccountListScreenRoute : NavRoute
+data object BankAccountListRoute : NavRoute
 
 @Serializable
 data class TransactionHistoryRoute(
@@ -35,5 +35,13 @@ data class TransactionHistoryRoute(
 
 @Serializable
 data class UpdateBankAccountRoute(
+    val id: Int
+) : NavRoute
+
+@Serializable
+data object CreateTransactionRoute : NavRoute
+
+@Serializable
+data class UpdateTransactionRoute(
     val id: Int
 ) : NavRoute

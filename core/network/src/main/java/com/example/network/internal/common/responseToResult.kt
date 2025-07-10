@@ -2,7 +2,7 @@ package com.example.network.internal.common
 
 import com.example.common.HaveTransactionException
 import com.example.common.RequestTimeoutException
-import com.example.common.SerializationException
+import com.example.common.SerializationExceptionCustom
 import com.example.common.ServerErrorException
 import com.example.common.SuccessDeleteTransactionException
 import com.example.common.UnknownException
@@ -19,12 +19,12 @@ internal suspend inline fun <reified T> responseToResult(
             try {
                 Result.success(response.body<T>())
             } catch (e: NoTransformationFoundException) {
-                Result.failure(SerializationException())
+                Result.failure(SerializationExceptionCustom())
             }
         }
         408 -> Result.failure(RequestTimeoutException())
         409 -> Result.failure(HaveTransactionException())
-        500 -> Result.failure(ServerErrorException())
+        in 500..599 -> Result.failure(ServerErrorException())
         else -> {
             Result.failure(UnknownException())
         }

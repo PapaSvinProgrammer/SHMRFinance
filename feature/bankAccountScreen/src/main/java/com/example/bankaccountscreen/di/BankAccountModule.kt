@@ -2,7 +2,7 @@ package com.example.bankaccountscreen.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.bankaccountscreen.BankAccountViewModel
+import com.example.bankaccountscreen.presentation.BankAccountViewModel
 import com.example.bankaccountscreen.GetAllBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.data.external.BankAccountRepository

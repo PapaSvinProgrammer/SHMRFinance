@@ -1,7 +1,6 @@
 package com.example.updatebankaccount.di
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.updatebankaccount.UpdateBankAccountViewModel
 import dagger.Component
 
 @Component(

@@ -9,7 +9,7 @@ import com.example.data.external.BankAccountRepository
 import com.example.data.internal.di.DataModule
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
-import com.example.updatebankaccount.UpdateBankAccountViewModel
+import com.example.updatebankaccount.presentation.UpdateBankAccountViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

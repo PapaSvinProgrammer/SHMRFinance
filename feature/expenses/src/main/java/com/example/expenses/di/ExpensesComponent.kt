@@ -2,7 +2,6 @@ package com.example.expenses.di
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import com.example.expenses.ExpensesViewModel
 import dagger.BindsInstance
 import dagger.Component
 

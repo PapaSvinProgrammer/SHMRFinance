@@ -12,28 +12,32 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.articles.ArticlesScreen
-import com.example.articles.ArticlesViewModel
+import com.example.articles.presentation.ArticlesScreen
+import com.example.articles.presentation.ArticlesViewModel
 import com.example.articles.di.DaggerArticlesComponent
-import com.example.bankaccountlist.BankAccountListScreen
-import com.example.bankaccountlist.BankAccountListViewModel
+import com.example.bankaccountlist.presentation.BankAccountListScreen
+import com.example.bankaccountlist.presentation.BankAccountListViewModel
 import com.example.bankaccountlist.di.DaggerBankAccountListComponent
-import com.example.bankaccountscreen.BankAccountScreen
-import com.example.bankaccountscreen.BankAccountViewModel
+import com.example.bankaccountscreen.presentation.BankAccountScreen
+import com.example.bankaccountscreen.presentation.BankAccountViewModel
 import com.example.bankaccountscreen.di.DaggerBankAccountComponent
-import com.example.createbankaccount.CreateBankAccountScreen
-import com.example.createbankaccount.CreateBankAccountViewModel
+import com.example.createbankaccount.presentation.CreateBankAccountScreen
+import com.example.createbankaccount.presentation.CreateBankAccountViewModel
 import com.example.createbankaccount.di.DaggerCreateBankAccountComponent
-import com.example.expenses.ExpensesScreen
-import com.example.expenses.ExpensesViewModel
+import com.example.createtransaction.presentation.CreateTransactionScreen
+import com.example.createtransaction.presentation.CreateTransactionViewModel
+import com.example.createtransaction.di.DaggerCreateTransactionComponent
+import com.example.expenses.presentation.ExpensesScreen
+import com.example.expenses.presentation.ExpensesViewModel
 import com.example.expenses.di.DaggerExpensesComponent
-import com.example.income.IncomeScreen
-import com.example.income.IncomeViewModel
+import com.example.income.presentation.IncomeScreen
+import com.example.income.presentation.IncomeViewModel
 import com.example.income.di.DaggerIncomeComponent
 import com.example.navigationroute.ArticlesRoute
-import com.example.navigationroute.BankAccountListScreenRoute
+import com.example.navigationroute.BankAccountListRoute
 import com.example.navigationroute.BankAccountRoute
 import com.example.navigationroute.CreateBankAccountRoute
+import com.example.navigationroute.CreateTransactionRoute
 import com.example.navigationroute.ExpensesRoute
 import com.example.navigationroute.IncomeRoute
 import com.example.navigationroute.NavRoute
@@ -43,11 +47,11 @@ import com.example.navigationroute.TransactionHistoryRoute
 import com.example.navigationroute.UpdateBankAccountRoute
 import com.example.settings.SettingsScreen
 import com.example.splash.SplashScreen
-import com.example.transactionhistory.TransactionHistoryScreen
-import com.example.transactionhistory.TransactionHistoryViewModel
+import com.example.transactionhistory.presentation.TransactionHistoryScreen
+import com.example.transactionhistory.presentation.TransactionHistoryViewModel
 import com.example.transactionhistory.di.DaggerTransactionComponent
-import com.example.updatebankaccount.UpdateBankAccountScreen
-import com.example.updatebankaccount.UpdateBankAccountViewModel
+import com.example.updatebankaccount.presentation.UpdateBankAccountScreen
+import com.example.updatebankaccount.presentation.UpdateBankAccountViewModel
 import com.example.updatebankaccount.di.DaggerUpdateBankAccountComponent
 
 @Composable
@@ -59,7 +63,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = ArticlesRoute,
+        startDestination = CreateTransactionRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -185,7 +189,7 @@ fun NavigationGraph(
             )
         }
 
-        composable<BankAccountListScreenRoute> {
+        composable<BankAccountListRoute> {
             val component = DaggerBankAccountListComponent
                 .factory()
                 .create(LocalContext.current)
@@ -229,6 +233,22 @@ fun NavigationGraph(
                 navController = navController,
                 bankAccountId = route.id,
                 viewModel = viewModel
+            )
+        }
+
+        composable<CreateTransactionRoute> {
+            val component = DaggerCreateTransactionComponent
+                .factory()
+                .create(LocalContext.current)
+
+            val viewModel: CreateTransactionViewModel = viewModel(
+                factory = component.viewModelFactory
+            )
+
+            CreateTransactionScreen(
+                navController = navController,
+                viewModel = viewModel,
+                isIncome = false
             )
         }
     }

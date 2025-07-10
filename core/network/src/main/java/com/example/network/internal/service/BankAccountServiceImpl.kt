@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 internal class BankAccountServiceImpl @Inject constructor(
     private val client: HttpClient
-): BankAccountService {
+) : BankAccountService {
     override suspend fun getAll(): Result<List<BankAccount>> {
         return safeCall<List<BankAccountDto>> {
             client.get("v1/accounts")

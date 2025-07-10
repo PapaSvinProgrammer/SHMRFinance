@@ -16,7 +16,7 @@ internal fun BankAccountDto.toDomain(): BankAccount {
         id = this.id,
         userId = this.userId,
         name = this.name,
-        balance = this.balance,
+        balance = this.balance.toBigDecimal(),
         currency = this.currency,
         incomeStats = this.incomeStats.toDomain(),
         expensesStats = this.expensesStats.toDomain()
@@ -33,7 +33,7 @@ internal fun AccountStateDto?.toDomain(): AccountState? {
     return AccountState(
         id = this.id,
         name = this.name,
-        balance = this.balance,
+        balance = this.balance.toBigDecimal(),
         currency = this.currency
     )
 }
@@ -54,7 +54,7 @@ internal fun BankAccountHistoryResponseDto.toDomain(): BankAccountHistoryRespons
         accountId = this.accountId,
         accountName = this.accountName,
         currency = this.currency,
-        currentBalance = this.currentBalance,
+        currentBalance = this.currentBalance.toBigDecimal(),
         history = this.history.map { it.toDomain() }
     )
 }

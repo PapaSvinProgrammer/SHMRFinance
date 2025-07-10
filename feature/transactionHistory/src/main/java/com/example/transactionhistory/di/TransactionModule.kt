@@ -7,7 +7,7 @@ import com.example.data.internal.di.DataModule
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.transaction.GetTransactionByType
-import com.example.transactionhistory.TransactionHistoryViewModel
+import com.example.transactionhistory.presentation.TransactionHistoryViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

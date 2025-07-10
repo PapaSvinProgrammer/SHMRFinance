@@ -8,5 +8,5 @@ internal data class TransactionRequestDto(
     val categoryId: Int,
     val amount: String,
     val transactionDate: String,
-    val comment: String? = null
+    val comment: String?
 )

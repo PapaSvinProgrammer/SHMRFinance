@@ -2,4 +2,5 @@
 <resources>
     <string name="currency">Валюта</string>
     <string name="delete_bank_account">Удалить счет</string>
+    <string name="my_bank_account">Мой счет</string>
 </resources>

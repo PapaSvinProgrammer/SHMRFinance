@@ -3,7 +3,7 @@ package com.example.common
 sealed class NetworkThrowable: Throwable()
 
 class SuccessDeleteTransactionException: NetworkThrowable()
-class SerializationException: NetworkThrowable()
+class SerializationExceptionCustom: NetworkThrowable()
 class RequestTimeoutException: NetworkThrowable()
 class HaveTransactionException: NetworkThrowable()
 class ServerErrorException: NetworkThrowable()
@@ -15,7 +15,7 @@ fun NetworkThrowable.toSlug(): String {
         is HaveTransactionException -> "Нужно удалить все транзации счета для его удаления"
         is NoInternetException -> "Отсутсвует интернет"
         is RequestTimeoutException -> "Превышено время ожидания"
-        is SerializationException -> "Ошибка в представлении объекта"
+        is SerializationExceptionCustom -> "Ошибка в представлении объекта"
         is ServerErrorException -> "Ошибка на стороне сервера"
         is SuccessDeleteTransactionException -> "Успешное удаление"
         is UnknownException -> "Неизвестная ошибка"

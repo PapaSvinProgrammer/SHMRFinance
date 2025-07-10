@@ -1,7 +1,9 @@
 package com.example.utils
 
+import java.math.BigDecimal
+
 object ConvertData {
-    fun getPrettyInt(amount: Float): String {
+    fun getPrettyBigDecimal(amount: BigDecimal): String {
         val str = amount.toInt().toString()
         val res = StringBuilder()
         var count = 0
@@ -28,8 +30,8 @@ object ConvertData {
         }
     }
 
-    fun createPrettyAmount(amount: Float, currency: String): String {
-        val prettyInt = getPrettyInt(amount)
+    fun createPrettyAmount(amount: BigDecimal, currency: String): String {
+        val prettyInt = getPrettyBigDecimal(amount)
         val symbol = getCurrencySymbol(currency)
         return "$prettyInt $symbol"
     }

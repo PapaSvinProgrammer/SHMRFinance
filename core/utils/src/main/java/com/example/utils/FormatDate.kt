@@ -1,6 +1,10 @@
 package com.example.utils
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -45,9 +49,20 @@ object FormatDate {
         return outputFormat.format(date)
     }
 
-    fun convertFromMillisToString(value: Long): String {
+    fun convertMillisToString(value: Long): String {
         val date = Date(value)
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return formatter.format(date)
+    }
+
+    fun createRequestDate(dateStr: String, timeStr: String): String {
+        val date = LocalDate.parse(dateStr)
+        val time = LocalTime.parse(timeStr)
+
+        val dateTime = LocalDateTime.of(date, time)
+
+        return dateTime
+            .atOffset(ZoneOffset.UTC)
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
     }
 }

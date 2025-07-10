@@ -2,7 +2,6 @@ package com.example.articles.di
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import com.example.articles.ArticlesViewModel
 import dagger.BindsInstance
 import dagger.Component
 
