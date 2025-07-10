@@ -2,4 +2,5 @@
 <resources>
     <string name="empty_transaction_error">Введите сумму транзакции</string>
     <string name="empty_category_error">Выберете статью\n</string>
+    <string name="edit">Редактирование</string>
 </resources>

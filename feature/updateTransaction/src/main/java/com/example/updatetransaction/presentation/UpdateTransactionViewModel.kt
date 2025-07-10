@@ -1,10 +1,8 @@
 package com.example.updatetransaction.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.category.GetAllCategory
-import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
@@ -15,6 +13,7 @@ import com.example.ui.uiState.TransactionUIState
 import com.example.utils.FormatDate
 import com.example.utils.FormatTime
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -26,6 +25,10 @@ class UpdateTransactionViewModel @Inject constructor(
     private val getByIdTransaction: GetByIdTransaction,
     private val getAllCategory: GetAllCategory
 ) : ViewModel() {
+    private var jobGetAllCategory: Job? = null
+    private var jobUpdateTransaction: Job? = null
+    private var jobGetTransactionById: Job? = null
+
     private val _transaction = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
     private val _categories = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
     val transaction: StateFlow<TransactionUIState> = _transaction
@@ -91,7 +94,9 @@ class UpdateTransactionViewModel @Inject constructor(
     }
 
     fun getTransactionById(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        jobGetTransactionById?.cancel()
+
+        jobGetTransactionById = viewModelScope.launch(Dispatchers.IO) {
             getByIdTransaction.execute(id).onSuccess {
                 updateTransactionData(it)
                 _transaction.value = TransactionUIState.Success(listOf(it))
@@ -118,7 +123,10 @@ class UpdateTransactionViewModel @Inject constructor(
                 comment = comment.value
             )
 
-            viewModelScope.launch(Dispatchers.IO) {
+            jobUpdateTransaction?.cancel()
+            _resultDialogVisible.value = true
+
+            jobUpdateTransaction = viewModelScope.launch(Dispatchers.IO) {
                 updateTransaction.execute(
                     id = transactionId,
                     request = request
@@ -132,7 +140,9 @@ class UpdateTransactionViewModel @Inject constructor(
     }
 
     fun getAllCategories() {
-        viewModelScope.launch(Dispatchers.IO) {
+        jobGetAllCategory?.cancel()
+
+        jobGetAllCategory = viewModelScope.launch(Dispatchers.IO) {
             getAllCategory.execute().onSuccess {
                 _categories.value = CategoryUIState.Success(it)
             }.onFailure {

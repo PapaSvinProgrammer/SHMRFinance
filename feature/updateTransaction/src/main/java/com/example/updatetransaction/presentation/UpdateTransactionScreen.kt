@@ -3,7 +3,6 @@ package com.example.updatetransaction.presentation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -22,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,7 +30,6 @@ import com.example.navigationroute.BankAccountListRoute
 import com.example.shmrfinance.updateTransaction.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.toResultType
-import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.bottomSheet.CategoriesBottomSheet
@@ -93,7 +92,7 @@ fun UpdateTransactionScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Редактирование")
+                    Text(text = stringResource(R.string.edit))
                 },
                 navigationIcon = {
                     IconButton(
@@ -115,7 +114,7 @@ fun UpdateTransactionScreen(
                                 isCategoryError = true
                             }
                             else {
-
+                                viewModel.updateTransaction(transactionId)
                             }
                         }
                     ) {
