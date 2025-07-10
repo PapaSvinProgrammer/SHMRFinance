@@ -39,7 +39,9 @@ data class UpdateBankAccountRoute(
 ) : NavRoute
 
 @Serializable
-data object CreateTransactionRoute : NavRoute
+data class CreateTransactionRoute(
+    val isIncome: Boolean
+) : NavRoute
 
 @Serializable
 data class UpdateTransactionRoute(

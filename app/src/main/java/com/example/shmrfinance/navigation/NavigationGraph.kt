@@ -63,7 +63,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = CreateTransactionRoute,
+        startDestination = ExpensesRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -237,6 +237,7 @@ fun NavigationGraph(
         }
 
         composable<CreateTransactionRoute> {
+            val route = it.toRoute<CreateTransactionRoute>()
             val component = DaggerCreateTransactionComponent
                 .factory()
                 .create(LocalContext.current)
@@ -248,7 +249,7 @@ fun NavigationGraph(
             CreateTransactionScreen(
                 navController = navController,
                 viewModel = viewModel,
-                isIncome = false
+                isIncome = route.isIncome
             )
         }
     }

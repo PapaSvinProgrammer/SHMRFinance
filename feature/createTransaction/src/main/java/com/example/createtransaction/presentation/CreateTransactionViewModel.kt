@@ -1,11 +1,11 @@
 package com.example.createtransaction.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.createtransaction.domain.FilterCategories
+import com.example.createtransaction.presentation.widget.TransactionResponseUIState
 import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.model.TransactionRequest
@@ -34,7 +34,8 @@ class CreateTransactionViewModel @Inject constructor(
     private var jobGetAllCategories: Job? = null
 
     private val _currentBankAccountId = preferencesRepository.getCurrentAccountId()
-    private val _currentBankAccount = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    private val _currentBankAccount =
+        MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
     private val _categories = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
     val currentBankAccount: StateFlow<BankAccountUIState> = _currentBankAccount
     val categories: StateFlow<CategoryUIState> = _categories
@@ -56,6 +57,12 @@ class CreateTransactionViewModel @Inject constructor(
     val datePickerVisible: StateFlow<Boolean> = _datePickerVisible
     val timePickerVisible: StateFlow<Boolean> = _timePickerVisible
     val categorySheetVisible: StateFlow<Boolean> = _categorySheetVisible
+
+    private val _createResult =
+        MutableStateFlow(TransactionResponseUIState.Loading as TransactionResponseUIState)
+    private val _resultDialogVisible = MutableStateFlow(false)
+    val createResult: StateFlow<TransactionResponseUIState> = _createResult
+    val resultDialogVisible: StateFlow<Boolean> = _resultDialogVisible
 
     init {
         getCurrentBankAccount()
@@ -96,6 +103,10 @@ class CreateTransactionViewModel @Inject constructor(
         _currentCategory.value = category
     }
 
+    fun updateResultDialogVisible(state: Boolean) {
+        _resultDialogVisible.value = state
+    }
+
     fun getAllCategories(isIncome: Boolean) {
         jobGetAllCategories?.cancel()
 
@@ -118,6 +129,7 @@ class CreateTransactionViewModel @Inject constructor(
 
         if (currentCategory.value == null) return
 
+        _resultDialogVisible.value = true
         val request = TransactionRequest(
             accountId = currentBankAccountId ?: -1,
             categoryId = currentCategory.value?.id ?: -1,
@@ -131,9 +143,9 @@ class CreateTransactionViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             createTransaction.execute(request).onSuccess {
-                Log.d("RRRR", "SUCCESS")
+                _createResult.value = TransactionResponseUIState.Success(it)
             }.onFailure {
-                Log.d("RRRR", "FAIL: ${it}")
+                _createResult.value = TransactionResponseUIState.Error(it)
             }
         }
     }

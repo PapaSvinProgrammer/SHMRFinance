@@ -27,8 +27,11 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.createtransaction.presentation.widget.CategoriesBottomSheet
+import com.example.createtransaction.presentation.widget.TransactionResponseUIState
+import com.example.createtransaction.utils.toResultType
 import com.example.navigationroute.BankAccountListRoute
 import com.example.shmrfinance.createTransaction.R
+import com.example.ui.dialog.ResultDialog
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.widget.components.BasicLoadingScreen
@@ -55,6 +58,8 @@ fun CreateTransactionScreen(
     val datePickerVisible by viewModel.datePickerVisible.collectAsStateWithLifecycle()
     val timePickerVisible by viewModel.timePickerVisible.collectAsStateWithLifecycle()
     val categorySheetVisible by viewModel.categorySheetVisible.collectAsStateWithLifecycle()
+    val createResult by viewModel.createResult.collectAsStateWithLifecycle()
+    val resultDialogVisible by viewModel.resultDialogVisible.collectAsStateWithLifecycle()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -197,5 +202,16 @@ fun CreateTransactionScreen(
                 }
             )
         }
+    }
+
+    if (resultDialogVisible) {
+        ResultDialog(
+            type = createResult.toResultType(),
+            error = (createResult as? TransactionResponseUIState.Error)?.error,
+            onDismissRequest = {
+                viewModel.updateResultDialogVisible(false)
+                navController.popBackStack()
+            }
+        )
     }
 }
