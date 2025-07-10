@@ -1,11 +1,14 @@
 package com.example.updatetransaction.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.category.GetAllCategory
+import com.example.common.SuccessDeleteTransactionException
 import com.example.model.Category
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
+import com.example.transaction.DeleteTransaction
 import com.example.transaction.GetByIdTransaction
 import com.example.transaction.UpdateTransaction
 import com.example.ui.uiState.CategoryUIState
@@ -23,11 +26,13 @@ import javax.inject.Inject
 class UpdateTransactionViewModel @Inject constructor(
     private val updateTransaction: UpdateTransaction,
     private val getByIdTransaction: GetByIdTransaction,
+    private val deleteTransaction: DeleteTransaction,
     private val getAllCategory: GetAllCategory
 ) : ViewModel() {
     private var jobGetAllCategory: Job? = null
     private var jobUpdateTransaction: Job? = null
     private var jobGetTransactionById: Job? = null
+    private var jobDeleteTransaction: Job? = null
 
     private val _transaction = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
     private val _categories = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
@@ -134,6 +139,24 @@ class UpdateTransactionViewModel @Inject constructor(
                     _updateResult.value = TransactionUIState.Success(listOf(transaction))
                 }.onFailure { error ->
                     _updateResult.value = TransactionUIState.Error(error)
+                }
+            }
+        }
+    }
+
+    fun deleteTransaction(transactionId: Int) {
+        jobDeleteTransaction?.cancel()
+        _resultDialogVisible.value = true
+
+        jobDeleteTransaction = viewModelScope.launch(Dispatchers.IO) {
+            deleteTransaction.execute(transactionId).onFailure {
+                when (it) {
+                    is SuccessDeleteTransactionException -> {
+                        _updateResult.value = TransactionUIState.Success(listOf())
+                    }
+                    else -> {
+                        _updateResult.value = TransactionUIState.Error(it)
+                    }
                 }
             }
         }

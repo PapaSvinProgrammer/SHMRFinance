@@ -2,10 +2,8 @@ package com.example.ui.widget.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -39,7 +37,7 @@ fun MainTransactionContent(
     onCommentChange: (String) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxWidth()
     ) {
         TransactionListItem(
             modifier = Modifier
@@ -104,11 +102,13 @@ fun MainTransactionContent(
 
         CustomTextField(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.dp),
+                .height(70.dp)
+                .fillMaxWidth(),
             text = comment,
             hint = stringResource(R.string.comment_hint),
             onValueChange = onCommentChange
         )
+
+        HorizontalDivider()
     }
 }
