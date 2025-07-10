@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
+import com.example.navigationroute.CreateTransactionRoute
 import com.example.navigationroute.TransactionHistoryRoute
 import com.example.shmrfinance.expenses.R
 import com.example.ui.uiState.TransactionUIState
@@ -86,7 +87,12 @@ fun ExpensesScreen(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                     list = state.data,
                     totalAmount = totalAmount,
-                    currency = currency ?: ""
+                    currency = currency ?: "",
+                    onFabClick = {
+                        navController.navigate(CreateTransactionRoute(false)) {
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
         }
@@ -98,7 +104,8 @@ private fun MainContent(
     modifier: Modifier = Modifier,
     list: List<Transaction>,
     totalAmount: BigDecimal,
-    currency: String
+    currency: String,
+    onFabClick: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Column {
@@ -139,7 +146,7 @@ private fun MainContent(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(15.dp),
-            onClick = {  }
+            onClick = onFabClick
         ) {
             Icon(
                 modifier = Modifier.size(30.dp),
