@@ -1,11 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:updateTransaction")
-
-
-include(":feature:createTransaction")
-
-
 includeBuild("build-logic")
 
 pluginManagement {
@@ -33,15 +27,11 @@ rootProject.name = "SHMRFinance"
 include(":app")
 
 listOf(
-    "common",
-    "connectivityState",
     "data",
     "model",
-    "navigationRoute",
     "network",
     "ui",
     "utils",
-    "navigationRoute",
     "localViewModelFactory"
 ).forEach {
     include(":core:$it")
@@ -65,7 +55,9 @@ listOf(
     "settings",
     "splash",
     "transactionHistory",
-    "updateBankAccount"
+    "updateBankAccount",
+    "updateTransaction",
+    "createTransaction"
 ).forEach {
     include(":feature:$it")
 }
