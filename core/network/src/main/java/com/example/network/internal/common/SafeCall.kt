@@ -1,6 +1,8 @@
 package com.example.network.internal.common
 
+import android.util.Log
 import com.example.common.NoInternetException
+import com.example.common.SerializationExceptionCustom
 import com.example.common.UnknownException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
@@ -16,7 +18,8 @@ internal suspend inline fun <reified T> safeCall(
     } catch (e: UnresolvedAddressException) {
         return Result.failure(NoInternetException())
     } catch (e: SerializationException) {
-        return Result.failure(SerializationException())
+        Log.d("RRRR", e.message.toString())
+        return Result.failure(SerializationExceptionCustom())
     } catch (e: Exception) {
         coroutineContext.ensureActive()
         return Result.failure(UnknownException())

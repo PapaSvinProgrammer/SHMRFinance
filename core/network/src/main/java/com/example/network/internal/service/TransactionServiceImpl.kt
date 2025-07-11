@@ -3,9 +3,12 @@ package com.example.network.internal.service
 import com.example.network.internal.model.TransactionDto
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
+import com.example.model.TransactionResponse
 import com.example.network.internal.common.safeCall
 import com.example.network.external.TransactionService
 import com.example.network.internal.mapper.toDomain
+import com.example.network.internal.mapper.toDto
+import com.example.network.internal.model.TransactionResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -16,11 +19,11 @@ import javax.inject.Inject
 
 internal class TransactionServiceImpl @Inject constructor(
     private val client: HttpClient
-): TransactionService {
-    override suspend fun create(request: TransactionRequest): Result<Transaction> {
-        return safeCall<TransactionDto> {
+) : TransactionService {
+    override suspend fun create(request: TransactionRequest): Result<TransactionResponse> {
+        return safeCall<TransactionResponseDto> {
             client.post("v1/transactions") {
-                setBody(request)
+                setBody(request.toDto())
             }
         }.map { it.toDomain() }
     }
@@ -31,7 +34,7 @@ internal class TransactionServiceImpl @Inject constructor(
     ): Result<Transaction> {
         return safeCall<TransactionDto> {
             client.put("v1/transactions/$id") {
-                setBody(request)
+                setBody(request.toDto())
             }
         }.map { it.toDomain() }
     }

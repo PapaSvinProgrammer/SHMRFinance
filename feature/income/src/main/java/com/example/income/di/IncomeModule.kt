@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.data.external.TransactionRepository
 import com.example.data.internal.di.DataModule
-import com.example.income.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.transaction.GetTransactionByType

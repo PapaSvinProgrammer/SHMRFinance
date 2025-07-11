@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetByIdTransaction @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) {
-    suspend fun getById(id: Int): Result<Transaction> {
+    suspend fun execute(id: Int): Result<Transaction> {
         return request { transactionRepository.getById(id) }
     }
 }

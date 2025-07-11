@@ -1,7 +1,7 @@
 package com.example.expenses.di
 
 import android.content.Context
-import com.example.expenses.ExpensesViewModel
+import androidx.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,5 +15,5 @@ interface ExpensesComponent {
         fun create(@BindsInstance context: Context): ExpensesComponent
     }
 
-    val viewModel: ExpensesViewModel
+    val viewModelFactory: ViewModelProvider.Factory
 }

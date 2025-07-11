@@ -15,12 +15,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:common"))
+    api(project(":core:model"))
+    api(project(":core:common"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.bundles.ktor)
+    api(libs.bundles.ktor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 }

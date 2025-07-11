@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 internal class CategoryServiceImpl @Inject constructor(
     private val client: HttpClient
-): CategoryService {
+) : CategoryService {
     override suspend fun getAll(): Result<List<Category>> {
         return safeCall<List<CategoryDto>> {
             client.get("v1/categories")

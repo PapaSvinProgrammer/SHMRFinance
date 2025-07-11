@@ -1,6 +1,6 @@
 package com.example.updatebankaccount.di
 
-import com.example.updatebankaccount.UpdateBankAccountViewModel
+import androidx.lifecycle.ViewModelProvider
 import dagger.Component
 
 @Component(
@@ -13,5 +13,5 @@ interface UpdateBankAccountComponent {
         fun create(): UpdateBankAccountComponent
     }
 
-    val viewModel: UpdateBankAccountViewModel
+    val viewModelFactory: ViewModelProvider.Factory
 }

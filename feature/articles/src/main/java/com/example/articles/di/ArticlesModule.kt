@@ -2,7 +2,7 @@ package com.example.articles.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.articles.ArticlesViewModel
+import com.example.articles.presentation.ArticlesViewModel
 import com.example.category.GetAllCategory
 import com.example.data.external.CategoryRepository
 import com.example.data.internal.di.DataModule

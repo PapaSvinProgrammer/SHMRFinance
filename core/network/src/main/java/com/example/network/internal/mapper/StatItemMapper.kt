@@ -8,7 +8,7 @@ internal fun StatItemDto.toDomain(): StatItem {
         categoryId = this.categoryId,
         categoryName = this.categoryName,
         emoji = this.emoji,
-        amount = this.amount
+        amount = this.amount.toBigDecimal()
     )
 }
 

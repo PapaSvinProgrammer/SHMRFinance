@@ -11,7 +11,9 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.model.CurrencyType
 import com.example.shmrfinance.ui.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,13 +30,24 @@ fun CurrencyBottomSheet(
     onDismissRequest: () -> Unit,
     onResult: (CurrencyType) -> Unit
 ) {
-    ModalBottomSheet(onDismissRequest = onDismissRequest) {
+    val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        onDismissRequest = onDismissRequest,
+        sheetState = sheetState
+    ) {
         Column {
             currencyList.forEach {
                 ListItem(
                     modifier = Modifier
                         .height(70.dp)
-                        .clickable { onResult(it.type) },
+                        .clickable {
+                            onResult(it.type)
+                            scope
+                                .launch { sheetState.hide() }
+                                .invokeOnCompletion { onDismissRequest() }
+                        },
                     leadingContent = {
                         Text(
                             text = it.symbol,
@@ -52,7 +66,11 @@ fun CurrencyBottomSheet(
             ListItem(
                 modifier = Modifier
                     .height(70.dp)
-                    .clickable(onClick = onDismissRequest),
+                    .clickable {
+                        scope
+                            .launch { sheetState.hide() }
+                            .invokeOnCompletion { onDismissRequest() }
+                    },
                 leadingContent = {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_cancel),

@@ -3,17 +3,21 @@ package com.example.data.internal
 import com.example.data.external.TransactionRepository
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
+import com.example.model.TransactionResponse
 import com.example.network.external.TransactionService
 import javax.inject.Inject
 
 internal class TransactionRepositoryImpl @Inject constructor(
     private val service: TransactionService
-): TransactionRepository {
-    override suspend fun create(request: TransactionRequest): Result<Transaction> {
+) : TransactionRepository {
+    override suspend fun create(request: TransactionRequest): Result<TransactionResponse> {
         return service.create(request)
     }
 
-    override suspend fun update(id: Int, request: TransactionRequest): Result<Transaction> {
+    override suspend fun update(
+        id: Int,
+        request: TransactionRequest
+    ): Result<Transaction> {
         return service.update(id, request)
     }
 

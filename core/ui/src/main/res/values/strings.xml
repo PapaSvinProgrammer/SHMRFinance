@@ -7,4 +7,12 @@
     <string name="cancel">Отмена</string>
     <string name="name_account">Название счета</string>
     <string name="select">Выбрать</string>
+    <string name="bank_account">Счет</string>
+    <string name="article">Статья</string>
+    <string name="total">Сумма</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="sum">Сумма</string>
+    <string name="categories">Категории</string>
+    <string name="comment_hint">Введите комментарий</string>
 </resources>

@@ -42,12 +42,14 @@
             <option value="$PROJECT_DIR$/feature/bankAccountList" />
             <option value="$PROJECT_DIR$/feature/bankAccountScreen" />
             <option value="$PROJECT_DIR$/feature/createBankAccount" />
+            <option value="$PROJECT_DIR$/feature/createTransaction" />
             <option value="$PROJECT_DIR$/feature/expenses" />
             <option value="$PROJECT_DIR$/feature/income" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/transactionHistory" />
             <option value="$PROJECT_DIR$/feature/updateBankAccount" />
+            <option value="$PROJECT_DIR$/feature/updateTransaction" />
           </set>
         </option>
       </GradleProjectSettings>

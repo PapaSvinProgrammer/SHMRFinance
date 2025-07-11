@@ -1,7 +1,7 @@
 package com.example.transactionhistory.di
 
 import android.content.Context
-import com.example.transactionhistory.TransactionHistoryViewModel
+import androidx.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,5 +15,5 @@ interface TransactionComponent {
         fun create(@BindsInstance context: Context): TransactionComponent
     }
 
-    val viewModel: TransactionHistoryViewModel
+    val viewModelFactory: ViewModelProvider.Factory
 }
