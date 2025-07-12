@@ -1,7 +1,6 @@
 package com.example.updatetransaction.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.common.SuccessDeleteTransactionException
@@ -17,13 +16,17 @@ import com.example.ui.uiState.CategoryUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.format.FormatDate
 import com.example.utils.format.FormatTime
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
+
+private const val GET_CATEGORIES_JOB = "get_all_categories"
+private const val UPDATE_TRANSACTION_JOB = "update_transaction"
+private const val GET_TRANSACTION_JOB = "get_transaction_by_id"
+private const val DELETE_TRANSACTION_JOB = "delete_transaction"
+private const val GET_ACCOUNT_JOB = "get_bank_account"
 
 class UpdateTransactionViewModel @Inject constructor(
     private val updateTransaction: UpdateTransaction,
@@ -34,12 +37,6 @@ class UpdateTransactionViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository
 ) : ViewModel() {
     private var currentBankAccountId: Int? = null
-
-    private var jobGetAllCategory: Job? = null
-    private var jobUpdateTransaction: Job? = null
-    private var jobGetTransactionById: Job? = null
-    private var jobDeleteTransaction: Job? = null
-    private var jobGetBankAccount: Job? = null
 
     private val _bankAccountId = preferencesRepository.getCurrentAccountId()
     private val _transaction = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
@@ -107,23 +104,19 @@ class UpdateTransactionViewModel @Inject constructor(
         _resultDialogVisible.value = state
     }
 
-    fun getTransactionById(id: Int) {
-        jobGetTransactionById?.cancel()
-
-        jobGetTransactionById = viewModelScope.launch(Dispatchers.IO) {
-            getByIdTransaction.execute(id).onSuccess {
-                updateTransactionData(it)
-                _transaction.value = TransactionUIState.Success(listOf(it))
-            }.onFailure {
-                _transaction.value = TransactionUIState.Error(it)
-            }
+    fun getTransactionById(id: Int) = launchWithoutOld(GET_TRANSACTION_JOB) {
+        getByIdTransaction.execute(id).onSuccess {
+            updateTransactionData(it)
+            _transaction.value = TransactionUIState.Success(listOf(it))
+        }.onFailure {
+            _transaction.value = TransactionUIState.Error(it)
         }
     }
 
-    fun updateTransaction(transactionId: Int) {
-        if (balance.value == BigDecimal(0)) return
-
-        if (currentCategory.value == null) return
+    fun updateTransaction(transactionId: Int) = launchWithoutOld(UPDATE_TRANSACTION_JOB) {
+        if (balance.value == BigDecimal(0) || currentCategory.value == null) {
+            return@launchWithoutOld
+        }
 
         val request = TransactionRequest(
             accountId = currentBankAccountId ?: -1,
@@ -136,65 +129,51 @@ class UpdateTransactionViewModel @Inject constructor(
             comment = comment.value
         )
 
-        jobUpdateTransaction?.cancel()
         _resultDialogVisible.value = true
 
-        jobUpdateTransaction = viewModelScope.launch(Dispatchers.IO) {
-            updateTransaction.execute(
-                id = transactionId,
-                request = request
-            ).onSuccess { transaction ->
-                _updateResult.value = TransactionUIState.Success(listOf(transaction))
-            }.onFailure { error ->
-                _updateResult.value = TransactionUIState.Error(error)
-            }
+        updateTransaction.execute(
+            id = transactionId,
+            request = request
+        ).onSuccess { transaction ->
+            _updateResult.value = TransactionUIState.Success(listOf(transaction))
+        }.onFailure { error ->
+            _updateResult.value = TransactionUIState.Error(error)
         }
     }
 
-    fun deleteTransaction(transactionId: Int) {
-        jobDeleteTransaction?.cancel()
+    fun deleteTransaction(transactionId: Int) = launchWithoutOld(DELETE_TRANSACTION_JOB) {
         _resultDialogVisible.value = true
 
-        jobDeleteTransaction = viewModelScope.launch(Dispatchers.IO) {
-            deleteTransaction.execute(transactionId).onFailure {
-                when (it) {
-                    is SuccessDeleteTransactionException -> {
-                        _updateResult.value = TransactionUIState.Success(listOf())
-                    }
+        deleteTransaction.execute(transactionId).onFailure {
+            when (it) {
+                is SuccessDeleteTransactionException -> {
+                    _updateResult.value = TransactionUIState.Success(listOf())
+                }
 
-                    else -> {
-                        _updateResult.value = TransactionUIState.Error(it)
-                    }
+                else -> {
+                    _updateResult.value = TransactionUIState.Error(it)
                 }
             }
         }
     }
 
-    fun getAllCategories() {
-        jobGetAllCategory?.cancel()
-
-        jobGetAllCategory = viewModelScope.launch(Dispatchers.IO) {
-            getAllCategory.execute().onSuccess {
-                _categories.value = CategoryUIState.Success(it)
-            }.onFailure {
-                _categories.value = CategoryUIState.Error(it)
-            }
+    fun getAllCategories() = launchWithoutOld(GET_CATEGORIES_JOB) {
+        getAllCategory.execute().onSuccess {
+            _categories.value = CategoryUIState.Success(it)
+        }.onFailure {
+            _categories.value = CategoryUIState.Error(it)
         }
     }
 
-    fun getBankAccount() {
-        jobGetBankAccount?.cancel()
+    fun getBankAccount() = launchWithoutOld(GET_ACCOUNT_JOB) {
+        _bankAccountId.collect { id ->
+            currentBankAccountId = id
 
-        jobGetBankAccount = viewModelScope.launch(Dispatchers.IO) {
-            _bankAccountId.collect { id ->
-                currentBankAccountId = id
-
-                if (id != null) {
-                    getByIdBankAccount.execute(id).onSuccess {
-                        _bankAccount.value = BankAccountUIState.Success(listOf(it))
-                    }.onFailure {
-                        _bankAccount.value = BankAccountUIState.Error(it)
-                    }
+            if (id != null) {
+                getByIdBankAccount.execute(id).onSuccess {
+                    _bankAccount.value = BankAccountUIState.Success(listOf(it))
+                }.onFailure {
+                    _bankAccount.value = BankAccountUIState.Error(it)
                 }
             }
         }

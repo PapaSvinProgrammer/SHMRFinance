@@ -1,25 +1,23 @@
 package com.example.transactionhistory.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.data.external.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.format.FormatDate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
+
+private const val GET_TRANSACTION_JOB = "get_transactions"
 
 class TransactionHistoryViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val getTransactionByType: GetTransactionByType
 ): ViewModel() {
-    private var jobGetTransactions: Job? = null
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _transactionState = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
@@ -59,22 +57,18 @@ class TransactionHistoryViewModel @Inject constructor(
         _visibleStartDatePicker.value = state
     }
 
-    fun getTransaction(isIncome: Boolean) {
-        jobGetTransactions?.cancel()
-
-        jobGetTransactions = viewModelScope.launch(Dispatchers.IO) {
-            accountId.collect { id ->
-                if (id != null) {
-                    getTransactionByType.execute(
-                        isIncome = isIncome,
-                        accountId = id,
-                        startDate = startDate.value,
-                        endDate = endDate.value
-                    ).onSuccess {
-                        updateTransactionState(it)
-                    }.onFailure {
-                        _transactionState.value = TransactionUIState.Error(it)
-                    }
+    fun getTransaction(isIncome: Boolean) = launchWithoutOld(GET_TRANSACTION_JOB) {
+        accountId.collect { id ->
+            if (id != null) {
+                getTransactionByType.execute(
+                    isIncome = isIncome,
+                    accountId = id,
+                    startDate = startDate.value,
+                    endDate = endDate.value
+                ).onSuccess {
+                    updateTransactionState(it)
+                }.onFailure {
+                    _transactionState.value = TransactionUIState.Error(it)
                 }
             }
         }

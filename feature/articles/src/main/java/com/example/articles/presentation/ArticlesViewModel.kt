@@ -6,11 +6,15 @@ import com.example.category.GetAllCategory
 import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
+import com.example.utils.cancelAllJobs
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
+
+private const val SEARCH_JOB = "search"
+private const val GET_CATEGORIES_JOB = "get_categories"
 
 class ArticlesViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
@@ -36,7 +40,7 @@ class ArticlesViewModel @Inject constructor(
     }
 
     fun searchCategory() = launchWithoutOld(
-        key = "search",
+        key = SEARCH_JOB,
         dispatcher = Dispatchers.Default
     ) {
         (categoryState.value as? CategoryUIState.Success)?.data?.let { data ->
@@ -47,7 +51,7 @@ class ArticlesViewModel @Inject constructor(
         }
     }
 
-    private fun getCategories() = launchWithoutOld("get_categories") {
+    private fun getCategories() = launchWithoutOld(GET_CATEGORIES_JOB) {
         accountId.collect { id ->
             if (id == null) {
                 _categoryState.value = CategoryUIState.Success(listOf())
@@ -60,5 +64,10 @@ class ArticlesViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
     }
 }

@@ -1,7 +1,6 @@
 package com.example.updatebankaccount.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
@@ -12,23 +11,21 @@ import com.example.model.CurrencyType
 import com.example.model.toCurrencyType
 import com.example.model.toSlug
 import com.example.ui.uiState.BankAccountUIState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
+
+private const val UPDATE_ACCOUNT_JOB = "update_bank_account"
+private const val GET_BANK_ACCOUNT_JOB = "get_bank_account"
+private const val DELETE_ACCOUNT_JOB = "delete_bank_account"
 
 class UpdateBankAccountViewModel @Inject constructor(
     private val getBankAccount: GetByIdBankAccount,
     private val updateBankAccount: UpdateBankAccount,
     private val deleteBankAccount: DeleteBankAccount
 ): ViewModel() {
-    private var jobUpdateBankAccount: Job? = null
-    private var jobDeleteBankAccount: Job? = null
-    private var jobGetBankAccount: Job? = null
-
     private val _bankAccountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
     private val _name = MutableStateFlow("")
     private val _currency = MutableStateFlow(CurrencyType.RUB)
@@ -46,16 +43,6 @@ class UpdateBankAccountViewModel @Inject constructor(
     private val _visibleCurrencySheet = MutableStateFlow(false)
     val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
 
-    fun getBankAccount(id: Int) {
-        jobGetBankAccount = viewModelScope.launch(Dispatchers.IO) {
-            getBankAccount.execute(id).onSuccess {
-                updateFields(it)
-            }.onFailure {
-                _bankAccountState.value = BankAccountUIState.Error(it)
-            }
-        }
-    }
-
     fun updateVisibleCurrencySheet(state: Boolean) {
         _visibleCurrencySheet.value = state
     }
@@ -68,41 +55,43 @@ class UpdateBankAccountViewModel @Inject constructor(
         _currency.value = value
     }
 
-    fun updateBankAccount(id: Int) {
-        jobUpdateBankAccount?.cancel()
-        _visibleResultDialog.value = true
-
-        jobUpdateBankAccount = viewModelScope.launch(Dispatchers.IO) {
-            val request = AccountRequest(
-                name = name.value,
-                balance = balance.value.toString(),
-                currency = currency.value.toSlug()
-            )
-
-            updateBankAccount.execute(
-                id = id,
-                accountRequest = request
-            ).onSuccess {
-                _resultState.value = BankAccountUIState.Success(listOf(it))
-            }.onFailure {
-                _resultState.value = BankAccountUIState.Error(it)
-            }
+    fun getBankAccount(id: Int) = launchWithoutOld(GET_BANK_ACCOUNT_JOB) {
+        getBankAccount.execute(id).onSuccess {
+            updateFields(it)
+        }.onFailure {
+            _bankAccountState.value = BankAccountUIState.Error(it)
         }
     }
 
-    fun deleteBankAccount(id: Int) {
-        jobDeleteBankAccount?.cancel()
+    fun updateBankAccount(id: Int) = launchWithoutOld(UPDATE_ACCOUNT_JOB) {
         _visibleResultDialog.value = true
 
-        jobDeleteBankAccount = viewModelScope.launch(Dispatchers.IO) {
-            deleteBankAccount.execute(id).onFailure {
-                when (it) {
-                    is SuccessDeleteTransactionException -> {
-                        _resultState.value = BankAccountUIState.Success(listOf())
-                    }
-                    else -> {
-                        _resultState.value = BankAccountUIState.Error(it)
-                    }
+        val request = AccountRequest(
+            name = name.value,
+            balance = balance.value.toString(),
+            currency = currency.value.toSlug()
+        )
+
+        updateBankAccount.execute(
+            id = id,
+            accountRequest = request
+        ).onSuccess {
+            _resultState.value = BankAccountUIState.Success(listOf(it))
+        }.onFailure {
+            _resultState.value = BankAccountUIState.Error(it)
+        }
+    }
+
+    fun deleteBankAccount(id: Int) = launchWithoutOld(DELETE_ACCOUNT_JOB) {
+        _visibleResultDialog.value = true
+
+        deleteBankAccount.execute(id).onFailure {
+            when (it) {
+                is SuccessDeleteTransactionException -> {
+                    _resultState.value = BankAccountUIState.Success(listOf())
+                }
+                else -> {
+                    _resultState.value = BankAccountUIState.Error(it)
                 }
             }
         }
