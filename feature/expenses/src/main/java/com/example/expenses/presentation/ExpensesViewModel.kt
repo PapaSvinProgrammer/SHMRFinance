@@ -2,6 +2,7 @@ package com.example.expenses.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.data.external.PreferencesRepository
+import com.example.expenses.presentation.widget.UiState
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
 import com.example.ui.uiState.TransactionUIState
@@ -9,8 +10,7 @@ import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import java.math.BigDecimal
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 private const val GET_TRANSACTIONS = "get_transactions"
@@ -21,14 +21,10 @@ class ExpensesViewModel @Inject constructor(
 ) : ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
 
-    private val _transactionState =
-        MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
-    private val _totalAmount = MutableStateFlow(BigDecimal(0))
-    private val _currency = MutableStateFlow<String?>(null)
-
-    val transactionState: StateFlow<TransactionUIState> = _transactionState
-    val totalAmount: StateFlow<BigDecimal> = _totalAmount
-    val currency: StateFlow<String?> = _currency
+    private val _transactions = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
+    private val _uiState = MutableStateFlow(UiState())
+    val transactionState = _transactions.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     fun getTransactions() = launchWithoutOld(GET_TRANSACTIONS) {
         val currentDate = FormatDate.getCurrentDate()
@@ -45,16 +41,18 @@ class ExpensesViewModel @Inject constructor(
                 response.onSuccess {
                     updateTransactionState(it)
                 }.onFailure {
-                    _transactionState.value = TransactionUIState.Error(it)
+                    _transactions.value = TransactionUIState.Error(it)
                 }
             }
         }
     }
 
     private fun updateTransactionState(data: List<Transaction>) {
-        _transactionState.value = TransactionUIState.Success(data)
-        _totalAmount.value = data.sumOf { it.amount }
-        _currency.value = data.firstOrNull()?.account?.currency
+        _transactions.value = TransactionUIState.Success(data)
+        _uiState.value = uiState.value.copy(
+            totalAmount = data.sumOf { it.amount },
+            currency = data.firstOrNull()?.account?.currency
+        )
     }
 
     override fun onCleared() {

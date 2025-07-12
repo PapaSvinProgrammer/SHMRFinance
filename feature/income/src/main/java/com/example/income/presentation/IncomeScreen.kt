@@ -48,9 +48,8 @@ fun IncomeScreen(
     navController: NavController,
     viewModel: IncomeViewModel,
 ) {
-    val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
-    val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
-    val currency by viewModel.currency.collectAsStateWithLifecycle()
+    val transactionState by viewModel.transactions.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransactions()
@@ -85,8 +84,8 @@ fun IncomeScreen(
             is TransactionUIState.Success -> MainContent(
                 modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                 list = state.data,
-                totalAmount = totalAmount,
-                currency = currency ?: "",
+                totalAmount = uiState.totalAmount,
+                currency = uiState.currency ?: "",
                 onFabClick = {
                     navController.navigate(CreateTransactionRoute(true)) {
                         launchSingleTop = true

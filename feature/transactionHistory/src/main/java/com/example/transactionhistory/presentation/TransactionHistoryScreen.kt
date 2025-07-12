@@ -48,12 +48,8 @@ fun TransactionHistoryScreen(
     viewModel: TransactionHistoryViewModel
 ) {
     val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
-    val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
-    val currency by viewModel.currency.collectAsStateWithLifecycle()
-    val startDate by viewModel.startDate.collectAsStateWithLifecycle()
-    val endDate by viewModel.endDate.collectAsStateWithLifecycle()
-    val visibleStartDatePicker by viewModel.visibleStartDatePicker.collectAsStateWithLifecycle()
-    val visibleEndDatePicker by viewModel.visibleEndDatePicker.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val visibleState by viewModel.visibleState.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransaction(isIncome)
@@ -90,10 +86,10 @@ fun TransactionHistoryScreen(
                 MainContent(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                     list = state.data,
-                    totalAmount = totalAmount,
-                    currency = currency,
-                    startDate = FormatDate.getPrettyDate(startDate),
-                    endDate = FormatDate.getPrettyDate(endDate),
+                    totalAmount = uiState.totalAmount,
+                    currency = uiState.currency,
+                    startDate = FormatDate.getPrettyDate(uiState.startDate),
+                    endDate = FormatDate.getPrettyDate(uiState.endDate),
                     onStartDateChange = {
                         viewModel.updateVisibleStartDatePicker(true)
                     },
@@ -105,9 +101,9 @@ fun TransactionHistoryScreen(
         }
     }
 
-    if (visibleStartDatePicker) {
+    if (visibleState.startDatePicker) {
         DefaultDatePickerDialog(
-            selectedDate = FormatDate.convertStringToMillis(startDate),
+            selectedDate = FormatDate.convertStringToMillis(uiState.startDate),
             onDateSelected = {
                 viewModel.updateStartDate(it ?: 0)
             },
@@ -117,9 +113,9 @@ fun TransactionHistoryScreen(
         )
     }
 
-    if (visibleEndDatePicker) {
+    if (visibleState.endDatePicker) {
         DefaultDatePickerDialog(
-            selectedDate = FormatDate.convertStringToMillis(endDate),
+            selectedDate = FormatDate.convertStringToMillis(uiState.endDate),
             onDateSelected = {
                 viewModel.updateEndDate(it ?: 0)
             },

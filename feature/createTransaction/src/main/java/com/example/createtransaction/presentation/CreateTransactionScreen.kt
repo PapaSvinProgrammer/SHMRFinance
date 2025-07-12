@@ -48,18 +48,10 @@ fun CreateTransactionScreen(
     viewModel: CreateTransactionViewModel,
     isIncome: Boolean
 ) {
-    val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
-    val categories by viewModel.categories.collectAsStateWithLifecycle()
-    val currentCategory by viewModel.currentCategory.collectAsStateWithLifecycle()
-    val date by viewModel.date.collectAsStateWithLifecycle()
-    val time by viewModel.time.collectAsStateWithLifecycle()
-    val balance by viewModel.balance.collectAsStateWithLifecycle()
-    val comment by viewModel.comment.collectAsStateWithLifecycle()
-    val datePickerVisible by viewModel.datePickerVisible.collectAsStateWithLifecycle()
-    val timePickerVisible by viewModel.timePickerVisible.collectAsStateWithLifecycle()
-    val categorySheetVisible by viewModel.categorySheetVisible.collectAsStateWithLifecycle()
-    val createResult by viewModel.createResult.collectAsStateWithLifecycle()
-    val resultDialogVisible by viewModel.resultDialogVisible.collectAsStateWithLifecycle()
+    val resultState by viewModel.createResult.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val visibleState by viewModel.visibleState.collectAsStateWithLifecycle()
+    val bankAccount by viewModel.bankAccount.collectAsStateWithLifecycle()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -112,10 +104,10 @@ fun CreateTransactionScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            if (balance == BigDecimal(0)) {
+                            if (uiState.balance == BigDecimal(0)) {
                                 isBalanceError = true
                             }
-                            else if (currentCategory == null) {
+                            else if (uiState.currentCategory == null) {
                                 isCategoryError = true
                             }
                             else {
@@ -135,18 +127,18 @@ fun CreateTransactionScreen(
             SnackbarHost(hostState = snackBarHostState)
         }
     ) { innerPadding ->
-        when (val state = currentBankAccount) {
+        when (val state = bankAccount) {
             is BankAccountUIState.Error -> {}
             BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {
                 MainTransactionContent(
                     modifier = Modifier.padding(innerPadding),
                     bankAccount = state.data.first(),
-                    balance = balance,
-                    category = currentCategory,
-                    date = FormatDate.getPrettyDate(date),
-                    time = time,
-                    comment = comment ?: "",
+                    balance = uiState.balance,
+                    category = uiState.currentCategory,
+                    date = FormatDate.getPrettyDate(uiState.date),
+                    time = uiState.time,
+                    comment = uiState.comment ?: "",
                     onBankAccountClick = {
                         navController.navigate(BankAccountListRoute) {
                             launchSingleTop = true
@@ -172,15 +164,15 @@ fun CreateTransactionScreen(
         }
     }
 
-    if (datePickerVisible) {
+    if (visibleState.datePicker) {
         DefaultDatePickerDialog(
-            selectedDate = FormatDate.convertStringToMillis(date),
+            selectedDate = FormatDate.convertStringToMillis(uiState.date),
             onDateSelected = { viewModel.updateDate(it ?: 0) },
             onDismiss = { viewModel.updateDatePickerVisible(false) }
         )
     }
 
-    if (timePickerVisible) {
+    if (visibleState.timePicker) {
         DefaultTimeInputDialog(
             onConfirmClick = {
                 viewModel.updateTime(it)
@@ -189,25 +181,23 @@ fun CreateTransactionScreen(
         )
     }
 
-    if (categorySheetVisible) {
-        (categories as? CategoryUIState.Success)?.data?.let {
-            CategoriesBottomSheet(
-                currentCategory = currentCategory,
-                categories = it,
-                onConfirmClick = { category ->
-                    viewModel.updateCurrentCategory(category)
-                },
-                onDismissClick = {
-                    viewModel.updateCategoriesSheetVisible(false)
-                }
-            )
-        }
+    if (visibleState.categorySheet) {
+        CategoriesBottomSheet(
+            currentCategory = uiState.currentCategory,
+            categories = uiState.categories,
+            onConfirmClick = { category ->
+                viewModel.updateCurrentCategory(category)
+            },
+            onDismissClick = {
+                viewModel.updateCategoriesSheetVisible(false)
+            }
+        )
     }
 
-    if (resultDialogVisible) {
+    if (visibleState.resultDialog) {
         ResultDialog(
-            type = createResult.toResultType(),
-            error = (createResult as? TransactionResponseUIState.Error)?.error,
+            type = resultState.toResultType(),
+            error = (resultState as? TransactionResponseUIState.Error)?.error,
             onDismissRequest = {
                 viewModel.updateResultDialogVisible(false)
                 navController.popBackStack()

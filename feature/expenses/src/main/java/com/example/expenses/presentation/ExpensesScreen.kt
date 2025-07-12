@@ -50,8 +50,7 @@ fun ExpensesScreen(
     viewModel: ExpensesViewModel
 ) {
     val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
-    val totalAmount by viewModel.totalAmount.collectAsStateWithLifecycle()
-    val currency by viewModel.currency.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransactions()
@@ -87,8 +86,8 @@ fun ExpensesScreen(
                 MainContent(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                     list = state.data,
-                    totalAmount = totalAmount,
-                    currency = currency ?: "",
+                    totalAmount = uiState.totalAmount,
+                    currency = uiState.currency ?: "",
                     onFabClick = {
                         navController.navigate(CreateTransactionRoute(false)) {
                             launchSingleTop = true

@@ -11,10 +11,12 @@ import com.example.model.CurrencyType
 import com.example.model.toCurrencyType
 import com.example.model.toSlug
 import com.example.ui.uiState.BankAccountUIState
+import com.example.updatebankaccount.presentation.widget.UiState
+import com.example.updatebankaccount.presentation.widget.VisibleState
+import com.example.utils.cancelAllJobs
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import java.math.BigDecimal
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 private const val UPDATE_ACCOUNT_JOB = "update_bank_account"
@@ -26,50 +28,58 @@ class UpdateBankAccountViewModel @Inject constructor(
     private val updateBankAccount: UpdateBankAccount,
     private val deleteBankAccount: DeleteBankAccount
 ): ViewModel() {
-    private val _bankAccountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
-    private val _name = MutableStateFlow("")
-    private val _currency = MutableStateFlow(CurrencyType.RUB)
-    private val _balance = MutableStateFlow(BigDecimal(0))
-    val bankAccountState: StateFlow<BankAccountUIState> = _bankAccountState
-    val name: StateFlow<String> = _name
-    val currency: StateFlow<CurrencyType> = _currency
-    val balance: StateFlow<BigDecimal> = _balance
+    private val _uiState = MutableStateFlow(UiState())
+    private val _visibleState = MutableStateFlow(VisibleState())
+    val uiState = _uiState.asStateFlow()
+    val visibleState = _visibleState.asStateFlow()
+
+    private val _accountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    val accountState = _accountState.asStateFlow()
 
     private val _resultState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
-    private val _visibleResultDialog = MutableStateFlow(false)
-    val resultState: StateFlow<BankAccountUIState> = _resultState
-    val visibleResultDialog: StateFlow<Boolean> = _visibleResultDialog
-
-    private val _visibleCurrencySheet = MutableStateFlow(false)
-    val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
+    val resultState = _resultState.asStateFlow()
 
     fun updateVisibleCurrencySheet(state: Boolean) {
-        _visibleCurrencySheet.value = state
+        _visibleState.value = visibleState.value.copy(
+            currencySheet = state
+        )
     }
 
-    fun updateName(value: String) {
-        _name.value = value
+    fun updateVisibleResultDialog(state: Boolean) {
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = state
+        )
+    }
+
+    fun updateName(text: String) {
+        _uiState.value = uiState.value.copy(
+            name = text
+        )
     }
 
     fun updateCurrency(value: CurrencyType) {
-        _currency.value = value
+        _uiState.value = uiState.value.copy(
+            currency = value
+        )
     }
 
     fun getBankAccount(id: Int) = launchWithoutOld(GET_BANK_ACCOUNT_JOB) {
         getBankAccount.execute(id).onSuccess {
             updateFields(it)
         }.onFailure {
-            _bankAccountState.value = BankAccountUIState.Error(it)
+            _accountState.value = BankAccountUIState.Error(it)
         }
     }
 
     fun updateBankAccount(id: Int) = launchWithoutOld(UPDATE_ACCOUNT_JOB) {
-        _visibleResultDialog.value = true
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = true
+        )
 
         val request = AccountRequest(
-            name = name.value,
-            balance = balance.value.toString(),
-            currency = currency.value.toSlug()
+            name = uiState.value.name,
+            balance = uiState.value.balance.toString(),
+            currency = uiState.value.currency.toSlug()
         )
 
         updateBankAccount.execute(
@@ -83,7 +93,9 @@ class UpdateBankAccountViewModel @Inject constructor(
     }
 
     fun deleteBankAccount(id: Int) = launchWithoutOld(DELETE_ACCOUNT_JOB) {
-        _visibleResultDialog.value = true
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = true
+        )
 
         deleteBankAccount.execute(id).onFailure {
             when (it) {
@@ -98,10 +110,17 @@ class UpdateBankAccountViewModel @Inject constructor(
     }
 
     private fun updateFields(account: BankAccount) {
-        _name.value = account.name
-        _balance.value = account.balance
-        _currency.value = account.currency.toCurrencyType()
+        _uiState.value = uiState.value.copy(
+            name = account.name,
+            balance = account.balance,
+            currency = account.currency.toCurrencyType()
+        )
 
-        _bankAccountState.value = BankAccountUIState.Success(listOf(account))
+        _accountState.value = BankAccountUIState.Success(listOf(account))
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
     }
 }

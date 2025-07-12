@@ -16,6 +16,7 @@ import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.updatetransaction.widget.UiState
 import com.example.updatetransaction.widget.VisibleState
+import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.format.FormatTime
 import com.example.utils.launchWithoutOld
@@ -194,5 +195,10 @@ class UpdateTransactionViewModel @Inject constructor(
             time = FormatTime.convertTimeFromISO(transaction.transactionDate),
             comment = transaction.comment
         )
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
     }
 }

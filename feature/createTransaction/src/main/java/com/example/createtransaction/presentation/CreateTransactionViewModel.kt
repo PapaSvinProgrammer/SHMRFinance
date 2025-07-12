@@ -5,17 +5,20 @@ import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.createtransaction.domain.FilterCategories
 import com.example.createtransaction.presentation.widget.TransactionResponseUIState
+import com.example.createtransaction.presentation.widget.UiState
+import com.example.createtransaction.presentation.widget.VisibleState
 import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.model.TransactionRequest
 import com.example.transaction.CreateTransaction
 import com.example.ui.uiState.BankAccountUIState
-import com.example.ui.uiState.CategoryUIState
+import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.format.FormatTime
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -31,78 +34,80 @@ class CreateTransactionViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository
 ) : ViewModel() {
     private var currentBankAccountId: Int? = null
-    private val _currentBankAccountId = preferencesRepository.getCurrentAccountId()
-    private val _currentBankAccount =
-        MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
-    private val _categories = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
-    val currentBankAccount: StateFlow<BankAccountUIState> = _currentBankAccount
-    val categories: StateFlow<CategoryUIState> = _categories
+    private val _bankAccountId = preferencesRepository.getCurrentAccountId()
 
-    private val _currentCategory = MutableStateFlow<Category?>(null)
-    private val _date = MutableStateFlow("")
-    private val _time = MutableStateFlow("")
-    private val _balance = MutableStateFlow(BigDecimal(0))
-    private val _comment = MutableStateFlow<String?>(null)
-    val currentCategory: StateFlow<Category?> = _currentCategory
-    val date: StateFlow<String> = _date
-    val time: StateFlow<String> = _time
-    val balance: StateFlow<BigDecimal> = _balance
-    val comment: StateFlow<String?> = _comment
+    private val _uiState = MutableStateFlow(UiState())
+    private val _visibleState = MutableStateFlow(VisibleState())
+    val uiState = _uiState.asStateFlow()
+    val visibleState = _visibleState.asStateFlow()
 
-    private val _datePickerVisible = MutableStateFlow(false)
-    private val _timePickerVisible = MutableStateFlow(false)
-    private val _categorySheetVisible = MutableStateFlow(false)
-    val datePickerVisible: StateFlow<Boolean> = _datePickerVisible
-    val timePickerVisible: StateFlow<Boolean> = _timePickerVisible
-    val categorySheetVisible: StateFlow<Boolean> = _categorySheetVisible
+    private val _bankAccount = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    val bankAccount = _bankAccount.asStateFlow()
 
     private val _createResult =
         MutableStateFlow(TransactionResponseUIState.Loading as TransactionResponseUIState)
-    private val _resultDialogVisible = MutableStateFlow(false)
     val createResult: StateFlow<TransactionResponseUIState> = _createResult
-    val resultDialogVisible: StateFlow<Boolean> = _resultDialogVisible
 
     init {
         getCurrentBankAccount()
-
-        _date.value = FormatDate.getCurrentDate()
-        _time.value = FormatTime.getCurrentTime()
+        _uiState.value = uiState.value.copy(
+            date = FormatDate.getCurrentDate(),
+            time = FormatTime.getCurrentTime()
+        )
     }
 
     fun updateComment(value: String) {
-        _comment.value = value
+        _uiState.value = uiState.value.copy(
+            comment = value
+        )
     }
 
     fun updateDate(value: Long) {
-        _date.value = FormatDate.convertMillisToString(value)
+        _uiState.value = uiState.value.copy(
+            date = FormatDate.convertMillisToString(value)
+        )
     }
 
     fun updateTime(value: String) {
-        _time.value = value
+        _uiState.value = uiState.value.copy(
+            time = FormatTime.formatTimeToHHmm(value)
+        )
     }
 
     fun updateCategoriesSheetVisible(state: Boolean) {
-        _categorySheetVisible.value = state
+        _visibleState.value = visibleState.value.copy(
+            categorySheet = state
+        )
     }
 
     fun updateDatePickerVisible(state: Boolean) {
-        _datePickerVisible.value = state
+        _visibleState.value = visibleState.value.copy(
+            datePicker = state
+        )
     }
 
     fun updateTimePickerVisible(state: Boolean) {
-        _timePickerVisible.value = state
+        _visibleState.value = visibleState.value.copy(
+            timePicker = state
+        )
     }
 
     fun updateBalance(value: BigDecimal) {
-        _balance.value = value
+        _uiState.value = uiState.value.copy(
+            balance = value
+        )
     }
 
     fun updateCurrentCategory(category: Category) {
-        _currentCategory.value = category
+        _uiState.value = uiState.value.copy(
+            currentCategory = category
+        )
     }
 
     fun updateResultDialogVisible(state: Boolean) {
-        _resultDialogVisible.value = state
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = state
+        )
     }
 
     fun getAllCategories(isIncome: Boolean) = launchWithoutOld(GET_CATEGORIES_JOB) {
@@ -112,27 +117,30 @@ class CreateTransactionViewModel @Inject constructor(
                 isIncome = isIncome
             )
 
-            _categories.value = CategoryUIState.Success(filteredList)
-        }.onFailure {
-            _categories.value = CategoryUIState.Error(it)
+            _uiState.value = uiState.value.copy(
+                categories = filteredList
+            )
         }
     }
 
     fun createTransaction() = launchWithoutOld(CREATE_TRANSACTION_JOB) {
-        if (currentBankAccountId == null || currentCategory.value == null) {
+        if (currentBankAccountId == null || uiState.value.currentCategory == null) {
             return@launchWithoutOld
         }
 
-        _resultDialogVisible.value = true
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = true
+        )
+
         val request = TransactionRequest(
             accountId = currentBankAccountId ?: -1,
-            categoryId = currentCategory.value?.id ?: -1,
-            amount = balance.value.toString(),
+            categoryId = uiState.value.currentCategory?.id ?: -1,
+            amount = uiState.value.balance.toString(),
             transactionDate = FormatDate.createRequestDate(
-                dateStr = date.value,
-                timeStr = time.value
+                dateStr = uiState.value.date,
+                timeStr = uiState.value.time
             ),
-            comment = comment.value
+            comment = uiState.value.comment
         )
 
         createTransaction.execute(request).onSuccess {
@@ -143,16 +151,21 @@ class CreateTransactionViewModel @Inject constructor(
     }
 
     private fun getCurrentBankAccount() = launchWithoutOld(GET_CURRENT_ACCOUNT_JOB) {
-        _currentBankAccountId.collect { id ->
+        _bankAccountId.collect { id ->
             currentBankAccountId = id
 
             if (id != null) {
                 getByIdBankAccount.execute(id).onSuccess {
-                    _currentBankAccount.value = BankAccountUIState.Success(listOf(it))
+                    _bankAccount.value = BankAccountUIState.Success(listOf(it))
                 }.onFailure {
-                    _currentBankAccount.value = BankAccountUIState.Error(it)
+                    _bankAccount.value = BankAccountUIState.Error(it)
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
     }
 }

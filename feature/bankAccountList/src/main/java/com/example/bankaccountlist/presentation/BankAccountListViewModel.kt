@@ -7,7 +7,7 @@ import com.example.ui.uiState.BankAccountUIState
 import com.example.utils.cancelAllJobs
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 private const val UPDATE_ACCOUNT_JOB = "update_account_id"
@@ -20,7 +20,7 @@ class BankAccountListViewModel @Inject constructor(
     val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _accountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
-    val accountState: StateFlow<BankAccountUIState> = _accountState
+    val accountState = _accountState.asStateFlow()
 
     init {
         getBankAccounts()

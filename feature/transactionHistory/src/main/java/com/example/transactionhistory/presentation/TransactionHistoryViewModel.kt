@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import com.example.data.external.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
+import com.example.transactionhistory.presentation.widget.UiState
+import com.example.transactionhistory.presentation.widget.VisibleState
 import com.example.ui.uiState.TransactionUIState
+import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import java.math.BigDecimal
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 private const val GET_TRANSACTION_JOB = "get_transactions"
@@ -21,40 +23,41 @@ class TransactionHistoryViewModel @Inject constructor(
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _transactionState = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
-    private val _totalAmount = MutableStateFlow(BigDecimal(0))
-    private val _currency = MutableStateFlow("")
-    private val _startDate = MutableStateFlow("")
-    private val _endDate = MutableStateFlow("")
-    private val _visibleStartDatePicker = MutableStateFlow(false)
-    private val _visibleEndDatePicker = MutableStateFlow(false)
-
-    val transactionState: StateFlow<TransactionUIState> = _transactionState
-    val totalAmount: StateFlow<BigDecimal> = _totalAmount
-    val currency: StateFlow<String> = _currency
-    val startDate: StateFlow<String> = _startDate
-    val endDate: StateFlow<String> = _endDate
-    val visibleStartDatePicker: StateFlow<Boolean> = _visibleStartDatePicker
-    val visibleEndDatePicker: StateFlow<Boolean> = _visibleEndDatePicker
+    private val _visibleState = MutableStateFlow(VisibleState())
+    private val _uiState = MutableStateFlow(UiState())
+    val visibleState = _visibleState.asStateFlow()
+    val transactionState = _transactionState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     init {
-        _startDate.value = FormatDate.getCurrentMonthDate()
-        _endDate.value = FormatDate.getCurrentDate()
+        _uiState.value = uiState.value.copy(
+            startDate = FormatDate.getCurrentMonthDate(),
+            endDate = FormatDate.getCurrentDate()
+        )
     }
 
     fun updateStartDate(value: Long) {
-        _startDate.value = FormatDate.convertMillisToString(value)
+        _uiState.value = _uiState.value.copy(
+            startDate = FormatDate.convertMillisToString(value)
+        )
     }
 
     fun updateEndDate(value: Long) {
-        _endDate.value = FormatDate.convertMillisToString(value)
+        _uiState.value = _uiState.value.copy(
+            endDate = FormatDate.convertMillisToString(value)
+        )
     }
 
     fun updateVisibleEndDatePicker(state: Boolean) {
-        _visibleEndDatePicker.value = state
+        _visibleState.value = visibleState.value.copy(
+            endDatePicker = state
+        )
     }
 
     fun updateVisibleStartDatePicker(state: Boolean) {
-        _visibleStartDatePicker.value = state
+        _visibleState.value = visibleState.value.copy(
+            startDatePicker = state
+        )
     }
 
     fun getTransaction(isIncome: Boolean) = launchWithoutOld(GET_TRANSACTION_JOB) {
@@ -63,8 +66,8 @@ class TransactionHistoryViewModel @Inject constructor(
                 getTransactionByType.execute(
                     isIncome = isIncome,
                     accountId = id,
-                    startDate = startDate.value,
-                    endDate = endDate.value
+                    startDate = uiState.value.startDate,
+                    endDate = uiState.value.endDate
                 ).onSuccess {
                     updateTransactionState(it)
                 }.onFailure {
@@ -75,8 +78,15 @@ class TransactionHistoryViewModel @Inject constructor(
     }
 
     private fun updateTransactionState(data: List<Transaction>) {
-        _totalAmount.value = data.sumOf { it.amount }
         _transactionState.value = TransactionUIState.Success(data)
-        _currency.value = data.firstOrNull()?.account?.currency ?: ""
+        _uiState.value = uiState.value.copy(
+            totalAmount = data.sumOf { it.amount },
+            currency = data.firstOrNull()?.account?.currency ?: ""
+        )
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
     }
 }

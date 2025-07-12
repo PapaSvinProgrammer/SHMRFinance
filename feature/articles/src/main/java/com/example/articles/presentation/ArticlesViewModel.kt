@@ -11,6 +11,7 @@ import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 private const val SEARCH_JOB = "search"
@@ -27,9 +28,9 @@ class ArticlesViewModel @Inject constructor(
     private val _searchResult = MutableStateFlow<List<Category>>(listOf())
     private val _query = MutableStateFlow("")
 
-    val categoryState: StateFlow<CategoryUIState> = _categoryState
-    val searchResult: StateFlow<List<Category>> = _searchResult
-    val query: StateFlow<String> = _query
+    val categoryState = _categoryState.asStateFlow()
+    val searchResult = _searchResult.asStateFlow()
+    val query = _query.asStateFlow()
 
     init {
         getCategories()
