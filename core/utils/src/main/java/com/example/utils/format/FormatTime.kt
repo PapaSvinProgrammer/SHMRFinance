@@ -17,4 +17,13 @@ object FormatTime {
         val formatterOutput = DateTimeFormatter.ofPattern("HH:mm")
         return ZonedDateTime.parse(inputDate, formatterInput).format(formatterOutput)
     }
+
+    fun formatTimeToHHmm(timeString: String): String {
+        val (hoursPart, minutesPart) = timeString.split(":")
+
+        val hours = hoursPart.toInt()
+        val minutes = minutesPart.toInt()
+
+        return "%02d:%02d".format(hours, minutes)
+    }
 }

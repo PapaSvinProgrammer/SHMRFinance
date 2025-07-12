@@ -37,7 +37,6 @@ import com.example.shmrfinance.updateTransaction.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.toResultType
 import com.example.ui.uiState.BankAccountUIState
-import com.example.ui.uiState.CategoryUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.bottomSheet.CategoriesBottomSheet
 import com.example.ui.widget.components.BasicLoadingScreen
@@ -54,17 +53,9 @@ fun UpdateTransactionScreen(
     viewModel: UpdateTransactionViewModel,
     transactionId: Int
 ) {
-    val categories by viewModel.categories.collectAsStateWithLifecycle()
-    val currentCategory by viewModel.currentCategory.collectAsStateWithLifecycle()
-    val date by viewModel.date.collectAsStateWithLifecycle()
-    val time by viewModel.time.collectAsStateWithLifecycle()
-    val balance by viewModel.balance.collectAsStateWithLifecycle()
-    val comment by viewModel.comment.collectAsStateWithLifecycle()
-    val datePickerVisible by viewModel.datePickerVisible.collectAsStateWithLifecycle()
-    val timePickerVisible by viewModel.timePickerVisible.collectAsStateWithLifecycle()
-    val categorySheetVisible by viewModel.categorySheetVisible.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val visibleState by viewModel.visibleState.collectAsStateWithLifecycle()
     val updateResult by viewModel.updateResult.collectAsStateWithLifecycle()
-    val resultDialogVisible by viewModel.resultDialogVisible.collectAsStateWithLifecycle()
     val bankAccount by viewModel.bankAccount.collectAsStateWithLifecycle()
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -115,9 +106,9 @@ fun UpdateTransactionScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            if (balance == BigDecimal(0)) {
+                            if (uiState.balance == BigDecimal(0)) {
                                 isBalanceError = true
-                            } else if (currentCategory == null) {
+                            } else if (uiState.currentCategory == null) {
                                 isCategoryError = true
                             } else {
                                 viewModel.updateTransaction(transactionId)
@@ -141,16 +132,19 @@ fun UpdateTransactionScreen(
             BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {
                 Column {
-                    val dateStr = if (date.isEmpty()) "" else FormatDate.getPrettyDate(date)
+                    val dateStr = if (uiState.date.isEmpty())
+                        ""
+                    else
+                        FormatDate.getPrettyDate(uiState.date)
 
                     MainTransactionContent(
                         modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                         bankAccount = state.data.first(),
-                        balance = balance,
-                        category = currentCategory,
+                        balance = uiState.balance,
+                        category = uiState.currentCategory,
                         date = dateStr,
-                        time = time,
-                        comment = comment ?: "",
+                        time = uiState.time,
+                        comment = uiState.comment ?: "",
                         onBankAccountClick = {
                             navController.navigate(BankAccountListRoute) {
                                 launchSingleTop = true
@@ -191,15 +185,15 @@ fun UpdateTransactionScreen(
         }
     }
 
-    if (datePickerVisible) {
+    if (visibleState.datePicker) {
         DefaultDatePickerDialog(
-            selectedDate = FormatDate.convertStringToMillis(date),
+            selectedDate = FormatDate.convertStringToMillis(uiState.date),
             onDateSelected = { viewModel.updateDate(it ?: 0) },
             onDismiss = { viewModel.updateDatePickerVisible(false) }
         )
     }
 
-    if (timePickerVisible) {
+    if (visibleState.timePicker) {
         DefaultTimeInputDialog(
             onConfirmClick = {
                 viewModel.updateTime(it)
@@ -208,22 +202,20 @@ fun UpdateTransactionScreen(
         )
     }
 
-    if (categorySheetVisible) {
-        (categories as? CategoryUIState.Success)?.data?.let {
-            CategoriesBottomSheet(
-                currentCategory = currentCategory,
-                categories = it,
-                onConfirmClick = { category ->
-                    viewModel.updateCurrentCategory(category)
-                },
-                onDismissClick = {
-                    viewModel.updateCategoriesSheetVisible(false)
-                }
-            )
-        }
+    if (visibleState.categorySheet) {
+        CategoriesBottomSheet(
+            currentCategory = uiState.currentCategory,
+            categories = uiState.categories,
+            onConfirmClick = { category ->
+                viewModel.updateCurrentCategory(category)
+            },
+            onDismissClick = {
+                viewModel.updateCategoriesSheetVisible(false)
+            }
+        )
     }
 
-    if (resultDialogVisible) {
+    if (visibleState.resultDialog) {
         ResultDialog(
             type = updateResult.toResultType(),
             error = (updateResult as? TransactionUIState.Error)?.error,
