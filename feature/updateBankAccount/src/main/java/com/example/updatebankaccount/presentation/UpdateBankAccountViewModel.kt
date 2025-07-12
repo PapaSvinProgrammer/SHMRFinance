@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
+import com.example.bankaccountscreen.model.UpdateBankParams
 import com.example.common.SuccessDeleteTransactionException
 import com.example.model.AccountRequest
 import com.example.model.BankAccount
@@ -82,10 +83,12 @@ class UpdateBankAccountViewModel @Inject constructor(
             currency = uiState.value.currency.toSlug()
         )
 
-        updateBankAccount.execute(
+        val params = UpdateBankParams(
             id = id,
-            accountRequest = request
-        ).onSuccess {
+            request = request
+        )
+
+        updateBankAccount.execute(params).onSuccess {
             _resultState.value = BankAccountUIState.Success(listOf(it))
         }.onFailure {
             _resultState.value = BankAccountUIState.Error(it)

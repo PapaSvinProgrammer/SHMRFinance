@@ -5,6 +5,7 @@ import com.example.data.external.PreferencesRepository
 import com.example.expenses.presentation.widget.UiState
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
+import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
@@ -31,12 +32,14 @@ class ExpensesViewModel @Inject constructor(
 
         accountId.collect { id ->
             if (id != null) {
-                val response = getTransactionByType.execute(
-                    isIncome = false,
+                val params = GetTransactionParams(
+                    isIncome = true,
                     accountId = id,
                     startDate = currentDate,
                     endDate = currentDate
                 )
+
+                val response = getTransactionByType.execute(params)
 
                 response.onSuccess {
                     updateTransactionState(it)

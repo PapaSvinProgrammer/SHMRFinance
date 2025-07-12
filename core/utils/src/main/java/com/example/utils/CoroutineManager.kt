@@ -21,7 +21,7 @@ private val exceptionHandler = CoroutineExceptionHandler { context, throwable ->
 
 fun ViewModel.launchWithoutOld(
     key: String = "default",
-    dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
     cancelJob(key)

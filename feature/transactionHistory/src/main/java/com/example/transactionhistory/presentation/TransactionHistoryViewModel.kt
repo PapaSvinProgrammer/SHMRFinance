@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.data.external.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
+import com.example.transaction.model.GetTransactionParams
 import com.example.transactionhistory.presentation.widget.UiState
 import com.example.transactionhistory.presentation.widget.VisibleState
 import com.example.ui.uiState.TransactionUIState
@@ -63,12 +64,14 @@ class TransactionHistoryViewModel @Inject constructor(
     fun getTransaction(isIncome: Boolean) = launchWithoutOld(GET_TRANSACTION_JOB) {
         accountId.collect { id ->
             if (id != null) {
-                getTransactionByType.execute(
+                val params = GetTransactionParams(
                     isIncome = isIncome,
                     accountId = id,
                     startDate = uiState.value.startDate,
                     endDate = uiState.value.endDate
-                ).onSuccess {
+                )
+
+                getTransactionByType.execute(params).onSuccess {
                     updateTransactionState(it)
                 }.onFailure {
                     _transactionState.value = TransactionUIState.Error(it)

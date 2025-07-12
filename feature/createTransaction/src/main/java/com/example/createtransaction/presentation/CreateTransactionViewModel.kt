@@ -111,7 +111,7 @@ class CreateTransactionViewModel @Inject constructor(
     }
 
     fun getAllCategories(isIncome: Boolean) = launchWithoutOld(GET_CATEGORIES_JOB) {
-        getAllCategory.execute().onSuccess {
+        getAllCategory.execute(Unit).onSuccess {
             val filteredList = filterCategories.execute(
                 list = it,
                 isIncome = isIncome

@@ -12,6 +12,7 @@ import com.example.model.TransactionRequest
 import com.example.transaction.DeleteTransaction
 import com.example.transaction.GetByIdTransaction
 import com.example.transaction.UpdateTransaction
+import com.example.transaction.model.UpdateTransactionParams
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.updatetransaction.widget.UiState
@@ -135,12 +136,12 @@ class UpdateTransactionViewModel @Inject constructor(
             comment = uiState.value.comment
         )
 
-        Log.d("RRRR", request.toString())
-
-        updateTransaction.execute(
+        val params = UpdateTransactionParams(
             id = transactionId,
             request = request
-        ).onSuccess { transaction ->
+        )
+
+        updateTransaction.execute(params).onSuccess { transaction ->
             _updateResult.value = TransactionUIState.Success(listOf(transaction))
         }.onFailure { error ->
             _updateResult.value = TransactionUIState.Error(error)
@@ -166,7 +167,7 @@ class UpdateTransactionViewModel @Inject constructor(
     }
 
     fun getAllCategories() = launchWithoutOld(GET_CATEGORIES_JOB) {
-        getAllCategory.execute().onSuccess {
+        getAllCategory.execute(Unit).onSuccess {
             _uiState.value = uiState.value.copy(
                 categories = it
             )

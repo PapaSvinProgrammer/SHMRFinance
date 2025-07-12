@@ -48,7 +48,7 @@ class BankAccountViewModel @Inject constructor(
     private fun setDefaultBankAccountId() = launchWithoutOld(SET_DEFAULT_JOB) {
         var accounts: List<BankAccount> = listOf()
 
-        getAllBankAccount.execute().onSuccess {
+        getAllBankAccount.execute(Unit).onSuccess {
             accounts = it
         }.onFailure {
             _currentBankAccount.value = BankAccountUIState.Error(it)

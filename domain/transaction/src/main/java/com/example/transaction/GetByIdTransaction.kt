@@ -1,14 +1,15 @@
 package com.example.transaction
 
-import com.example.common.request
 import com.example.data.external.TransactionRepository
 import com.example.model.Transaction
+import com.example.utils.UseCase
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class GetByIdTransaction @Inject constructor(
     private val transactionRepository: TransactionRepository
-) {
-    suspend fun execute(id: Int): Result<Transaction> {
-        return request { transactionRepository.getById(id) }
+) : UseCase<Int, Result<Transaction>>(Dispatchers.IO) {
+    override suspend fun run(params: Int): Result<Transaction> {
+        return transactionRepository.getById(params)
     }
 }

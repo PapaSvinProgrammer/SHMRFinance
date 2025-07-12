@@ -53,18 +53,7 @@ class ArticlesViewModel @Inject constructor(
     }
 
     private fun getCategories() = launchWithoutOld(GET_CATEGORIES_JOB) {
-        accountId.collect { id ->
-            if (id == null) {
-                _categoryState.value = CategoryUIState.Success(listOf())
-            }
-            else {
-                getAllCategory.execute().onSuccess {
-                    _categoryState.value = CategoryUIState.Success(it)
-                }.onFailure {
-                    _categoryState.value = CategoryUIState.Error(it)
-                }
-            }
-        }
+
     }
 
     override fun onCleared() {

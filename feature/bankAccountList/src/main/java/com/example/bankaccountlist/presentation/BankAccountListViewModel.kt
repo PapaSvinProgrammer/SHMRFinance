@@ -31,7 +31,7 @@ class BankAccountListViewModel @Inject constructor(
     }
 
     private fun getBankAccounts() = launchWithoutOld(GET_ACCOUNTS_JOB) {
-        getAllBankAccount.execute().onSuccess {
+        getAllBankAccount.execute(Unit).onSuccess {
             _accountState.value = BankAccountUIState.Success(it)
         }.onFailure {
             _accountState.value = BankAccountUIState.Error(it)
