@@ -1,4 +1,4 @@
-package com.example.utils
+package com.example.utils.format
 
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime

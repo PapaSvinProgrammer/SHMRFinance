@@ -6,7 +6,7 @@ import com.example.data.external.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
 import com.example.ui.uiState.TransactionUIState
-import com.example.utils.FormatDate
+import com.example.utils.format.FormatDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel

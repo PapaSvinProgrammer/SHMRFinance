@@ -38,7 +38,7 @@ import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomFloatingActionButton
 import com.example.ui.widget.components.EmojiCard
 import com.example.ui.widget.listItems.TotalListItem
-import com.example.utils.ConvertData
+import com.example.utils.format.ConvertData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

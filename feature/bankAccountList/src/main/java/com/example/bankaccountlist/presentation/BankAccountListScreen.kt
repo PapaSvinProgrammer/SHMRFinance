@@ -31,7 +31,7 @@ import com.example.model.BankAccount
 import com.example.shmrfinance.bankAccountList.R
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
-import com.example.utils.ConvertData
+import com.example.utils.format.ConvertData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

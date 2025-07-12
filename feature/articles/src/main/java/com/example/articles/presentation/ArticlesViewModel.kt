@@ -1,18 +1,15 @@
 package com.example.articles.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.articles.domain.SearchCategory
 import com.example.category.GetAllCategory
 import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
+import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ArticlesViewModel @Inject constructor(
@@ -20,8 +17,6 @@ class ArticlesViewModel @Inject constructor(
     private val getAllCategory: GetAllCategory,
     private val searchCategory: SearchCategory
 ): ViewModel() {
-    private var jobGetAllCategory: Job? = null
-
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _categoryState = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
@@ -40,34 +35,29 @@ class ArticlesViewModel @Inject constructor(
         _query.value = value
     }
 
-    fun searchCategory() {
-        viewModelScope.launch(Dispatchers.Default) {
-           (categoryState.value as? CategoryUIState.Success)?.data?.let { data ->
-               _searchResult.value = searchCategory.execute(
-                   list = data,
-                   query = query.value
-               )
-           }
+    fun searchCategory() = launchWithoutOld(
+        key = "search",
+        dispatcher = Dispatchers.Default
+    ) {
+        (categoryState.value as? CategoryUIState.Success)?.data?.let { data ->
+            _searchResult.value = searchCategory.execute(
+                list = data,
+                query = query.value
+            )
         }
     }
 
-    private fun getCategories() {
-        jobGetAllCategory?.cancel()
-
-        jobGetAllCategory = viewModelScope.launch(Dispatchers.IO) {
-            accountId.collect { id ->
-                if (id == null) {
-                    _categoryState.value = CategoryUIState.Success(listOf())
+    private fun getCategories() = launchWithoutOld("get_categories") {
+        accountId.collect { id ->
+            if (id == null) {
+                _categoryState.value = CategoryUIState.Success(listOf())
+            }
+            else {
+                getAllCategory.execute().onSuccess {
+                    _categoryState.value = CategoryUIState.Success(it)
+                }.onFailure {
+                    _categoryState.value = CategoryUIState.Error(it)
                 }
-                else {
-                    getAllCategory.execute().onSuccess {
-                        _categoryState.value = CategoryUIState.Success(it)
-                    }.onFailure {
-                        _categoryState.value = CategoryUIState.Error(it)
-                    }
-                }
-
-                cancel()
             }
         }
     }

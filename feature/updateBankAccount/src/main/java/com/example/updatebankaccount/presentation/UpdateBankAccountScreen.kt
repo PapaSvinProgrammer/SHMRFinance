@@ -36,7 +36,7 @@ import com.example.ui.widget.bottomSheet.CurrencyBottomSheet
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultBankAccountCard
 import com.example.ui.widget.listItems.TransactionListItem
-import com.example.utils.ConvertData
+import com.example.utils.format.ConvertData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

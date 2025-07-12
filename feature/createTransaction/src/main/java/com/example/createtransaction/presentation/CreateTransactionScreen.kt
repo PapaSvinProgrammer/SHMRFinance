@@ -38,7 +38,7 @@ import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.MainTransactionContent
 import com.example.ui.widget.dialog.DefaultDatePickerDialog
 import com.example.ui.widget.dialog.DefaultTimeInputDialog
-import com.example.utils.FormatDate
+import com.example.utils.format.FormatDate
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
