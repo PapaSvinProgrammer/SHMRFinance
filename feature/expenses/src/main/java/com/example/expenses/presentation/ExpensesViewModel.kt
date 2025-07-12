@@ -33,7 +33,7 @@ class ExpensesViewModel @Inject constructor(
         accountId.collect { id ->
             if (id != null) {
                 val params = GetTransactionParams(
-                    isIncome = true,
+                    isIncome = false,
                     accountId = id,
                     startDate = currentDate,
                     endDate = currentDate

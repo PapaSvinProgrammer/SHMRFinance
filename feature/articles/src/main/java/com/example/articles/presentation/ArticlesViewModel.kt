@@ -3,14 +3,12 @@ package com.example.articles.presentation
 import androidx.lifecycle.ViewModel
 import com.example.articles.domain.SearchCategory
 import com.example.category.GetAllCategory
-import com.example.data.external.PreferencesRepository
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
 import com.example.utils.cancelAllJobs
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
@@ -18,12 +16,9 @@ private const val SEARCH_JOB = "search"
 private const val GET_CATEGORIES_JOB = "get_categories"
 
 class ArticlesViewModel @Inject constructor(
-    preferencesRepository: PreferencesRepository,
     private val getAllCategory: GetAllCategory,
     private val searchCategory: SearchCategory
 ): ViewModel() {
-    private val accountId = preferencesRepository.getCurrentAccountId()
-
     private val _categoryState = MutableStateFlow(CategoryUIState.Loading as CategoryUIState)
     private val _searchResult = MutableStateFlow<List<Category>>(listOf())
     private val _query = MutableStateFlow("")
@@ -53,7 +48,11 @@ class ArticlesViewModel @Inject constructor(
     }
 
     private fun getCategories() = launchWithoutOld(GET_CATEGORIES_JOB) {
-
+        getAllCategory.execute(Unit).onSuccess {
+            _categoryState.value = CategoryUIState.Success(it)
+        }.onFailure {
+            _categoryState.value = CategoryUIState.Error(it)
+        }
     }
 
     override fun onCleared() {
