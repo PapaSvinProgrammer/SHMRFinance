@@ -2,8 +2,8 @@ package com.example.shmrfinance
 
 import android.app.Application
 import android.content.Context
-import com.example.shmrfinance.di.AppComponent
-import com.example.shmrfinance.di.DaggerAppComponent
+import com.example.corecomponent.AppComponent
+import com.example.corecomponent.DaggerAppComponent
 
 class App: Application() {
     lateinit var appComponent: AppComponent
@@ -11,7 +11,9 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.factory().create()
+        appComponent = DaggerAppComponent
+            .factory()
+            .create(this)
     }
 }
 

@@ -1,7 +1,9 @@
 package com.example.income.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.data.external.PreferencesRepository
+import com.example.data.external.TransactionRepositoryRoom
 import com.example.income.presentation.widget.UiState
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
@@ -18,8 +20,17 @@ private const val GET_TRANSACTIONS = "get_transactions"
 
 class IncomeViewModel @Inject constructor(
     private val getTransactionByType: GetTransactionByType,
-    preferencesRepository: PreferencesRepository
+    preferencesRepository: PreferencesRepository,
+    private val transactionRepositoryRoom: TransactionRepositoryRoom
 ) : ViewModel() {
+    init {
+        Log.d("RRRR", preferencesRepository.toString())
+    }
+
+    fun create() {
+        transactionRepositoryRoom.create()
+    }
+
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _transactions = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)

@@ -1,18 +1,18 @@
 package com.example.transactionhistory.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import dagger.BindsInstance
+import com.example.corecomponent.AppComponent
 import dagger.Component
 
 @Component(
-    modules = [TransactionModule::class]
+    modules = [TransactionModule::class],
+    dependencies = [AppComponent::class]
 )
 @TransactionScope
 interface TransactionComponent {
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): TransactionComponent
+        fun create(appComponent: AppComponent): TransactionComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

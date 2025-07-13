@@ -64,9 +64,11 @@ fun IncomeScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            navController.navigate(
-                                TransactionHistoryRoute(isIncome = true)
-                            ) { launchSingleTop = true }
+
+                            viewModel.create()
+//                            navController.navigate(
+//                                TransactionHistoryRoute(isIncome = true)
+//                            ) { launchSingleTop = true }
                         }
                     ) {
                         Icon(

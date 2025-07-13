@@ -9,7 +9,6 @@ import com.example.createtransaction.presentation.CreateTransactionViewModel
 import com.example.data.external.BankAccountRepository
 import com.example.data.external.CategoryRepository
 import com.example.data.external.TransactionRepository
-import com.example.data.internal.di.DataModule
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.transaction.CreateTransaction
@@ -18,9 +17,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 
-@Module(
-    includes = [DataModule::class]
-)
+@Module
 internal interface CreateTransactionModule {
     @Binds
     @CreateTransactionScope

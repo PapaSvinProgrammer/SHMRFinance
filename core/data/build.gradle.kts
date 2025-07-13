@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":core:room"))
     api(project(":core:network"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)

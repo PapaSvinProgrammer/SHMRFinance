@@ -1,18 +1,18 @@
 package com.example.income.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import dagger.BindsInstance
+import com.example.corecomponent.AppComponent
 import dagger.Component
 
 @Component(
-    modules = [IncomeModule::class]
+    modules = [IncomeModule::class],
+    dependencies = [AppComponent::class]
 )
 @IncomeScope
 interface IncomeComponent {
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): IncomeComponent
+        fun create(appComponent: AppComponent): IncomeComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

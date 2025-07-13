@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":core:coreComponent"))
     api(project(":domain:transaction"))
     implementation(project(":domain:bankAccount"))
     implementation(project(":domain:category"))

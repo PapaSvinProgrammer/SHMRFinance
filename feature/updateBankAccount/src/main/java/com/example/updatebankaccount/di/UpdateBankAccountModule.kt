@@ -6,7 +6,6 @@ import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
 import com.example.data.external.BankAccountRepository
-import com.example.data.internal.di.DataModule
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.updatebankaccount.presentation.UpdateBankAccountViewModel
@@ -15,9 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 
-@Module(
-    includes = [DataModule::class]
-)
+@Module
 internal interface UpdateBankAccountModule {
     @Binds
     @UpdateBankAccountScope

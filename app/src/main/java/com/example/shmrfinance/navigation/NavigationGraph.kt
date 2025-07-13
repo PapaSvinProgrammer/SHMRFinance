@@ -47,6 +47,7 @@ import com.example.navigationroute.TransactionHistoryRoute
 import com.example.navigationroute.UpdateBankAccountRoute
 import com.example.navigationroute.UpdateTransactionRoute
 import com.example.settings.SettingsScreen
+import com.example.shmrfinance.appComponent
 import com.example.splash.SplashScreen
 import com.example.transactionhistory.presentation.TransactionHistoryScreen
 import com.example.transactionhistory.presentation.TransactionHistoryViewModel
@@ -110,7 +111,7 @@ fun NavigationGraph(
         ) {
             val component = DaggerExpensesComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
             val viewModel: ExpensesViewModel = viewModel(factory = component.viewModelFactory)
 
             ExpensesScreen(
@@ -127,7 +128,7 @@ fun NavigationGraph(
         ) {
             val component = DaggerIncomeComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
             val viewModel: IncomeViewModel = viewModel(factory = component.viewModelFactory)
 
             IncomeScreen(
@@ -144,7 +145,7 @@ fun NavigationGraph(
         ) {
             val component = DaggerBankAccountComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
             val viewModel: BankAccountViewModel = viewModel(factory = component.viewModelFactory)
 
             BankAccountScreen(
@@ -161,7 +162,7 @@ fun NavigationGraph(
         ) {
             val component = DaggerArticlesComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
             val viewModel: ArticlesViewModel = viewModel(factory = component.viewModelFactory)
 
             ArticlesScreen(
@@ -182,7 +183,7 @@ fun NavigationGraph(
         composable<CreateBankAccountRoute> {
             val component = DaggerCreateBankAccountComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
             val viewModel: CreateBankAccountViewModel = viewModel(
                 factory = component.viewModelFactory
             )
@@ -196,7 +197,7 @@ fun NavigationGraph(
         composable<BankAccountListRoute> {
             val component = DaggerBankAccountListComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
             val viewModel: BankAccountListViewModel = viewModel(
                 factory = component.viewModelFactory
             )
@@ -211,7 +212,7 @@ fun NavigationGraph(
             val route = it.toRoute<TransactionHistoryRoute>()
             val component = DaggerTransactionComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
 
             val viewModel: TransactionHistoryViewModel = viewModel(
                 factory = component.viewModelFactory
@@ -228,7 +229,7 @@ fun NavigationGraph(
             val route = it.toRoute<UpdateBankAccountRoute>()
             val component = DaggerUpdateBankAccountComponent
                 .factory()
-                .create()
+                .create(LocalContext.current.appComponent)
             val viewModel: UpdateBankAccountViewModel = viewModel(
                 factory = component.viewModelFactory
             )
@@ -244,7 +245,7 @@ fun NavigationGraph(
             val route = it.toRoute<CreateTransactionRoute>()
             val component = DaggerCreateTransactionComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
 
             val viewModel: CreateTransactionViewModel = viewModel(
                 factory = component.viewModelFactory
@@ -261,7 +262,7 @@ fun NavigationGraph(
             val route = it.toRoute<UpdateTransactionRoute>()
             val component = DaggerUpdateTransactionComponent
                 .factory()
-                .create(LocalContext.current)
+                .create(LocalContext.current.appComponent)
 
             val viewModel: UpdateTransactionViewModel = viewModel(
                 factory = component.viewModelFactory

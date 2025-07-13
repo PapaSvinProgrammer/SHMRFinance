@@ -65,9 +65,10 @@ fun ExpensesScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            navController.navigate(
-                                TransactionHistoryRoute(isIncome = false)
-                            ) { launchSingleTop = true }
+                            viewModel.create()
+//                            navController.navigate(
+//                                TransactionHistoryRoute(isIncome = false)
+//                            ) { launchSingleTop = true }
                         }
                     ) {
                         Icon(

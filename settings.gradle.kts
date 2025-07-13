@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:coreComponent")
+
+
+include(":core:room")
+
+
 includeBuild("build-logic")
 
 pluginManagement {

@@ -3,7 +3,6 @@ package com.example.transactionhistory.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.data.external.TransactionRepository
-import com.example.data.internal.di.DataModule
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.transaction.GetTransactionByType
@@ -13,9 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 
-@Module(
-    includes = [DataModule::class]
-)
+@Module
 internal interface TransactionModule {
     @Binds
     @TransactionScope

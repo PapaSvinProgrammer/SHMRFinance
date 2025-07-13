@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":core:coreComponent"))
     api(project(":domain:bankAccount"))
     api(project(":core:ui"))
     implementation(project(":core:localViewModelFactory"))

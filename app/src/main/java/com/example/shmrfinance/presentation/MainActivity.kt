@@ -15,8 +15,6 @@ class MainActivity : ComponentActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         enableEdgeToEdge()
 
-        appComponent.inject(this)
-
         setContent {
             SHMRFinanceTheme {
                 MainScreen(
