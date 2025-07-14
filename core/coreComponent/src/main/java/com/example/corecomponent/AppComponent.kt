@@ -21,15 +21,9 @@ import dagger.Component
     ]
 )
 @ApplicationScope
-interface AppComponent {
+interface AppComponent: RepositoryDependency {
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
-
-    val categoryRepository: CategoryRepository
-    val transactionRepository: TransactionRepository
-    val bankAccountRepository: BankAccountRepository
-    val transactionRepositoryRoom: TransactionRepositoryRoom
-    val preferencesRepository: PreferencesRepository
 }

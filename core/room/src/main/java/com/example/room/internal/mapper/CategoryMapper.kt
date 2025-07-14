@@ -3,7 +3,7 @@ package com.example.room.internal.mapper
 import com.example.model.Category
 import com.example.room.internal.component.category.CategoryEntity
 
-fun CategoryEntity.toDomain(): Category {
+internal fun CategoryEntity.toDomain(): Category {
     return Category(
         id = categoryId,
         name = name,
@@ -12,11 +12,11 @@ fun CategoryEntity.toDomain(): Category {
     )
 }
 
-fun List<CategoryEntity>.toDomain(): List<Category> {
+internal fun List<CategoryEntity>.toDomain(): List<Category> {
     return map { it.toDomain() }
 }
 
-fun Category.toEntity(): CategoryEntity {
+internal fun Category.toEntity(): CategoryEntity {
     return CategoryEntity(
         id = 0,
         categoryId = id,
@@ -26,6 +26,6 @@ fun Category.toEntity(): CategoryEntity {
     )
 }
 
-fun List<Category>.toEntity(): List<CategoryEntity> {
+internal fun List<Category>.toEntity(): List<CategoryEntity> {
     return map { it.toEntity() }
 }

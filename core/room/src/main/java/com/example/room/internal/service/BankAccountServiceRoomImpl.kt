@@ -1,16 +1,16 @@
 package com.example.room.internal.service
 
 import com.example.model.BankAccount
-import com.example.room.external.BankAccountService
+import com.example.room.external.BankAccountServiceRoom
 import com.example.room.internal.component.bankAccount.BankAccountDao
 import com.example.room.internal.mapper.toDomain
 import com.example.room.internal.mapper.toEntity
 import com.example.room.internal.safeCall
 import javax.inject.Inject
 
-internal class BankAccountServiceImpl @Inject constructor(
+internal class BankAccountServiceRoomImpl @Inject constructor(
     private val dao: BankAccountDao
-): BankAccountService {
+): BankAccountServiceRoom {
     override suspend fun insert(account: BankAccount): Result<Unit> {
         return safeCall {
             dao.insert(account.toEntity())

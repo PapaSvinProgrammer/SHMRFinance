@@ -1,17 +1,17 @@
 package com.example.room.internal.service
 
+import android.util.Log
 import com.example.model.Category
-import com.example.room.external.CategoryService
+import com.example.room.external.CategoryServiceRoom
 import com.example.room.internal.component.category.CategoryDao
 import com.example.room.internal.mapper.toDomain
 import com.example.room.internal.mapper.toEntity
 import com.example.room.internal.safeCall
-import com.example.utils.RoomThrowable
 import javax.inject.Inject
 
-internal class CategoryServiceImpl @Inject constructor(
+internal class CategoryServiceRoomImpl @Inject constructor(
     private val dao: CategoryDao
-): CategoryService {
+): CategoryServiceRoom {
     override suspend fun insertAll(list: List<Category>): Result<Unit> {
         return safeCall {
             val data = list.toEntity().toTypedArray()
@@ -24,6 +24,8 @@ internal class CategoryServiceImpl @Inject constructor(
     }
 
     override suspend fun getAll(): Result<List<Category>> {
+        Log.d("RRRR", dao.toString())
+
         return safeCall {
             dao.getAll()
         }.map { it.toDomain() }

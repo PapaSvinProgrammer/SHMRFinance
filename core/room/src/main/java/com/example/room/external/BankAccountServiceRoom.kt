@@ -2,7 +2,7 @@ package com.example.room.external
 
 import com.example.model.BankAccount
 
-interface BankAccountService {
+interface BankAccountServiceRoom {
     suspend fun insert(account: BankAccount): Result<Unit>
     suspend fun insertAll(accounts: List<BankAccount>): Result<Unit>
     suspend fun delete(id: Int): Result<Unit>
