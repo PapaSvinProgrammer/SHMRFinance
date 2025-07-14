@@ -162,7 +162,11 @@ fun NavigationGraph(
         ) {
             val component = DaggerArticlesComponent
                 .factory()
-                .create(LocalContext.current.appComponent)
+                .create(
+                    context = LocalContext.current,
+                    appComponent = LocalContext.current.appComponent
+                )
+
             val viewModel: ArticlesViewModel = viewModel(factory = component.viewModelFactory)
 
             ArticlesScreen(
@@ -245,7 +249,10 @@ fun NavigationGraph(
             val route = it.toRoute<CreateTransactionRoute>()
             val component = DaggerCreateTransactionComponent
                 .factory()
-                .create(LocalContext.current.appComponent)
+                .create(
+                    context = LocalContext.current,
+                    appComponent = LocalContext.current.appComponent
+                )
 
             val viewModel: CreateTransactionViewModel = viewModel(
                 factory = component.viewModelFactory
@@ -262,7 +269,10 @@ fun NavigationGraph(
             val route = it.toRoute<UpdateTransactionRoute>()
             val component = DaggerUpdateTransactionComponent
                 .factory()
-                .create(LocalContext.current.appComponent)
+                .create(
+                    context = LocalContext.current,
+                    appComponent = LocalContext.current.appComponent
+                )
 
             val viewModel: UpdateTransactionViewModel = viewModel(
                 factory = component.viewModelFactory

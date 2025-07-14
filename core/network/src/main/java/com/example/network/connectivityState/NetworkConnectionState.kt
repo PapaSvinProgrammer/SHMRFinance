@@ -1,4 +1,4 @@
-package com.example.connectivitystate
+package com.example.network.connectivityState
 
 sealed interface NetworkConnectionState {
     data object Success : NetworkConnectionState

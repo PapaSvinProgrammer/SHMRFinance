@@ -1,5 +1,7 @@
 package com.example.network.internal.di
 
+import android.content.Context
+import com.example.network.connectivityState.NetworkConnection
 import com.example.utils.ApplicationScope
 import com.example.network.internal.common.HttpClientFactory
 import com.example.network.external.BankAccountService
@@ -33,6 +35,12 @@ internal interface NetworkModuleImpl {
         @ApplicationScope
         fun providesKtorClient(): HttpClient {
             return HttpClientFactory.create(OkHttp)
+        }
+
+        @Provides
+        @ApplicationScope
+        fun providesNetworkConnection(context: Context): NetworkConnection {
+            return NetworkConnection(context)
         }
     }
 }

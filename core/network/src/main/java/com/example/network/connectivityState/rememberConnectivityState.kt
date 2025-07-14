@@ -1,4 +1,4 @@
-package com.example.connectivitystate
+package com.example.network.connectivityState
 
 import android.content.Context
 import android.net.ConnectivityManager

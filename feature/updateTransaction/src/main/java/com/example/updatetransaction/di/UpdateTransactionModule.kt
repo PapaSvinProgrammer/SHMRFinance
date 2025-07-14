@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
+import com.example.data.external.local.CategoryRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
 import com.example.data.external.remote.CategoryRepository
 import com.example.data.external.remote.TransactionRepository
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
+import com.example.network.connectivityState.NetworkConnection
 import com.example.transaction.GetByIdTransaction
 import com.example.transaction.UpdateTransaction
 import com.example.updatetransaction.presentation.UpdateTransactionViewModel
@@ -44,8 +46,16 @@ internal interface UpdateTransactionModule {
 
         @Provides
         @UpdateTransactionScope
-        fun providesGetAllCategory(repository: CategoryRepository): GetAllCategory {
-            return GetAllCategory(repository)
+        fun providesGetAllCategory(
+            categoryRepository: CategoryRepository,
+            categoryRepositoryRoom: CategoryRepositoryRoom,
+            networkConnection: NetworkConnection
+        ): GetAllCategory {
+            return GetAllCategory(
+                categoryRepository = categoryRepository,
+                categoryRepositoryRoom = categoryRepositoryRoom,
+                networkConnection = networkConnection
+            )
         }
 
         @Provides

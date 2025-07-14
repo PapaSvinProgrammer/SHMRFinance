@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.connectivitystate.NetworkConnectionState
-import com.example.connectivitystate.rememberConnectivityState
+import com.example.network.connectivityState.NetworkConnectionState
+import com.example.network.connectivityState.rememberConnectivityState
 import com.example.navigationroute.NavRoute
 import com.example.shmrfinance.app.R
 import com.example.shmrfinance.navigation.NavigationGraph
