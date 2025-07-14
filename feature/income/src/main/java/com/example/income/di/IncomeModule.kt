@@ -2,7 +2,7 @@ package com.example.income.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.TransactionRepository
 import com.example.income.presentation.IncomeViewModel
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey

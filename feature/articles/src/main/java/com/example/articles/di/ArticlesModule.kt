@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.articles.presentation.ArticlesViewModel
 import com.example.category.GetAllCategory
-import com.example.data.external.CategoryRepository
+import com.example.data.external.remote.CategoryRepository
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import dagger.Binds

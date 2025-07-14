@@ -7,7 +7,7 @@ import com.example.createtransaction.domain.FilterCategories
 import com.example.createtransaction.presentation.widget.TransactionResponseUIState
 import com.example.createtransaction.presentation.widget.UiState
 import com.example.createtransaction.presentation.widget.VisibleState
-import com.example.data.external.PreferencesRepository
+import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Category
 import com.example.model.TransactionRequest
 import com.example.transaction.CreateTransaction

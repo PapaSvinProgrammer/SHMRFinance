@@ -1,6 +1,6 @@
 package com.example.transaction
 
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.TransactionRepository
 import com.example.utils.UseCase
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

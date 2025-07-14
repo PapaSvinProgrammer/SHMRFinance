@@ -1,6 +1,6 @@
-package com.example.data.internal
+package com.example.data.internal.remote
 
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.TransactionRepository
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.model.TransactionResponse

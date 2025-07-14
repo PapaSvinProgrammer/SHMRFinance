@@ -5,7 +5,7 @@ import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
 import com.example.bankaccountscreen.model.UpdateBankParams
-import com.example.common.SuccessDeleteTransactionException
+import com.example.utils.SuccessDeleteTransactionException
 import com.example.model.AccountRequest
 import com.example.model.BankAccount
 import com.example.model.CurrencyType

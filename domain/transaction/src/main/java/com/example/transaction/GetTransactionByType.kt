@@ -1,7 +1,7 @@
 package com.example.transaction
 
-import com.example.common.UnknownException
-import com.example.data.external.TransactionRepository
+import com.example.utils.UnknownException
+import com.example.data.external.remote.TransactionRepository
 import com.example.model.Transaction
 import com.example.transaction.model.GetTransactionParams
 import com.example.utils.UseCase

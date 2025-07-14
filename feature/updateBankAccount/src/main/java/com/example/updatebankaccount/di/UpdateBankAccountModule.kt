@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
-import com.example.data.external.BankAccountRepository
+import com.example.data.external.remote.BankAccountRepository
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.updatebankaccount.presentation.UpdateBankAccountViewModel

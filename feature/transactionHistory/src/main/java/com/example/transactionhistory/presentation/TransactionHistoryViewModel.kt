@@ -1,7 +1,7 @@
 package com.example.transactionhistory.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.data.external.PreferencesRepository
+import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
 import com.example.transaction.model.GetTransactionParams

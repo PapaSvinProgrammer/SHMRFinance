@@ -1,11 +1,11 @@
-package com.example.room.transaction
+package com.example.room.internal.component.transaction
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface TransactionDao {
+internal interface TransactionDao {
     @Insert
     suspend fun insert(entity: TransactionEntity)
 

@@ -3,7 +3,7 @@ package com.example.bankaccountscreen.presentation
 import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.GetAllBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
-import com.example.data.external.PreferencesRepository
+import com.example.data.external.remote.PreferencesRepository
 import com.example.model.BankAccount
 import com.example.ui.uiState.BankAccountUIState
 import com.example.utils.cancelAllJobs

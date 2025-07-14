@@ -1,4 +1,4 @@
-package com.example.data.external
+package com.example.data.external.remote
 
 import com.example.model.Transaction
 import com.example.model.TransactionRequest

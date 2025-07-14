@@ -6,9 +6,9 @@ import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.createtransaction.domain.FilterCategories
 import com.example.createtransaction.presentation.CreateTransactionViewModel
-import com.example.data.external.BankAccountRepository
-import com.example.data.external.CategoryRepository
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.BankAccountRepository
+import com.example.data.external.remote.CategoryRepository
+import com.example.data.external.remote.TransactionRepository
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import com.example.transaction.CreateTransaction

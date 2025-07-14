@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountlist.presentation.BankAccountListViewModel
 import com.example.bankaccountscreen.GetAllBankAccount
-import com.example.data.external.BankAccountRepository
+import com.example.data.external.remote.BankAccountRepository
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey
 import dagger.Binds

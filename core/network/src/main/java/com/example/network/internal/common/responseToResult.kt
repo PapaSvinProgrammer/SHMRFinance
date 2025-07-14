@@ -1,11 +1,11 @@
 package com.example.network.internal.common
 
-import com.example.common.HaveTransactionException
-import com.example.common.RequestTimeoutException
-import com.example.common.SerializationExceptionCustom
-import com.example.common.ServerErrorException
-import com.example.common.SuccessDeleteTransactionException
-import com.example.common.UnknownException
+import com.example.utils.HaveTransactionException
+import com.example.utils.RequestTimeoutException
+import com.example.utils.SerializationExceptionCustom
+import com.example.utils.ServerErrorException
+import com.example.utils.SuccessDeleteTransactionException
+import com.example.utils.UnknownException
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse

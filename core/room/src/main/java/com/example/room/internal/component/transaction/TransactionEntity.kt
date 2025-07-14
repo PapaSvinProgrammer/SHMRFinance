@@ -1,11 +1,11 @@
-package com.example.room.transaction
+package com.example.room.internal.component.transaction
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "bank_transaction")
-data class TransactionEntity(
+internal data class TransactionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "transaction_id")

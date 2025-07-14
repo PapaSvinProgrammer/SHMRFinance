@@ -1,11 +1,10 @@
 package com.example.updatetransaction.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
-import com.example.common.SuccessDeleteTransactionException
-import com.example.data.external.PreferencesRepository
+import com.example.utils.SuccessDeleteTransactionException
+import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Category
 import com.example.model.Transaction
 import com.example.model.TransactionRequest

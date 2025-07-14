@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.utils
 
 sealed class NetworkThrowable: Throwable()
 

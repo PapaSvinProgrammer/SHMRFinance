@@ -1,6 +1,6 @@
-package com.example.data.internal
+package com.example.data.internal.remote
 
-import com.example.data.external.CategoryRepository
+import com.example.data.external.remote.CategoryRepository
 import com.example.model.Category
 import com.example.network.external.CategoryService
 import javax.inject.Inject

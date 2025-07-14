@@ -1,4 +1,4 @@
-package com.example.data.external
+package com.example.data.external.remote
 
 import kotlinx.coroutines.flow.Flow
 

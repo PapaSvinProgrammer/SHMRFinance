@@ -1,6 +1,6 @@
 package com.example.bankaccountscreen
 
-import com.example.data.external.BankAccountRepository
+import com.example.data.external.remote.BankAccountRepository
 import com.example.model.BankAccountHistoryResponse
 import com.example.utils.UseCase
 import kotlinx.coroutines.Dispatchers

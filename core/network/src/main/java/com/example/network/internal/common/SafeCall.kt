@@ -1,8 +1,8 @@
 package com.example.network.internal.common
 
-import com.example.common.NoInternetException
-import com.example.common.SerializationExceptionCustom
-import com.example.common.UnknownException
+import com.example.utils.NoInternetException
+import com.example.utils.SerializationExceptionCustom
+import com.example.utils.UnknownException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive

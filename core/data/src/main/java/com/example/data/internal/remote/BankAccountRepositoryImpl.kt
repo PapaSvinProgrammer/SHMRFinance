@@ -1,6 +1,6 @@
-package com.example.data.internal
+package com.example.data.internal.remote
 
-import com.example.data.external.BankAccountRepository
+import com.example.data.external.remote.BankAccountRepository
 import com.example.model.AccountRequest
 import com.example.model.BankAccount
 import com.example.model.BankAccountHistoryResponse

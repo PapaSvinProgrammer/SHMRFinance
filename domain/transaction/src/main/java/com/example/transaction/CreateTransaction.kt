@@ -1,6 +1,6 @@
 package com.example.transaction
 
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.TransactionRepository
 import com.example.model.TransactionRequest
 import com.example.model.TransactionResponse
 import com.example.utils.UseCase

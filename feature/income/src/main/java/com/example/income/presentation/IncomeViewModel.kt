@@ -2,8 +2,8 @@ package com.example.income.presentation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.data.external.PreferencesRepository
-import com.example.data.external.TransactionRepositoryRoom
+import com.example.data.external.remote.PreferencesRepository
+import com.example.data.external.local.TransactionRepositoryRoom
 import com.example.income.presentation.widget.UiState
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType

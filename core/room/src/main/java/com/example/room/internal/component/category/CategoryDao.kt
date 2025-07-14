@@ -1,13 +1,13 @@
-package com.example.room.category
+package com.example.room.internal.component.category
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface CategoryDao {
+internal interface CategoryDao {
     @Insert
-    suspend fun insert(entity: CategoryEntity)
+    suspend fun insert(vararg entity: CategoryEntity)
 
     @Query("DELETE FROM category WHERE category_id = :id")
     suspend fun delete(id: Int)

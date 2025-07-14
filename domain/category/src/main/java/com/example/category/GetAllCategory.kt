@@ -1,6 +1,6 @@
 package com.example.category
 
-import com.example.data.external.CategoryRepository
+import com.example.data.external.remote.CategoryRepository
 import com.example.model.Category
 import com.example.utils.UseCase
 import kotlinx.coroutines.Dispatchers

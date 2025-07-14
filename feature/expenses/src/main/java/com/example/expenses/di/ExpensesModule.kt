@@ -2,7 +2,7 @@ package com.example.expenses.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.TransactionRepository
 import com.example.expenses.presentation.ExpensesViewModel
 import com.example.localviewmodelfactory.ViewModelFactory
 import com.example.localviewmodelfactory.ViewModelKey

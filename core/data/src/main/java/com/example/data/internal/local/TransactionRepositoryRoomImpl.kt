@@ -1,8 +1,8 @@
-package com.example.data.internal
+package com.example.data.internal.local
 
 import android.util.Log
-import com.example.data.external.TransactionRepositoryRoom
-import com.example.room.transaction.TransactionDao
+import com.example.data.external.local.TransactionRepositoryRoom
+import com.example.room.internal.component.transaction.TransactionDao
 import javax.inject.Inject
 
 class TransactionRepositoryRoomImpl @Inject constructor(

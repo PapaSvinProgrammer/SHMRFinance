@@ -2,16 +2,16 @@ package com.example.data.internal.di
 
 import android.content.Context
 import com.example.utils.ApplicationScope
-import com.example.data.external.BankAccountRepository
-import com.example.data.external.CategoryRepository
-import com.example.data.external.PreferencesRepository
-import com.example.data.external.TransactionRepository
-import com.example.data.external.TransactionRepositoryRoom
-import com.example.data.internal.BankAccountRepositoryImpl
-import com.example.data.internal.CategoryRepositoryImpl
-import com.example.data.internal.PreferencesRepositoryImpl
-import com.example.data.internal.TransactionRepositoryImpl
-import com.example.data.internal.TransactionRepositoryRoomImpl
+import com.example.data.external.remote.BankAccountRepository
+import com.example.data.external.remote.CategoryRepository
+import com.example.data.external.remote.PreferencesRepository
+import com.example.data.external.remote.TransactionRepository
+import com.example.data.external.local.TransactionRepositoryRoom
+import com.example.data.internal.remote.BankAccountRepositoryImpl
+import com.example.data.internal.remote.CategoryRepositoryImpl
+import com.example.data.internal.remote.PreferencesRepositoryImpl
+import com.example.data.internal.remote.TransactionRepositoryImpl
+import com.example.data.internal.local.TransactionRepositoryRoomImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

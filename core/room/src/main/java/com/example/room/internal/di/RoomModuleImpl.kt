@@ -1,19 +1,19 @@
-package com.example.room.di
+package com.example.room.internal.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.room.internal.AppDatabase
+import com.example.room.internal.component.bankAccount.BankAccountDao
+import com.example.room.internal.component.category.CategoryDao
+import com.example.room.internal.component.transaction.TransactionDao
 import com.example.utils.ApplicationScope
-import com.example.room.AppDatabase
-import com.example.room.bankAccount.BankAccountDao
-import com.example.room.category.CategoryDao
-import com.example.room.transaction.TransactionDao
 import dagger.Module
 import dagger.Provides
 
 private const val DATABASE_NAME = "shmr_finance_app_database"
 
 @Module
-interface RoomModule {
+internal interface RoomModuleImpl {
     companion object {
         @Provides
         @ApplicationScope
