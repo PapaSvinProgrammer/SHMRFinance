@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountscreen.CreateBankAccount
 import com.example.createbankaccount.presentation.CreateBankAccountViewModel
+import com.example.data.external.local.BankAccountRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
-import com.example.localviewmodelfactory.ViewModelFactory
-import com.example.localviewmodelfactory.ViewModelKey
+import com.example.localfactory.viewModel.ViewModelFactory
+import com.example.localfactory.viewModel.ViewModelKey
+import com.example.network.connectivityState.NetworkConnection
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -27,8 +29,16 @@ internal interface CreateBankAccountModule {
     companion object {
         @Provides
         @CreateBankAccountScope
-        fun providesCreateBankAccount(repository: BankAccountRepository): CreateBankAccount {
-            return CreateBankAccount(repository)
+        fun providesCreateBankAccount(
+            bankAccountRepository: BankAccountRepository,
+            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
+            connection: NetworkConnection
+        ): CreateBankAccount {
+            return CreateBankAccount(
+                bankAccountRepository = bankAccountRepository,
+                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
+                networkConnection = connection
+            )
         }
     }
 }

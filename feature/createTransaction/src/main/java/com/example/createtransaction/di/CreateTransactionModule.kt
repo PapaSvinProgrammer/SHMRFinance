@@ -6,12 +6,13 @@ import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.createtransaction.domain.FilterCategories
 import com.example.createtransaction.presentation.CreateTransactionViewModel
+import com.example.data.external.local.BankAccountRepositoryRoom
 import com.example.data.external.local.CategoryRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
 import com.example.data.external.remote.CategoryRepository
 import com.example.data.external.remote.TransactionRepository
-import com.example.localviewmodelfactory.ViewModelFactory
-import com.example.localviewmodelfactory.ViewModelKey
+import com.example.localfactory.viewModel.ViewModelFactory
+import com.example.localfactory.viewModel.ViewModelKey
 import com.example.network.connectivityState.NetworkConnection
 import com.example.transaction.CreateTransaction
 import dagger.Binds
@@ -34,8 +35,16 @@ internal interface CreateTransactionModule {
     companion object {
         @Provides
         @CreateTransactionScope
-        fun providesGetByIdBankAccount(repository: BankAccountRepository): GetByIdBankAccount {
-            return GetByIdBankAccount(repository)
+        fun providesGetByIdBankAccount(
+            bankAccountRepository: BankAccountRepository,
+            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
+            connection: NetworkConnection
+        ): GetByIdBankAccount {
+            return GetByIdBankAccount(
+                bankAccountRepository = bankAccountRepository,
+                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
+                networkConnection = connection
+            )
         }
 
         @Provides

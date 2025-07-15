@@ -1,7 +1,9 @@
 package com.example.updatebankaccount.di
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.corecomponent.AppComponent
+import dagger.BindsInstance
 import dagger.Component
 
 @Component(
@@ -12,7 +14,10 @@ import dagger.Component
 interface UpdateBankAccountComponent {
     @Component.Factory
     interface Factory {
-        fun create(appComponent: AppComponent): UpdateBankAccountComponent
+        fun create(
+            @BindsInstance context: Context,
+            appComponent: AppComponent
+        ): UpdateBankAccountComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

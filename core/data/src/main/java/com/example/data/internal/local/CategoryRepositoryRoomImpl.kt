@@ -18,7 +18,6 @@ internal class CategoryRepositoryRoomImpl @Inject constructor(
     }
 
     override suspend fun getAll(): Result<List<Category>> {
-        Log.d("RRRR", service.toString())
         return service.getAll()
     }
 }

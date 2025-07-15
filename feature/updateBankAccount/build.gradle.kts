@@ -7,7 +7,7 @@ dependencies {
     api(project(":core:coreComponent"))
     api(project(":domain:bankAccount"))
     implementation(project(":core:ui"))
-    implementation(project(":core:localViewModelFactory"))
+    implementation(project(":core:localFactory"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

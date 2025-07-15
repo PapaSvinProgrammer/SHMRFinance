@@ -1,4 +1,3 @@
-
 plugins {
     id("android-core-module")
     alias(libs.plugins.kotlin.compose)
@@ -15,6 +14,7 @@ dependencies {
     api(project(":core:model"))
     api(project(":core:utils"))
 
+    implementation(libs.androidx.navigation)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.material3)

@@ -21,7 +21,7 @@ import com.example.network.connectivityState.rememberConnectivityState
 import com.example.navigationroute.NavRoute
 import com.example.shmrfinance.app.R
 import com.example.shmrfinance.navigation.NavigationGraph
-import com.example.shmrfinance.navigation.BottomNavigationBar
+import com.example.ui.navigation.BottomNavigationBar
 
 @Composable
 fun MainScreen(

@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountscreen.DeleteBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.UpdateBankAccount
+import com.example.data.external.local.BankAccountRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
-import com.example.localviewmodelfactory.ViewModelFactory
-import com.example.localviewmodelfactory.ViewModelKey
+import com.example.localfactory.viewModel.ViewModelFactory
+import com.example.localfactory.viewModel.ViewModelKey
+import com.example.network.connectivityState.NetworkConnection
 import com.example.updatebankaccount.presentation.UpdateBankAccountViewModel
 import dagger.Binds
 import dagger.Module
@@ -29,20 +31,44 @@ internal interface UpdateBankAccountModule {
     companion object {
         @Provides
         @UpdateBankAccountScope
-        fun providesGetByIdBankAccount(repository: BankAccountRepository): GetByIdBankAccount {
-            return GetByIdBankAccount(repository)
+        fun providesGetByIdBankAccount(
+            bankAccountRepository: BankAccountRepository,
+            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
+            connection: NetworkConnection
+        ): GetByIdBankAccount {
+            return GetByIdBankAccount(
+                bankAccountRepository = bankAccountRepository,
+                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
+                networkConnection = connection
+            )
         }
 
         @Provides
         @UpdateBankAccountScope
-        fun providesUpdateBankAccount(repository: BankAccountRepository): UpdateBankAccount {
-            return UpdateBankAccount(repository)
+        fun providesUpdateBankAccount(
+            bankAccountRepository: BankAccountRepository,
+            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
+            connection: NetworkConnection
+        ): UpdateBankAccount {
+            return UpdateBankAccount(
+                bankAccountRepository = bankAccountRepository,
+                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
+                networkConnection = connection
+            )
         }
 
         @Provides
         @UpdateBankAccountScope
-        fun providesDeleteBankAccount(repository: BankAccountRepository): DeleteBankAccount {
-            return DeleteBankAccount(repository)
+        fun providesDeleteBankAccount(
+            bankAccountRepository: BankAccountRepository,
+            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
+            connection: NetworkConnection
+        ): DeleteBankAccount {
+            return DeleteBankAccount(
+                bankAccountRepository = bankAccountRepository,
+                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
+                networkConnection = connection
+            )
         }
     }
 }

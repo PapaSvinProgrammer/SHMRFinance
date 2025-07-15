@@ -6,8 +6,8 @@ import com.example.articles.presentation.ArticlesViewModel
 import com.example.category.GetAllCategory
 import com.example.data.external.local.CategoryRepositoryRoom
 import com.example.data.external.remote.CategoryRepository
-import com.example.localviewmodelfactory.ViewModelFactory
-import com.example.localviewmodelfactory.ViewModelKey
+import com.example.localfactory.viewModel.ViewModelFactory
+import com.example.localfactory.viewModel.ViewModelKey
 import com.example.network.connectivityState.NetworkConnection
 import dagger.Binds
 import dagger.Module

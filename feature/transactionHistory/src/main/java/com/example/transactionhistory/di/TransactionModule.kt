@@ -3,8 +3,8 @@ package com.example.transactionhistory.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.data.external.remote.TransactionRepository
-import com.example.localviewmodelfactory.ViewModelFactory
-import com.example.localviewmodelfactory.ViewModelKey
+import com.example.localfactory.viewModel.ViewModelFactory
+import com.example.localfactory.viewModel.ViewModelKey
 import com.example.transaction.GetTransactionByType
 import com.example.transactionhistory.presentation.TransactionHistoryViewModel
 import dagger.Binds

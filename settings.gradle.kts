@@ -1,11 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":core:coreComponent")
-
-
-include(":core:room")
-
-
 includeBuild("build-logic")
 
 pluginManagement {
@@ -38,7 +32,9 @@ listOf(
     "network",
     "ui",
     "utils",
-    "localViewModelFactory"
+    "coreComponent",
+    "localFactory",
+    "room"
 ).forEach {
     include(":core:$it")
 }
