@@ -28,13 +28,13 @@ fun initWorker(context: Context) {
     WorkManager.getInstance(context).apply {
         enqueueUniqueWork(
             uniqueWorkName = SyncCategoryWorker.NAME,
-            existingWorkPolicy = ExistingWorkPolicy.REPLACE,
+            existingWorkPolicy = ExistingWorkPolicy.KEEP,
             request = SyncCategoryWorker.request
         )
 
         enqueueUniquePeriodicWork(
             uniqueWorkName = SyncBankAccountWorker.NAME,
-            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.REPLACE,
+            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
             request = SyncBankAccountWorker.request
         )
     }

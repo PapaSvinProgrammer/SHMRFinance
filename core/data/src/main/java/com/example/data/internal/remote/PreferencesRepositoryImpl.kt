@@ -14,7 +14,6 @@ import javax.inject.Inject
 private const val DATA_STORE_NAME = "SHMR_settings_name"
 private val ACCOUNT_ID = intPreferencesKey("account_id")
 
-
 internal class PreferencesRepositoryImpl @Inject constructor(
     private val context: Context
 ): PreferencesRepository {

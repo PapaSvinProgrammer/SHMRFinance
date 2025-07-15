@@ -46,28 +46,20 @@ internal interface UpdateBankAccountModule {
         @Provides
         @UpdateBankAccountScope
         fun providesUpdateBankAccount(
-            bankAccountRepository: BankAccountRepository,
-            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
-            connection: NetworkConnection
+            bankAccountRepository: BankAccountRepository
         ): UpdateBankAccount {
             return UpdateBankAccount(
-                bankAccountRepository = bankAccountRepository,
-                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
-                networkConnection = connection
+                bankAccountRepository = bankAccountRepository
             )
         }
 
         @Provides
         @UpdateBankAccountScope
         fun providesDeleteBankAccount(
-            bankAccountRepository: BankAccountRepository,
-            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
-            connection: NetworkConnection
+            bankAccountRepository: BankAccountRepository
         ): DeleteBankAccount {
             return DeleteBankAccount(
-                bankAccountRepository = bankAccountRepository,
-                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
-                networkConnection = connection
+                bankAccountRepository = bankAccountRepository
             )
         }
     }

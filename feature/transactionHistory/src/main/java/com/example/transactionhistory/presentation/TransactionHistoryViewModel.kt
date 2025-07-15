@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
+import com.example.transaction.SaveTransaction
 import com.example.transaction.model.GetTransactionParams
 import com.example.transactionhistory.presentation.widget.UiState
 import com.example.transactionhistory.presentation.widget.VisibleState
@@ -19,7 +20,8 @@ private const val GET_TRANSACTION_JOB = "get_transactions"
 
 class TransactionHistoryViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
-    private val getTransactionByType: GetTransactionByType
+    private val getTransactionByType: GetTransactionByType,
+    private val saveTransaction: SaveTransaction
 ): ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
 
@@ -73,6 +75,8 @@ class TransactionHistoryViewModel @Inject constructor(
 
                 getTransactionByType.execute(params).onSuccess {
                     updateTransactionState(it)
+                    saveTransaction.execute(it)
+
                 }.onFailure {
                     _transactionState.value = TransactionUIState.Error(it)
                 }

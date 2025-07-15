@@ -2,9 +2,18 @@ package com.example.room.internal.component.bankAccount
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "bank_account")
+@Entity(
+    tableName = "bank_account",
+    indices = [
+        Index(
+            value = ["bank_account_id"],
+            unique = true
+        )
+    ]
+)
 internal data class BankAccountEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,

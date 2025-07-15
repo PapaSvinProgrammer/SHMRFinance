@@ -6,6 +6,7 @@ import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
 import com.example.data.external.local.BankAccountRepositoryRoom
 import com.example.data.external.local.CategoryRepositoryRoom
+import com.example.data.external.local.TransactionRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
 import com.example.data.external.remote.CategoryRepository
 import com.example.data.external.remote.TransactionRepository
@@ -35,14 +36,30 @@ internal interface UpdateTransactionModule {
     companion object {
         @Provides
         @UpdateTransactionScope
-        fun providesUpdateTransaction(repository: TransactionRepository): UpdateTransaction {
-            return UpdateTransaction(repository)
+        fun providesUpdateTransaction(
+            transactionRepository: TransactionRepository,
+            transactionRepositoryRoom: TransactionRepositoryRoom,
+            networkConnection: NetworkConnection
+        ): UpdateTransaction {
+            return UpdateTransaction(
+                transactionRepository = transactionRepository,
+                transactionRepositoryRoom = transactionRepositoryRoom,
+                networkConnection = networkConnection
+            )
         }
 
         @Provides
         @UpdateTransactionScope
-        fun providesGetByIdTransaction(repository: TransactionRepository): GetByIdTransaction {
-            return GetByIdTransaction(repository)
+        fun providesGetByIdTransaction(
+            transactionRepository: TransactionRepository,
+            transactionRepositoryRoom: TransactionRepositoryRoom,
+            networkConnection: NetworkConnection
+        ): GetByIdTransaction {
+            return GetByIdTransaction(
+                transactionRepository = transactionRepository,
+                transactionRepositoryRoom = transactionRepositoryRoom,
+                networkConnection = networkConnection
+            )
         }
 
         @Provides

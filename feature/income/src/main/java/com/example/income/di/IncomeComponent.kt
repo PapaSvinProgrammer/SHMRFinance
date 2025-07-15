@@ -1,7 +1,9 @@
 package com.example.income.di
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.corecomponent.AppComponent
+import dagger.BindsInstance
 import dagger.Component
 
 @Component(
@@ -12,7 +14,10 @@ import dagger.Component
 interface IncomeComponent {
     @Component.Factory
     interface Factory {
-        fun create(appComponent: AppComponent): IncomeComponent
+        fun create(
+            @BindsInstance context: Context,
+            appComponent: AppComponent
+        ): IncomeComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

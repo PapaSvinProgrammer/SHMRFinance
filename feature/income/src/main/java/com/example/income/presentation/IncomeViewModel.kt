@@ -1,14 +1,11 @@
 package com.example.income.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.data.external.local.CategoryRepositoryRoom
 import com.example.data.external.remote.PreferencesRepository
-import com.example.data.external.local.TransactionRepositoryRoom
 import com.example.income.presentation.widget.UiState
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
+import com.example.transaction.SaveTransaction
 import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.cancelAllJobs
@@ -16,24 +13,15 @@ import com.example.utils.format.FormatDate
 import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val GET_TRANSACTIONS = "get_transactions"
 
 class IncomeViewModel @Inject constructor(
     private val getTransactionByType: GetTransactionByType,
-    preferencesRepository: PreferencesRepository,
-    private val categoryRepositoryRoom: CategoryRepositoryRoom
+    private val saveTransaction: SaveTransaction,
+    preferencesRepository: PreferencesRepository
 ) : ViewModel() {
-
-
-    fun create() {
-        viewModelScope.launch {
-            categoryRepositoryRoom.getAll()
-        }
-    }
-
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _transactions = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
@@ -55,6 +43,7 @@ class IncomeViewModel @Inject constructor(
 
                 getTransactionByType.execute(params).onSuccess {
                     updateTransactionState(it)
+                    saveTransaction.execute(it)
                 }.onFailure {
                     _transactions.value = TransactionUIState.Error(it)
                 }

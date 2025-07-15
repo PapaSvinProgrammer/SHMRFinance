@@ -29,16 +29,8 @@ internal interface CreateBankAccountModule {
     companion object {
         @Provides
         @CreateBankAccountScope
-        fun providesCreateBankAccount(
-            bankAccountRepository: BankAccountRepository,
-            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
-            connection: NetworkConnection
-        ): CreateBankAccount {
-            return CreateBankAccount(
-                bankAccountRepository = bankAccountRepository,
-                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
-                networkConnection = connection
-            )
+        fun providesCreateBankAccount(bankAccountRepository: BankAccountRepository): CreateBankAccount {
+            return CreateBankAccount(bankAccountRepository)
         }
     }
 }

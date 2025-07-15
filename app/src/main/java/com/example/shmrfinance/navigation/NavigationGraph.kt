@@ -132,7 +132,11 @@ fun NavigationGraph(
         ) {
             val component = DaggerIncomeComponent
                 .factory()
-                .create(LocalContext.current.appComponent)
+                .create(
+                    context = LocalContext.current,
+                    appComponent = LocalContext.current.appComponent
+                )
+
             val viewModel: IncomeViewModel = viewModel(factory = component.viewModelFactory)
 
             IncomeScreen(
@@ -232,7 +236,10 @@ fun NavigationGraph(
             val route = it.toRoute<TransactionHistoryRoute>()
             val component = DaggerTransactionComponent
                 .factory()
-                .create(LocalContext.current.appComponent)
+                .create(
+                    context = LocalContext.current,
+                    appComponent = LocalContext.current.appComponent
+                )
 
             val viewModel: TransactionHistoryViewModel = viewModel(
                 factory = component.viewModelFactory

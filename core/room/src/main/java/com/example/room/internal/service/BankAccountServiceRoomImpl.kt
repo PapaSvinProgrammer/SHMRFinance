@@ -32,7 +32,7 @@ internal class BankAccountServiceRoomImpl @Inject constructor(
 
     override suspend fun getById(id: Int): Result<BankAccount> {
         return safeCall {
-            dao.getById(id)
+            dao.getById(id)!!
         }.map { it.toDomain() }
     }
 

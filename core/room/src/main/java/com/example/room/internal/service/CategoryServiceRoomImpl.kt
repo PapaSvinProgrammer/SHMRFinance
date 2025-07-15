@@ -1,6 +1,5 @@
 package com.example.room.internal.service
 
-import android.util.Log
 import com.example.model.Category
 import com.example.room.external.CategoryServiceRoom
 import com.example.room.internal.component.category.CategoryDao
@@ -24,8 +23,6 @@ internal class CategoryServiceRoomImpl @Inject constructor(
     }
 
     override suspend fun getAll(): Result<List<Category>> {
-        Log.d("RRRR", dao.toString())
-
         return safeCall {
             dao.getAll()
         }.map { it.toDomain() }

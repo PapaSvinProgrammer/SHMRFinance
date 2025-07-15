@@ -2,9 +2,18 @@ package com.example.room.internal.component.category
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "category")
+@Entity(
+    tableName = "category",
+    indices = [
+        Index(
+            value = ["category_id"],
+            unique = true
+        )
+    ]
+)
 internal data class CategoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,

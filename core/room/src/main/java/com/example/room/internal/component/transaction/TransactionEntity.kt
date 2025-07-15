@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "bank_transaction")
+@Entity(
+    tableName = "bank_transaction"
+)
 internal data class TransactionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
@@ -19,5 +21,11 @@ internal data class TransactionEntity(
     @ColumnInfo(name = "transaction_date")
     val transactionDate: String,
     @ColumnInfo(name = "comment")
-    val comment: String?
+    val comment: String?,
+    @ColumnInfo(name = "is_create")
+    val isCreate: Boolean,
+    @ColumnInfo(name = "is_update")
+    val isUpdate: Boolean,
+    @ColumnInfo(name = "is_delete")
+    val isDelete: Boolean,
 )

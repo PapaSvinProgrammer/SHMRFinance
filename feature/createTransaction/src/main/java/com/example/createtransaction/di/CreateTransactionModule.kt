@@ -8,6 +8,7 @@ import com.example.createtransaction.domain.FilterCategories
 import com.example.createtransaction.presentation.CreateTransactionViewModel
 import com.example.data.external.local.BankAccountRepositoryRoom
 import com.example.data.external.local.CategoryRepositoryRoom
+import com.example.data.external.local.TransactionRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
 import com.example.data.external.remote.CategoryRepository
 import com.example.data.external.remote.TransactionRepository
@@ -69,8 +70,16 @@ internal interface CreateTransactionModule {
 
         @Provides
         @CreateTransactionScope
-        fun providesCreateTransaction(repository: TransactionRepository): CreateTransaction {
-            return CreateTransaction(repository)
+        fun providesCreateTransaction(
+            transactionRepository: TransactionRepository,
+            transactionRepositoryRoom: TransactionRepositoryRoom,
+            networkConnection: NetworkConnection
+        ): CreateTransaction {
+            return CreateTransaction(
+                transactionRepository = transactionRepository,
+                transactionRepositoryRoom = transactionRepositoryRoom,
+                networkConnection = networkConnection
+            )
         }
     }
 }

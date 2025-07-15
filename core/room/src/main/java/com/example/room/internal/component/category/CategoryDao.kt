@@ -2,11 +2,12 @@ package com.example.room.internal.component.category
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
 internal interface CategoryDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(vararg entity: CategoryEntity)
 
     @Query("DELETE FROM category WHERE category_id = :id")
