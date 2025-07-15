@@ -1,12 +1,11 @@
 package com.example.room.internal.mapper
 
-import com.example.model.BankAccount
-import com.example.model.Category
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.model.TransactionResponse
 import com.example.room.internal.component.transaction.TransactionEntity
 import com.example.room.internal.component.transaction.TransactionResult
+import com.example.utils.format.FormatDate
 import java.math.BigDecimal
 
 internal fun Transaction.toEntity(): TransactionEntity {
@@ -16,7 +15,7 @@ internal fun Transaction.toEntity(): TransactionEntity {
         accountId = account.id,
         categoryId = category.id,
         amount = amount.toString(),
-        transactionDate = transactionDate,
+        transactionDate = FormatDate.isoDateToMillis(transactionDate),
         comment = comment,
         isCreate = false,
         isUpdate = false,
@@ -30,7 +29,7 @@ internal fun TransactionResult.toDomain(): Transaction {
         account = bankAccount.toDomain(),
         category = category.toDomain(),
         amount = BigDecimal(transaction.amount),
-        transactionDate = transaction.transactionDate,
+        transactionDate = FormatDate.millisToIsoDate(transaction.transactionDate),
         comment = transaction.comment
     )
 }
@@ -42,7 +41,7 @@ internal fun TransactionRequest.toEntityIsCreate(): TransactionEntity {
         accountId = accountId,
         categoryId = categoryId,
         amount = amount,
-        transactionDate = transactionDate,
+        transactionDate = FormatDate.isoDateToMillis(transactionDate),
         comment = comment,
         isCreate = true,
         isUpdate = false,
@@ -57,7 +56,7 @@ internal fun TransactionRequest.toEntityIsUpdate(id: Int): TransactionEntity {
         accountId = accountId,
         categoryId = categoryId,
         amount = amount,
-        transactionDate = transactionDate,
+        transactionDate = FormatDate.isoDateToMillis(transactionDate),
         comment = comment,
         isCreate = false,
         isUpdate = true,
@@ -72,7 +71,7 @@ internal fun Int.toEntityIsDelete(): TransactionEntity {
         accountId = 0,
         categoryId = 0,
         amount = "",
-        transactionDate = "",
+        transactionDate = 0L,
         comment = null,
         isCreate = false,
         isUpdate = false,

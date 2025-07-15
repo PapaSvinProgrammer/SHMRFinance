@@ -1,5 +1,6 @@
 package com.example.updatetransaction.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
@@ -143,6 +144,7 @@ class UpdateTransactionViewModel @Inject constructor(
         updateTransaction.execute(params).onSuccess { transaction ->
             _updateResult.value = TransactionUIState.Success(listOf(transaction))
         }.onFailure { error ->
+            Log.d("RRRR", error.toString())
             _updateResult.value = TransactionUIState.Error(error)
         }
     }

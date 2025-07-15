@@ -1,6 +1,7 @@
 package com.example.utils.format
 
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -69,5 +70,24 @@ object FormatDate {
     fun convertDateFromISO(inputDate: String): String {
         val zonedDateTime = ZonedDateTime.parse(inputDate)
         return zonedDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    }
+
+    fun isoDateToMillis(date: String): Long {
+        return Instant
+            .from(DateTimeFormatter.ISO_INSTANT.parse(date))
+            .toEpochMilli()
+    }
+
+    fun dateToMillis(date: String): Long {
+        return LocalDate.parse(date)
+            .atStartOfDay()
+            .toInstant(ZoneOffset.UTC)
+            .toEpochMilli()
+    }
+
+    fun millisToIsoDate(millis: Long): String {
+        return Instant.ofEpochMilli(millis)
+            .atOffset(ZoneOffset.UTC)
+            .format(DateTimeFormatter.ISO_INSTANT)
     }
 }

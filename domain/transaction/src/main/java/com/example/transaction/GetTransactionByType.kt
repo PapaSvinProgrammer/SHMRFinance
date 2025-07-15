@@ -1,5 +1,6 @@
 package com.example.transaction
 
+import android.util.Log
 import com.example.data.external.local.TransactionRepositoryRoom
 import com.example.utils.UnknownException
 import com.example.data.external.remote.TransactionRepository
@@ -41,6 +42,7 @@ class GetTransactionByType @Inject constructor(
             }.sortedByDescending { it.transactionDate }
             filterResult = Result.success(res)
         }.onFailure {
+            Log.d("RRRR", it.toString())
             filterResult = Result.failure(it)
         }
 

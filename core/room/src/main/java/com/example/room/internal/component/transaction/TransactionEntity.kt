@@ -5,10 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "bank_transaction"
+    tableName = "bank_transaction",
+    primaryKeys = [
+        "id",
+        "transaction_id"
+    ]
 )
 internal data class TransactionEntity(
-    @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "transaction_id")
     val transactionId: Int,
@@ -19,7 +22,7 @@ internal data class TransactionEntity(
     @ColumnInfo(name = "amount")
     val amount: String,
     @ColumnInfo(name = "transaction_date")
-    val transactionDate: String,
+    val transactionDate: Long,
     @ColumnInfo(name = "comment")
     val comment: String?,
     @ColumnInfo(name = "is_create")

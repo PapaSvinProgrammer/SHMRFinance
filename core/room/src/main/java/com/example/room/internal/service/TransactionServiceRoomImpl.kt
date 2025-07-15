@@ -12,7 +12,11 @@ import com.example.room.internal.mapper.toEntityIsDelete
 import com.example.room.internal.mapper.toEntityIsUpdate
 import com.example.room.internal.mapper.toResponse
 import com.example.room.internal.safeCall
+import com.example.utils.RoomThrowable
+import com.example.utils.format.FormatDate
 import javax.inject.Inject
+
+const val MILLIS_IN_DAY = 86_400_000L
 
 internal class TransactionServiceRoomImpl @Inject constructor(
     private val dao: TransactionDao
@@ -34,7 +38,10 @@ internal class TransactionServiceRoomImpl @Inject constructor(
         request: TransactionRequest
     ): Result<Transaction> {
         return safeCall {
-            dao.update(request.toEntityIsUpdate(id))
+            val res = dao.update(request.toEntityIsUpdate(id))
+
+            if (res == 0) throw RoomThrowable(null)
+
             dao.getById(id)!!
         }.map { it.toDomain() }
     }
@@ -72,6 +79,14 @@ internal class TransactionServiceRoomImpl @Inject constructor(
         startDate: String,
         endDate: String
     ): Result<List<Transaction>> {
-        TODO("Not yet implemented")
+        return safeCall {
+            dao.getByPeriod(
+                id = accountId,
+                start = FormatDate.dateToMillis(startDate),
+                end = FormatDate.dateToMillis(endDate) + MILLIS_IN_DAY
+            )
+        }.map { list ->
+            list.map { it.toDomain() }
+        }
     }
 }
