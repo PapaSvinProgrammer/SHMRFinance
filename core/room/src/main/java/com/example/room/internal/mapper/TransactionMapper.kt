@@ -35,7 +35,6 @@ internal fun TransactionResult.toDomain(): Transaction {
 
 internal fun TransactionRequest.toEntityIsCreate(): TransactionEntity {
     return TransactionEntity(
-       // id = 0,
         transactionId = 0,
         accountId = accountId,
         categoryId = categoryId,
@@ -50,7 +49,6 @@ internal fun TransactionRequest.toEntityIsCreate(): TransactionEntity {
 
 internal fun TransactionRequest.toEntityIsUpdate(id: Int): TransactionEntity {
     return TransactionEntity(
-        //id = 0,
         transactionId = id,
         accountId = accountId,
         categoryId = categoryId,
@@ -86,4 +84,18 @@ internal fun TransactionRequest.toResponse(): TransactionResponse {
         transactionDate = transactionDate,
         comment = comment
     )
+}
+
+internal fun TransactionEntity.toRequest(): TransactionRequest {
+    return TransactionRequest(
+        accountId = accountId,
+        categoryId = categoryId,
+        amount = amount,
+        transactionDate = FormatDate.millisToIsoDate(transactionDate),
+        comment = comment
+    )
+}
+
+internal fun TransactionEntity.toInt(): Int {
+    return transactionId
 }

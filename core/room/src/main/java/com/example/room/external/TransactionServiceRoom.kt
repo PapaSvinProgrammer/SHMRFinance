@@ -18,4 +18,8 @@ interface TransactionServiceRoom {
         startDate: String,
         endDate: String
     ): Result<List<Transaction>>
+
+    suspend fun getCreated(): Result<List<TransactionRequest>>
+    suspend fun getUpdated(): Result<List<Transaction>>
+    suspend fun getDeleted(): Result<List<Int>>
 }

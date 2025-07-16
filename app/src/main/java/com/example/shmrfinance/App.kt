@@ -9,6 +9,7 @@ import com.example.corecomponent.AppComponent
 import com.example.corecomponent.DaggerAppComponent
 import com.example.shmrfinance.syncworker.SyncBankAccountWorker
 import com.example.shmrfinance.syncworker.SyncCategoryWorker
+import com.example.shmrfinance.syncworker.SyncTransactionWorker
 
 class App: Application() {
     lateinit var appComponent: AppComponent
@@ -36,6 +37,12 @@ fun initWorker(context: Context) {
             uniqueWorkName = SyncBankAccountWorker.NAME,
             existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
             request = SyncBankAccountWorker.request
+        )
+
+        enqueueUniquePeriodicWork(
+            uniqueWorkName = SyncTransactionWorker.NAME,
+            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
+            request = SyncTransactionWorker.request
         )
     }
 }

@@ -21,6 +21,7 @@ class SyncBankAccountWorker(
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
             val bankAccounts = bankAccountRepository.getAll()
+
             bankAccounts.onSuccess {
                 bankAccountRepositoryRoom.insertAll(it).onSuccess {
                     return@withContext Result.success()

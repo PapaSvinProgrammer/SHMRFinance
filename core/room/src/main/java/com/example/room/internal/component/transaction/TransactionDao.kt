@@ -9,10 +9,10 @@ import androidx.room.Update
 
 @Dao
 internal interface TransactionDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAll(vararg entity: TransactionEntity)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     suspend fun update(entity: TransactionEntity): Int
 
     @Query("DELETE FROM bank_transaction")
@@ -33,4 +33,14 @@ internal interface TransactionDao {
             "AND transaction_date BETWEEN :start AND :end " +
             "ORDER BY transaction_date DESC")
     suspend fun getByPeriod(id: Int, start: Long, end: Long): List<TransactionResult>
+
+    @Query("SELECT * FROM bank_transaction WHERE is_create = 1")
+    suspend fun getOnlyCreated(): List<TransactionEntity>
+
+    @Transaction
+    @Query("SELECT * FROM bank_transaction WHERE is_update = 1")
+    suspend fun getOnlyUpdated(): List<TransactionResult>
+
+    @Query("SELECT * FROM bank_transaction WHERE is_delete = 1")
+    suspend fun getOnlyDeleted(): List<TransactionEntity>
 }

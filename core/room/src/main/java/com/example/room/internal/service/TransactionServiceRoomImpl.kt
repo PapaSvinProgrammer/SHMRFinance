@@ -10,6 +10,8 @@ import com.example.room.internal.mapper.toEntity
 import com.example.room.internal.mapper.toEntityIsCreate
 import com.example.room.internal.mapper.toEntityIsDelete
 import com.example.room.internal.mapper.toEntityIsUpdate
+import com.example.room.internal.mapper.toInt
+import com.example.room.internal.mapper.toRequest
 import com.example.room.internal.mapper.toResponse
 import com.example.room.internal.safeCall
 import com.example.utils.RoomThrowable
@@ -89,6 +91,30 @@ internal class TransactionServiceRoomImpl @Inject constructor(
             )
         }.map { list ->
             list.map { it.toDomain() }
+        }
+    }
+
+    override suspend fun getCreated(): Result<List<TransactionRequest>> {
+        return safeCall {
+            dao.getOnlyCreated()
+        }.map { list ->
+            list.map { it.toRequest() }
+        }
+    }
+
+    override suspend fun getUpdated(): Result<List<Transaction>> {
+        return safeCall {
+            dao.getOnlyUpdated()
+        }.map { list ->
+            list.map { it.toDomain() }
+        }
+    }
+
+    override suspend fun getDeleted(): Result<List<Int>> {
+        return safeCall {
+            dao.getOnlyDeleted()
+        }.map { list ->
+            list.map { it.toInt() }
         }
     }
 }

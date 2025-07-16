@@ -48,4 +48,16 @@ class TransactionRepositoryRoomImpl @Inject constructor(
     ): Result<List<Transaction>> {
         return dao.getByPeriod(accountId, startDate, endDate)
     }
+
+    override suspend fun getCreated(): Result<List<TransactionRequest>> {
+        return dao.getCreated()
+    }
+
+    override suspend fun getUpdated(): Result<List<Transaction>> {
+        return dao.getUpdated()
+    }
+
+    override suspend fun getDeleted(): Result<List<Int>> {
+        return dao.getDeleted()
+    }
 }
