@@ -1,5 +1,7 @@
 package com.example.shmrfinance.presentation
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,11 +16,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.navigationroute.BankAccountRoute
+import com.example.navigationroute.ExpensesRoute
+import com.example.navigationroute.IncomeRoute
+import com.example.navigationroute.NavRoute
+import com.example.navigationroute.SplashRoute
 import com.example.network.connectivityState.NetworkConnectionState
 import com.example.network.connectivityState.rememberConnectivityState
-import com.example.navigationroute.NavRoute
 import com.example.shmrfinance.app.R
 import com.example.shmrfinance.navigation.NavigationGraph
 import com.example.ui.navigation.BottomNavigationBar
@@ -63,7 +70,10 @@ fun MainScreen(
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = snackBarHostState)
+            NetworkSnackbarHost(
+                snackBarHostState = snackBarHostState,
+                route = backStackEntry?.destination?.route
+            )
         }
     ) { innerPadding ->
         NavigationGraph(
@@ -76,7 +86,30 @@ fun MainScreen(
 
 private fun bottomBarIsVisibility(route: String?, onResult: (Boolean) -> Unit) {
     when (route) {
-        com.example.navigationroute.SplashRoute::class.java.canonicalName -> onResult(false)
+        SplashRoute::class.java.canonicalName -> onResult(false)
         else -> onResult(true)
     }
+}
+
+@Composable
+private fun NetworkSnackbarHost(
+    snackBarHostState: SnackbarHostState,
+    route: String?
+) {
+    val padding = when (route) {
+        IncomeRoute::class.java.canonicalName -> 70.dp
+        ExpensesRoute::class.java.canonicalName -> 70.dp
+        BankAccountRoute::class.java.canonicalName -> 70.dp
+        else -> 0.dp
+    }
+
+    val animatedPadding by animateDpAsState(
+        targetValue = padding,
+        animationSpec = tween(durationMillis = 300)
+    )
+
+    SnackbarHost(
+        hostState = snackBarHostState,
+        modifier = Modifier.padding(bottom = animatedPadding)
+    )
 }

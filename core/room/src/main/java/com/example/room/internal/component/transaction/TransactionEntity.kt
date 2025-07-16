@@ -5,14 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "bank_transaction",
-    primaryKeys = [
-        "id",
-        "transaction_id"
-    ]
+    tableName = "bank_transaction"
 )
 internal data class TransactionEntity(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "transaction_id")
     val transactionId: Int,
     @ColumnInfo(name = "account_id")

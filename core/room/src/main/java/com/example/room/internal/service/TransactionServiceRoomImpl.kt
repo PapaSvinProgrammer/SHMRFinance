@@ -23,13 +23,15 @@ internal class TransactionServiceRoomImpl @Inject constructor(
 ) : TransactionServiceRoom {
     override suspend fun create(transactionRequest: TransactionRequest): Result<TransactionResponse> {
         return safeCall {
-            dao.update(transactionRequest.toEntityIsCreate())
+            dao.insertAll(transactionRequest.toEntityIsCreate())
         }.map { transactionRequest.toResponse() }
     }
 
     override suspend fun delete(id: Int): Result<Unit> {
         return safeCall {
-            dao.update(id.toEntityIsDelete())
+            val res = dao.update(id.toEntityIsDelete())
+
+            if (res == 0) throw RoomThrowable(null)
         }
     }
 

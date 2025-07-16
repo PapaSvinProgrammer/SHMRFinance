@@ -29,6 +29,7 @@ internal interface TransactionDao {
     @Transaction
     @Query("SELECT * FROM bank_transaction " +
             "WHERE account_id = :id " +
+            "AND is_delete = 0 " +
             "AND transaction_date BETWEEN :start AND :end " +
             "ORDER BY transaction_date DESC")
     suspend fun getByPeriod(id: Int, start: Long, end: Long): List<TransactionResult>

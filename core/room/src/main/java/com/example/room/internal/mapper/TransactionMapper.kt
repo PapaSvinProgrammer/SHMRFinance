@@ -10,7 +10,6 @@ import java.math.BigDecimal
 
 internal fun Transaction.toEntity(): TransactionEntity {
     return TransactionEntity(
-        id = 0,
         transactionId = id,
         accountId = account.id,
         categoryId = category.id,
@@ -36,7 +35,7 @@ internal fun TransactionResult.toDomain(): Transaction {
 
 internal fun TransactionRequest.toEntityIsCreate(): TransactionEntity {
     return TransactionEntity(
-        id = 0,
+       // id = 0,
         transactionId = 0,
         accountId = accountId,
         categoryId = categoryId,
@@ -51,7 +50,7 @@ internal fun TransactionRequest.toEntityIsCreate(): TransactionEntity {
 
 internal fun TransactionRequest.toEntityIsUpdate(id: Int): TransactionEntity {
     return TransactionEntity(
-        id = 0,
+        //id = 0,
         transactionId = id,
         accountId = accountId,
         categoryId = categoryId,
@@ -66,7 +65,6 @@ internal fun TransactionRequest.toEntityIsUpdate(id: Int): TransactionEntity {
 
 internal fun Int.toEntityIsDelete(): TransactionEntity {
     return TransactionEntity(
-        id = 0,
         transactionId = this,
         accountId = 0,
         categoryId = 0,
