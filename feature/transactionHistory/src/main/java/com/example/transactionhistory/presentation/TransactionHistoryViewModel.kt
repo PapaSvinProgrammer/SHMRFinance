@@ -76,7 +76,6 @@ class TransactionHistoryViewModel @Inject constructor(
                 getTransactionByType.execute(params).onSuccess {
                     updateTransactionState(it)
                     saveTransaction.execute(it)
-
                 }.onFailure {
                     _transactionState.value = TransactionUIState.Error(it)
                 }

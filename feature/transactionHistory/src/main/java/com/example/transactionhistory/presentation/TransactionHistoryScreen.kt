@@ -106,6 +106,7 @@ fun TransactionHistoryScreen(
             selectedDate = FormatDate.convertStringToMillis(uiState.startDate),
             onDateSelected = {
                 viewModel.updateStartDate(it ?: 0)
+                viewModel.getTransaction(isIncome)
             },
             onDismiss = {
                 viewModel.updateVisibleStartDatePicker(false)
@@ -118,6 +119,7 @@ fun TransactionHistoryScreen(
             selectedDate = FormatDate.convertStringToMillis(uiState.endDate),
             onDateSelected = {
                 viewModel.updateEndDate(it ?: 0)
+                viewModel.getTransaction(isIncome)
             },
             onDismiss = {
                 viewModel.updateVisibleEndDatePicker(false)
