@@ -15,8 +15,8 @@ import com.example.transaction.UpdateTransaction
 import com.example.transaction.model.UpdateTransactionParams
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.TransactionUIState
-import com.example.updatetransaction.widget.UiState
-import com.example.updatetransaction.widget.VisibleState
+import com.example.updatetransaction.presentation.widget.UiState
+import com.example.updatetransaction.presentation.widget.VisibleState
 import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.format.FormatTime

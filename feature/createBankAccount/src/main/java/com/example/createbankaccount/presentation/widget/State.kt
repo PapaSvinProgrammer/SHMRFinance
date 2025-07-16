@@ -1,4 +1,4 @@
-package com.example.createbankaccount.widget
+package com.example.createbankaccount.presentation.widget
 
 import com.example.model.CurrencyType
 import java.math.BigDecimal

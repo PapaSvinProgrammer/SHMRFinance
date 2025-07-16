@@ -1,4 +1,4 @@
-package com.example.updatetransaction.widget
+package com.example.updatetransaction.presentation.widget
 
 import com.example.model.Category
 import com.example.model.Transaction

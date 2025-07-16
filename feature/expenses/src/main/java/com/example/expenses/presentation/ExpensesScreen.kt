@@ -30,9 +30,9 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
-import com.example.navigationroute.CreateTransactionRoute
-import com.example.navigationroute.TransactionHistoryRoute
-import com.example.navigationroute.UpdateTransactionRoute
+import com.example.ui.navigation.CreateTransactionRoute
+import com.example.ui.navigation.TransactionHistoryRoute
+import com.example.ui.navigation.UpdateTransactionRoute
 import com.example.shmrfinance.expenses.R
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen

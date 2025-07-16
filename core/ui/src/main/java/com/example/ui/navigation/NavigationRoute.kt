@@ -1,4 +1,4 @@
-package com.example.navigationroute
+package com.example.ui.navigation
 
 import kotlinx.serialization.Serializable
 
@@ -14,7 +14,7 @@ data object ExpensesRoute : NavRoute
 data object IncomeRoute : NavRoute
 
 @Serializable
-data object ArticlesRoute : NavRoute
+data object ArticlesRoute: NavRoute
 
 @Serializable
 data object BankAccountRoute : NavRoute
@@ -47,3 +47,8 @@ data class CreateTransactionRoute(
 data class UpdateTransactionRoute(
     val id: Int
 ) : NavRoute
+
+@Serializable
+data class TransactionAnalysisRoute(
+    val isIncome: Boolean
+)

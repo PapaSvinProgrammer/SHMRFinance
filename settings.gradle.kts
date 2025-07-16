@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:transactionAnalysis")
+
+
 includeBuild("build-logic")
 
 pluginManagement {

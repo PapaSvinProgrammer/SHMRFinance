@@ -2,8 +2,8 @@ package com.example.createbankaccount.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.CreateBankAccount
-import com.example.createbankaccount.widget.UiState
-import com.example.createbankaccount.widget.VisibleState
+import com.example.createbankaccount.presentation.widget.UiState
+import com.example.createbankaccount.presentation.widget.VisibleState
 import com.example.model.AccountRequest
 import com.example.model.CurrencyType
 import com.example.model.toSlug

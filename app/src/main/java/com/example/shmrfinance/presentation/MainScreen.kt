@@ -19,11 +19,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.navigationroute.BankAccountRoute
-import com.example.navigationroute.ExpensesRoute
-import com.example.navigationroute.IncomeRoute
-import com.example.navigationroute.NavRoute
-import com.example.navigationroute.SplashRoute
+import com.example.ui.navigation.BankAccountRoute
+import com.example.ui.navigation.ExpensesRoute
+import com.example.ui.navigation.IncomeRoute
+import com.example.ui.navigation.NavRoute
+import com.example.ui.navigation.SplashRoute
 import com.example.network.connectivityState.NetworkConnectionState
 import com.example.network.connectivityState.rememberConnectivityState
 import com.example.shmrfinance.app.R

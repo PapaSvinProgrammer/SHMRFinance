@@ -5,8 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.navigationroute.ExpensesRoute
-import com.example.shmrfinance.appComponent
+import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.theme.SHMRFinanceTheme
 
 class MainActivity : ComponentActivity() {

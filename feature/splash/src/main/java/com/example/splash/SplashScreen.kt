@@ -14,7 +14,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.navigationroute.ExpensesRoute
+import com.example.ui.navigation.ExpensesRoute
 import com.example.shmrfinance.splash.R
 
 @Composable

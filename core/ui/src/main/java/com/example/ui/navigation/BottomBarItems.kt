@@ -1,11 +1,5 @@
 package com.example.ui.navigation
 
-import com.example.navigationroute.ArticlesRoute
-import com.example.navigationroute.BankAccountRoute
-import com.example.navigationroute.ExpensesRoute
-import com.example.navigationroute.IncomeRoute
-import com.example.navigationroute.NavRoute
-import com.example.navigationroute.SettingsRoute
 import com.example.shmrfinance.ui.R
 
 sealed class BottomBarTab(

@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":feature:updateBankAccount"))
     implementation(project(":feature:createTransaction"))
     implementation(project(":feature:updateTransaction"))
+    implementation(project(":feature:transactionAnalysis"))
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)

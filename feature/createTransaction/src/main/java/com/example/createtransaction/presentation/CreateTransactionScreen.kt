@@ -28,11 +28,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.createtransaction.presentation.widget.TransactionResponseUIState
 import com.example.createtransaction.utils.toResultType
-import com.example.navigationroute.BankAccountListRoute
+import com.example.ui.navigation.BankAccountListRoute
 import com.example.shmrfinance.createTransaction.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.uiState.BankAccountUIState
-import com.example.ui.uiState.CategoryUIState
 import com.example.ui.widget.bottomSheet.CategoriesBottomSheet
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.MainTransactionContent

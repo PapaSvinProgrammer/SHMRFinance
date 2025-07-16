@@ -29,9 +29,9 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.BankAccount
-import com.example.navigationroute.BankAccountListRoute
-import com.example.navigationroute.CreateBankAccountRoute
-import com.example.navigationroute.UpdateBankAccountRoute
+import com.example.ui.navigation.BankAccountListRoute
+import com.example.ui.navigation.CreateBankAccountRoute
+import com.example.ui.navigation.UpdateBankAccountRoute
 import com.example.shmrfinance.bankAccountScreen.R
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
