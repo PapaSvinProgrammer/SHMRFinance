@@ -8,6 +8,7 @@ import com.example.transaction.GetTransactionByType
 import com.example.transaction.SaveTransaction
 import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
+import com.example.utils.NoSelectBankAccount
 import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.launchWithoutOld
@@ -47,6 +48,9 @@ class IncomeViewModel @Inject constructor(
                 }.onFailure {
                     _transactions.value = TransactionUIState.Error(it)
                 }
+            }
+            else {
+                _transactions.value = TransactionUIState.Error(NoSelectBankAccount())
             }
         }
     }

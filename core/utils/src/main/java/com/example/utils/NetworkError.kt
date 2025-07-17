@@ -9,6 +9,7 @@ class HaveTransactionException: NetworkThrowable()
 class ServerErrorException: NetworkThrowable()
 class UnknownException: NetworkThrowable()
 class NoInternetException: NetworkThrowable()
+class NoSelectBankAccount(): NetworkThrowable()
 
 fun NetworkThrowable.toSlug(): String {
     return when (this) {
@@ -19,5 +20,6 @@ fun NetworkThrowable.toSlug(): String {
         is ServerErrorException -> "Ошибка на стороне сервера"
         is SuccessDeleteTransactionException -> "Успешное удаление"
         is UnknownException -> "Неизвестная ошибка"
+        is NoSelectBankAccount -> "Выберете счет"
     }
 }

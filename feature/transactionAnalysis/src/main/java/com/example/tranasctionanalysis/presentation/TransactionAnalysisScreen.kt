@@ -33,7 +33,6 @@ import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultErrorContent
 import com.example.ui.widget.components.EmojiCard
-import com.example.ui.widget.components.EmptyTransactionContent
 import com.example.ui.widget.components.TransactionContent
 import com.example.ui.widget.dialog.DefaultDatePickerDialog
 import com.example.ui.widget.listItems.TotalListItem

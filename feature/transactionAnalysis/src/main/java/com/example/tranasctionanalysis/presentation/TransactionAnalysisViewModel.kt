@@ -8,6 +8,7 @@ import com.example.tranasctionanalysis.presentation.widget.VisibleState
 import com.example.transaction.GetTransactionByType
 import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
+import com.example.utils.NoSelectBankAccount
 import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.launchWithoutOld
@@ -76,6 +77,9 @@ class TransactionAnalysisViewModel @Inject constructor(
                 }.onFailure {
                     _transactionState.value = TransactionUIState.Error(it)
                 }
+            }
+            else {
+                _transactionState.value = TransactionUIState.Error(NoSelectBankAccount())
             }
         }
     }

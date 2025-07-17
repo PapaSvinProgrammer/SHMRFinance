@@ -1,10 +1,8 @@
 package com.example.updatetransaction.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
-import com.example.utils.SuccessDeleteTransactionException
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Category
 import com.example.model.Transaction
@@ -17,6 +15,8 @@ import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.updatetransaction.presentation.widget.UiState
 import com.example.updatetransaction.presentation.widget.VisibleState
+import com.example.utils.NoSelectBankAccount
+import com.example.utils.SuccessDeleteTransactionException
 import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.format.FormatTime
@@ -144,7 +144,6 @@ class UpdateTransactionViewModel @Inject constructor(
         updateTransaction.execute(params).onSuccess { transaction ->
             _updateResult.value = TransactionUIState.Success(listOf(transaction))
         }.onFailure { error ->
-            Log.d("RRRR", error.toString())
             _updateResult.value = TransactionUIState.Error(error)
         }
     }
@@ -185,6 +184,9 @@ class UpdateTransactionViewModel @Inject constructor(
                 }.onFailure {
                     _bankAccount.value = BankAccountUIState.Error(it)
                 }
+            }
+            else {
+                _bankAccount.value = BankAccountUIState.Error(NoSelectBankAccount())
             }
         }
     }

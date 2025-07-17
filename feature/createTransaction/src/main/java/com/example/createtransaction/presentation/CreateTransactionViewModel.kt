@@ -12,6 +12,7 @@ import com.example.model.Category
 import com.example.model.TransactionRequest
 import com.example.transaction.CreateTransaction
 import com.example.ui.uiState.BankAccountUIState
+import com.example.utils.NoSelectBankAccount
 import com.example.utils.cancelAllJobs
 import com.example.utils.format.FormatDate
 import com.example.utils.format.FormatTime
@@ -160,6 +161,9 @@ class CreateTransactionViewModel @Inject constructor(
                 }.onFailure {
                     _bankAccount.value = BankAccountUIState.Error(it)
                 }
+            }
+            else {
+                _bankAccount.value = BankAccountUIState.Error(NoSelectBankAccount())
             }
         }
     }
