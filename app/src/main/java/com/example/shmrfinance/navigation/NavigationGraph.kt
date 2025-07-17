@@ -18,8 +18,8 @@ import com.example.shmrfinance.appComponent
 import com.example.splash.splashDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
+import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.NavRoute
-import com.example.ui.navigation.TransactionAnalysisRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
 import com.example.updatetransaction.presentation.navigation.updateTransactionDestination
 
@@ -34,7 +34,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = TransactionAnalysisRoute(false),
+        startDestination = ExpensesRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,

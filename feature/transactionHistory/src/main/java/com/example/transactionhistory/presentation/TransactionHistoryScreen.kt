@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
 import com.example.shmrfinance.transactionHistory.R
+import com.example.ui.navigation.TransactionAnalysisRoute
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultErrorContent
@@ -72,7 +73,13 @@ fun TransactionHistoryScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(TransactionAnalysisRoute(isIncome)) {
+                                launchSingleTop = true
+                            }
+                        }
+                    ) {
                         Icon(
                             modifier = Modifier.size(24.dp),
                             imageVector = ImageVector.vectorResource(R.drawable.ic_manage),

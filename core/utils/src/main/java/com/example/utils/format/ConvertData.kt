@@ -37,7 +37,7 @@ object ConvertData {
     }
 
     fun createPrettyPercent(amount: BigDecimal, total: BigDecimal): String {
-        val percent = (BigDecimal(1000) * amount / total).toString()
+        val percent = (BigDecimal(100) * amount / total).toString()
         return "$percent%"
     }
 }
