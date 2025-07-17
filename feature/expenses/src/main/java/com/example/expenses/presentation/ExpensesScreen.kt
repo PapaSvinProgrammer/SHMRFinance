@@ -37,10 +37,14 @@ import com.example.shmrfinance.expenses.R
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomFloatingActionButton
+import com.example.ui.widget.components.DefaultErrorContent
 import com.example.ui.widget.components.EmojiCard
+import com.example.ui.widget.components.TransactionContent
 import com.example.ui.widget.listItems.TotalListItem
 import com.example.ui.widget.listItems.TransactionListItem
+import com.example.utils.NetworkThrowable
 import com.example.utils.format.ConvertData
+import com.example.utils.toSlug
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,7 +84,10 @@ fun ExpensesScreen(
         }
     ) { innerPadding ->
         when (val state = transactionState) {
-            is TransactionUIState.Error -> {}
+            is TransactionUIState.Error -> {
+                val error = (state.error as? NetworkThrowable)?.toSlug()
+                DefaultErrorContent(error ?: "")
+            }
             TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is TransactionUIState.Success -> {
                 MainContent(
@@ -127,25 +134,27 @@ private fun MainContent(
 
             HorizontalDivider()
 
-            LazyColumn {
-                items(
-                    items = list,
-                    key = { it.id }
-                ) {
-                    TransactionListItem(
-                        modifier = Modifier
-                            .height(70.dp)
-                            .clickable { onTransactionClick(it) },
-                        title = it.category.name,
-                        subtitle = it.comment,
-                        leadingContent = { EmojiCard(emoji = it.category.emoji) },
-                        amount = ConvertData.createPrettyAmount(
-                            amount = it.amount,
-                            currency = it.account.currency
+            TransactionContent(list) {
+                LazyColumn {
+                    items(
+                        items = list,
+                        key = { it.id }
+                    ) {
+                        TransactionListItem(
+                            modifier = Modifier
+                                .height(70.dp)
+                                .clickable { onTransactionClick(it) },
+                            title = it.category.name,
+                            subtitle = it.comment,
+                            leadingContent = { EmojiCard(emoji = it.category.emoji) },
+                            amount = ConvertData.createPrettyAmount(
+                                amount = it.amount,
+                                currency = it.account.currency
+                            )
                         )
-                    )
 
-                    HorizontalDivider()
+                        HorizontalDivider()
+                    }
                 }
             }
         }

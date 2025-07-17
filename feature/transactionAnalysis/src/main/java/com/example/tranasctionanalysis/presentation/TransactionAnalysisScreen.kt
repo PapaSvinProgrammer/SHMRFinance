@@ -31,12 +31,17 @@ import com.example.shmrfinance.transactionAnalysis.R
 import com.example.tranasctionanalysis.presentation.widget.DateListItem
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
+import com.example.ui.widget.components.DefaultErrorContent
 import com.example.ui.widget.components.EmojiCard
+import com.example.ui.widget.components.EmptyTransactionContent
+import com.example.ui.widget.components.TransactionContent
 import com.example.ui.widget.dialog.DefaultDatePickerDialog
 import com.example.ui.widget.listItems.TotalListItem
 import com.example.ui.widget.listItems.TransactionListItem
+import com.example.utils.NetworkThrowable
 import com.example.utils.format.ConvertData
 import com.example.utils.format.FormatDate
+import com.example.utils.toSlug
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,8 +75,15 @@ fun TransactionAnalysisScreen(
         },
     ) { innerPadding ->
         when (val state = transactionState) {
-            is TransactionUIState.Error -> {}
-            TransactionUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
+            is TransactionUIState.Error -> {
+                val error = (state.error as? NetworkThrowable)?.toSlug()
+                DefaultErrorContent(error ?: "")
+            }
+
+            TransactionUIState.Loading -> {
+                BasicLoadingScreen(Modifier.fillMaxSize())
+            }
+
             is TransactionUIState.Success -> {
                 MainContent(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
@@ -157,27 +169,29 @@ private fun MainContent(
 
         HorizontalDivider()
 
-        LazyColumn {
-            items(
-                items = list,
-                key = { it.id }
-            ) {
-                TransactionListItem(
-                    modifier = Modifier.height(70.dp),
-                    title = it.category.name,
-                    leadingContent = { EmojiCard(emoji = it.category.emoji) },
-                    subtitle = it.comment,
-                    time = ConvertData.createPrettyAmount(
-                        amount = it.amount,
-                        currency = it.account.currency
-                    ),
-                    amount = ConvertData.createPrettyPercent(
-                        amount = it.amount,
-                        total = totalAmount
+        TransactionContent(list) {
+            LazyColumn {
+                items(
+                    items = list,
+                    key = { it.id }
+                ) {
+                    TransactionListItem(
+                        modifier = Modifier.height(70.dp),
+                        title = it.category.name,
+                        leadingContent = { EmojiCard(emoji = it.category.emoji) },
+                        subtitle = it.comment,
+                        time = ConvertData.createPrettyAmount(
+                            amount = it.amount,
+                            currency = it.account.currency
+                        ),
+                        amount = ConvertData.createPrettyPercent(
+                            amount = it.amount,
+                            total = totalAmount
+                        )
                     )
-                )
 
-                HorizontalDivider()
+                    HorizontalDivider()
+                }
             }
         }
     }

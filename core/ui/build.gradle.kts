@@ -14,6 +14,7 @@ dependencies {
     api(project(":core:model"))
     api(project(":core:utils"))
 
+    implementation(libs.lottie.compose)
     implementation(libs.androidx.navigation)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.kotlinx.serialization.json)
