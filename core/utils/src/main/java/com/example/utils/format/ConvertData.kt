@@ -35,4 +35,9 @@ object ConvertData {
         val symbol = getCurrencySymbol(currency)
         return "$prettyInt $symbol"
     }
+
+    fun createPrettyPercent(amount: BigDecimal, total: BigDecimal): String {
+        val percent = (BigDecimal(1000) * amount / total).toString()
+        return "$percent%"
+    }
 }

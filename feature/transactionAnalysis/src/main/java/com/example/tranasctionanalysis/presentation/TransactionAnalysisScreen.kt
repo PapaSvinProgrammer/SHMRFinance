@@ -171,7 +171,10 @@ private fun MainContent(
                         amount = it.amount,
                         currency = it.account.currency
                     ),
-                    amount = "20%"
+                    amount = ConvertData.createPrettyPercent(
+                        amount = it.amount,
+                        total = totalAmount
+                    )
                 )
 
                 HorizontalDivider()
