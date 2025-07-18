@@ -4,11 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.articles.presentation.ArticlesViewModel
 import com.example.category.GetAllCategory
-import com.example.data.external.local.CategoryRepositoryRoom
 import com.example.data.external.remote.CategoryRepository
 import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
-import com.example.network.connectivityState.NetworkConnection
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -29,16 +27,8 @@ internal interface ArticlesModule {
     companion object {
         @Provides
         @ArticlesScope
-        fun providesGetAllCategory(
-            categoryRepository: CategoryRepository,
-            categoryRepositoryRoom: CategoryRepositoryRoom,
-            networkConnection: NetworkConnection
-        ): GetAllCategory {
-            return GetAllCategory(
-                categoryRepository = categoryRepository,
-                categoryRepositoryRoom = categoryRepositoryRoom,
-                networkConnection = networkConnection
-            )
+        fun providesGetAllCategory(repository: CategoryRepository): GetAllCategory {
+            return GetAllCategory(repository)
         }
     }
 }

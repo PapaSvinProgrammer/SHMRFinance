@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.example.shmrfinance.appComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,8 +39,13 @@ class SyncCategoryWorker(
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
+        private val inputData = workDataOf(
+            Constants.NAME_KEY to NAME
+        )
+
         val request = OneTimeWorkRequestBuilder<SyncCategoryWorker>()
             .setConstraints(constraints)
+            .setInputData(inputData)
             .build()
     }
 }

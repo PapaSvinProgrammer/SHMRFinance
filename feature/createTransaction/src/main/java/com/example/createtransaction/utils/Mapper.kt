@@ -3,7 +3,7 @@ package com.example.createtransaction.utils
 import com.example.createtransaction.presentation.widget.TransactionResponseUIState
 import com.example.ui.dialog.ResultDialogType
 
-fun TransactionResponseUIState.toResultType(): ResultDialogType {
+internal fun TransactionResponseUIState.toResultType(): ResultDialogType {
     return when (this) {
         is TransactionResponseUIState.Error -> ResultDialogType.ERROR
         TransactionResponseUIState.Loading -> ResultDialogType.LOADING

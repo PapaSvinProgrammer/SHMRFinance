@@ -7,7 +7,6 @@ import com.example.data.external.remote.TransactionRepository
 import com.example.expenses.presentation.ExpensesViewModel
 import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
-import com.example.network.connectivityState.NetworkConnection
 import com.example.transaction.GetTransactionByType
 import com.example.transaction.SaveTransaction
 import dagger.Binds
@@ -30,16 +29,8 @@ internal interface ExpensesModule {
     companion object {
         @Provides
         @ExpensesScope
-        fun providesGetTransactionByType(
-            transactionRepository: TransactionRepository,
-            transactionRepositoryRoom: TransactionRepositoryRoom,
-            networkConnection: NetworkConnection
-        ): GetTransactionByType {
-            return GetTransactionByType(
-                transactionRepository = transactionRepository,
-                transactionRepositoryRoom = transactionRepositoryRoom,
-                networkConnection = networkConnection
-            )
+        fun providesGetTransactionByType(repository: TransactionRepository): GetTransactionByType {
+            return GetTransactionByType(repository)
         }
 
         @Provides

@@ -40,7 +40,7 @@ import com.example.utils.format.ConvertData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateBankAccountScreen(
+internal fun UpdateBankAccountScreen(
     navController: NavController,
     viewModel: UpdateBankAccountViewModel,
     bankAccountId: Int

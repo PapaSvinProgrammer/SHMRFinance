@@ -26,7 +26,7 @@ class App: Application() {
 }
 
 fun initWorker(context: Context) {
-    WorkManager.getInstance(context).apply {
+    context.appComponent.workManager.apply {
         enqueueUniqueWork(
             uniqueWorkName = SyncCategoryWorker.NAME,
             existingWorkPolicy = ExistingWorkPolicy.KEEP,

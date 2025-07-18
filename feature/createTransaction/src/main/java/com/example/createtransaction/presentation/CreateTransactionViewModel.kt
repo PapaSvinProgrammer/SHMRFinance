@@ -23,11 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.math.BigDecimal
 import javax.inject.Inject
 
-private const val GET_CATEGORIES_JOB = "get_all_categories"
-private const val CREATE_TRANSACTION_JOB = "create_transaction"
-private const val GET_CURRENT_ACCOUNT_JOB = "get_current_bank_account"
-
-class CreateTransactionViewModel @Inject constructor(
+internal class CreateTransactionViewModel @Inject constructor(
     private val getByIdBankAccount: GetByIdBankAccount,
     private val getAllCategory: GetAllCategory,
     private val filterCategories: FilterCategories,
@@ -171,5 +167,11 @@ class CreateTransactionViewModel @Inject constructor(
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()
+    }
+
+    private companion object {
+        private const val GET_CATEGORIES_JOB = "get_all_categories"
+        private const val CREATE_TRANSACTION_JOB = "create_transaction"
+        private const val GET_CURRENT_ACCOUNT_JOB = "get_current_bank_account"
     }
 }

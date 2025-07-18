@@ -15,9 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.math.BigDecimal
 import javax.inject.Inject
 
-private const val CREATE_ACCOUNT_JOB = "create_bank_account"
-
-class CreateBankAccountViewModel @Inject constructor(
+internal class CreateBankAccountViewModel @Inject constructor(
     private val createBankAccount: CreateBankAccount
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
@@ -87,5 +85,9 @@ class CreateBankAccountViewModel @Inject constructor(
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()
+    }
+
+    private companion object {
+        const val CREATE_ACCOUNT_JOB = "create_bank_account"
     }
 }

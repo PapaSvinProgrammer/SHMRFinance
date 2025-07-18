@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.example.shmrfinance.appComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -41,10 +42,18 @@ class SyncBankAccountWorker(
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val request = PeriodicWorkRequest.Builder(
-            workerClass = SyncBankAccountWorker::class.java,
-            repeatInterval = 12,
-            repeatIntervalTimeUnit = TimeUnit.HOURS
-        ).setConstraints(constraints).build()
+        private val inputData = workDataOf(
+            Constants.NAME_KEY to NAME
+        )
+
+        val request = PeriodicWorkRequest
+            .Builder(
+                workerClass = SyncBankAccountWorker::class.java,
+                repeatInterval = 12,
+                repeatIntervalTimeUnit = TimeUnit.HOURS
+            )
+            .setInputData(inputData)
+            .setConstraints(constraints)
+            .build()
     }
 }

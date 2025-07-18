@@ -4,7 +4,7 @@ import com.example.model.Category
 import com.example.model.Transaction
 import java.math.BigDecimal
 
-data class UiState(
+internal data class UiState(
     val currentCategory: Category? = null,
     val date: String = "",
     val time: String = "",
@@ -14,7 +14,7 @@ data class UiState(
     val categories: List<Category> = listOf()
 )
 
-data class VisibleState(
+internal data class VisibleState(
     val datePicker: Boolean = false,
     val timePicker: Boolean = false,
     val categorySheet: Boolean = false,

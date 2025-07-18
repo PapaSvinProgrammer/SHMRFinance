@@ -45,7 +45,7 @@ import com.example.utils.toSlug
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BankAccountScreen(
+internal fun BankAccountScreen(
     navController: NavController,
     viewModel: BankAccountViewModel
 ) {

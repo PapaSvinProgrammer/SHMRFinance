@@ -47,7 +47,7 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionHistoryScreen(
+internal fun TransactionHistoryScreen(
     navController: NavController,
     isIncome: Boolean,
     viewModel: TransactionHistoryViewModel

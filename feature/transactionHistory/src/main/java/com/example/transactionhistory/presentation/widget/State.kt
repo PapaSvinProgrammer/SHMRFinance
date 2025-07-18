@@ -2,7 +2,7 @@ package com.example.transactionhistory.presentation.widget
 
 import java.math.BigDecimal
 
-data class UiState(
+internal data class UiState(
     val totalAmount: BigDecimal = BigDecimal.ZERO,
     val currency: String = "",
     val startDate: String = "",
@@ -11,7 +11,7 @@ data class UiState(
     val visibleEndDatePicker: Boolean = false,
 )
 
-data class VisibleState(
+internal data class VisibleState(
     val startDatePicker: Boolean = false,
     val endDatePicker: Boolean = false
 )

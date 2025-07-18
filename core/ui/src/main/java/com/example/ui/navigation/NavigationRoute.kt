@@ -14,7 +14,7 @@ data object ExpensesRoute : NavRoute
 data object IncomeRoute : NavRoute
 
 @Serializable
-data object ArticlesRoute: NavRoute
+data object ArticlesRoute : NavRoute
 
 @Serializable
 data object BankAccountRoute : NavRoute
@@ -51,4 +51,7 @@ data class UpdateTransactionRoute(
 @Serializable
 data class TransactionAnalysisRoute(
     val isIncome: Boolean
-)
+) : NavRoute
+
+@Serializable
+data object SynchronizationRoute : NavRoute

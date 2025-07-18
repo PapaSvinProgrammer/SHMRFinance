@@ -6,7 +6,6 @@ import com.example.data.external.local.TransactionRepositoryRoom
 import com.example.data.external.remote.TransactionRepository
 import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
-import com.example.network.connectivityState.NetworkConnection
 import com.example.transaction.GetTransactionByType
 import com.example.transaction.SaveTransaction
 import com.example.transactionhistory.presentation.TransactionHistoryViewModel
@@ -16,7 +15,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 
 @Module
-internal interface TransactionModule {
+internal interface TransactionHistoryModule {
     @Binds
     @TransactionHistoryScope
     fun bindsViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
@@ -27,19 +26,11 @@ internal interface TransactionModule {
     @ViewModelKey(TransactionHistoryViewModel::class)
     fun bindsExpensesViewModel(viewModel: TransactionHistoryViewModel): ViewModel
 
-    companion object {
+    companion object Companion {
         @Provides
         @TransactionHistoryScope
-        fun providesGetTransactionByType(
-            transactionRepository: TransactionRepository,
-            transactionRepositoryRoom: TransactionRepositoryRoom,
-            networkConnection: NetworkConnection
-        ): GetTransactionByType {
-            return GetTransactionByType(
-                transactionRepository = transactionRepository,
-                transactionRepositoryRoom = transactionRepositoryRoom,
-                networkConnection = networkConnection
-            )
+        fun providesGetTransactionByType(repository: TransactionRepository): GetTransactionByType {
+            return GetTransactionByType(repository)
         }
 
         @Provides

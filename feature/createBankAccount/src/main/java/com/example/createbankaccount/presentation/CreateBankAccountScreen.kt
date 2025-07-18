@@ -34,7 +34,7 @@ import com.example.utils.format.ConvertData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateBankAccountScreen(
+internal fun CreateBankAccountScreen(
     navController: NavController,
     viewModel: CreateBankAccountViewModel
 ) {

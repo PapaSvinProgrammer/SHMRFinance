@@ -48,7 +48,7 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateTransactionScreen(
+internal fun UpdateTransactionScreen(
     navController: NavController,
     viewModel: UpdateTransactionViewModel,
     transactionId: Int

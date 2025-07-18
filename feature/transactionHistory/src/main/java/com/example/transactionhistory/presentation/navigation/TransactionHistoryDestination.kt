@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.corecomponent.AppComponent
-import com.example.transactionhistory.di.DaggerTransactionComponent
+import com.example.transactionhistory.di.DaggerTransactionHistoryComponent
 import com.example.transactionhistory.presentation.TransactionHistoryScreen
 import com.example.transactionhistory.presentation.TransactionHistoryViewModel
 import com.example.ui.navigation.TransactionHistoryRoute
@@ -18,7 +18,7 @@ fun NavGraphBuilder.transactionHistoryDestination(
 ) {
     composable<TransactionHistoryRoute> {
         val route = it.toRoute<TransactionHistoryRoute>()
-        val component = DaggerTransactionComponent
+        val component = DaggerTransactionHistoryComponent
             .factory()
             .create(
                 context = LocalContext.current,

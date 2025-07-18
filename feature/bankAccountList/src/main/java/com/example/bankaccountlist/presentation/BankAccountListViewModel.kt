@@ -13,7 +13,7 @@ import javax.inject.Inject
 private const val UPDATE_ACCOUNT_JOB = "update_account_id"
 private const val GET_ACCOUNTS_JOB = "get_bank_accounts"
 
-class BankAccountListViewModel @Inject constructor(
+internal class BankAccountListViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
     private val getAllBankAccount: GetAllBankAccount
 ): ViewModel() {

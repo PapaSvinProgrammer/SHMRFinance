@@ -7,17 +7,17 @@ import dagger.BindsInstance
 import dagger.Component
 
 @Component(
-    modules = [TransactionModule::class],
+    modules = [TransactionHistoryModule::class],
     dependencies = [AppComponent::class]
 )
 @TransactionHistoryScope
-interface TransactionComponent {
+interface TransactionHistoryComponent {
     @Component.Factory
     interface Factory {
         fun create(
             @BindsInstance context: Context,
             appComponent: AppComponent
-        ): TransactionComponent
+        ): TransactionHistoryComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

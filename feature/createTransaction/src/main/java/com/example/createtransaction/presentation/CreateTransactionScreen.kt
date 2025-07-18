@@ -42,7 +42,7 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTransactionScreen(
+internal fun CreateTransactionScreen(
     navController: NavController,
     viewModel: CreateTransactionViewModel,
     isIncome: Boolean

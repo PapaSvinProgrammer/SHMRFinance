@@ -7,7 +7,6 @@ import com.example.data.external.remote.TransactionRepository
 import com.example.income.presentation.IncomeViewModel
 import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
-import com.example.network.connectivityState.NetworkConnection
 import com.example.transaction.GetTransactionByType
 import com.example.transaction.SaveTransaction
 import dagger.Binds
@@ -31,15 +30,9 @@ internal interface IncomeModule {
         @Provides
         @IncomeScope
         fun providesGetTransactionByType(
-            transactionRepository: TransactionRepository,
-            transactionRepositoryRoom: TransactionRepositoryRoom,
-            networkConnection: NetworkConnection
+            repository: TransactionRepository
         ): GetTransactionByType {
-            return GetTransactionByType(
-                transactionRepository = transactionRepository,
-                transactionRepositoryRoom = transactionRepositoryRoom,
-                networkConnection = networkConnection
-            )
+            return GetTransactionByType(repository)
         }
 
         @Provides

@@ -48,7 +48,7 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IncomeScreen(
+internal fun IncomeScreen(
     navController: NavController,
     viewModel: IncomeViewModel,
 ) {

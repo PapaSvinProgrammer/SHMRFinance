@@ -49,7 +49,7 @@ import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpensesScreen(
+internal fun ExpensesScreen(
     navController: NavController,
     viewModel: ExpensesViewModel
 ) {

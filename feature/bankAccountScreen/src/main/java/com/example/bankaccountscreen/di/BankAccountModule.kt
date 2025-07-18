@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountscreen.GetAllBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.bankaccountscreen.presentation.BankAccountViewModel
-import com.example.data.external.local.BankAccountRepositoryRoom
 import com.example.data.external.remote.BankAccountRepository
 import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
-import com.example.network.connectivityState.NetworkConnection
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,30 +28,14 @@ internal interface BankAccountModule {
     companion object {
         @Provides
         @BankAccountScope
-        fun providesGetAllBankAccounts(
-            bankAccountRepository: BankAccountRepository,
-            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
-            connection: NetworkConnection
-        ): GetAllBankAccount {
-            return GetAllBankAccount(
-                bankAccountRepository = bankAccountRepository,
-                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
-                networkConnection = connection
-            )
+        fun providesGetAllBankAccounts(repository: BankAccountRepository): GetAllBankAccount {
+            return GetAllBankAccount(repository)
         }
 
         @Provides
         @BankAccountScope
-        fun providesGetByIdBankAccount(
-            bankAccountRepository: BankAccountRepository,
-            bankAccountRepositoryRoom: BankAccountRepositoryRoom,
-            connection: NetworkConnection
-        ): GetByIdBankAccount {
-            return GetByIdBankAccount(
-                bankAccountRepository = bankAccountRepository,
-                bankAccountRepositoryRoom = bankAccountRepositoryRoom,
-                networkConnection = connection
-            )
+        fun providesGetByIdBankAccount(repository: BankAccountRepository): GetByIdBankAccount {
+            return GetByIdBankAccount(repository)
         }
     }
 }

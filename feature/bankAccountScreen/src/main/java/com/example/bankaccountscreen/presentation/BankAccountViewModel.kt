@@ -12,11 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-private const val UPDATE_ACCOUNT_JOB = "update_account_id"
-private const val GET_ACCOUNT_JOB = "get_bank_account"
-private const val SET_DEFAULT_JOB = "set_default"
-
-class BankAccountViewModel @Inject constructor(
+internal class BankAccountViewModel @Inject constructor(
     private val getAllBankAccount: GetAllBankAccount,
     private val getByIdBankAccount: GetByIdBankAccount,
     private val preferencesRepository: PreferencesRepository
@@ -63,5 +59,11 @@ class BankAccountViewModel @Inject constructor(
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()
+    }
+
+    private companion object {
+        const val UPDATE_ACCOUNT_JOB = "update_account_id"
+        const val GET_ACCOUNT_JOB = "get_bank_account"
+        const val SET_DEFAULT_JOB = "set_default"
     }
 }

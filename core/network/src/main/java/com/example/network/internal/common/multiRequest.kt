@@ -1,11 +1,9 @@
 package com.example.network.internal.common
 
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
 
 suspend fun <Key, Param> multiRequest(
     list: List<Key>,
@@ -14,7 +12,7 @@ suspend fun <Key, Param> multiRequest(
     val tasks = mutableListOf<Deferred<Result<Param>>>()
 
     list.forEach { id ->
-        val task = withContext(Dispatchers.IO) {
+        val task = coroutineScope {
             async { execute(id) }
         }
 

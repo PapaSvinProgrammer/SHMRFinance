@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.network.internal.common.multiRequest
@@ -73,11 +74,19 @@ class SyncTransactionWorker(
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val request = PeriodicWorkRequest.Builder(
-            workerClass = SyncTransactionWorker::class.java,
-            repeatInterval = 4,
-            repeatIntervalTimeUnit = TimeUnit.HOURS
-        ).setConstraints(constraints).build()
+        private val inputData = workDataOf(
+            Constants.NAME_KEY to NAME
+        )
+
+        val request = PeriodicWorkRequest
+            .Builder(
+                workerClass = SyncTransactionWorker::class.java,
+                repeatInterval = 4,
+                repeatIntervalTimeUnit = TimeUnit.HOURS
+            )
+            .setInputData(inputData)
+            .setConstraints(constraints)
+            .build()
     }
 }
 

@@ -11,15 +11,18 @@ import com.example.articles.presentation.navigation.articleDestination
 import com.example.bankaccountlist.presentation.navigation.bankAccountListDestination
 import com.example.bankaccountscreen.presentation.navigation.bankAccountDestination
 import com.example.createbankaccount.presentation.navigation.createBankAccountDestination
+import com.example.createtransaction.presentation.navigation.createTransactionDestination
 import com.example.expenses.presentation.navigation.expensesDestination
 import com.example.income.presentation.navigation.incomeDestination
 import com.example.settings.settingsDestination
 import com.example.shmrfinance.appComponent
 import com.example.splash.splashDestination
+import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.NavRoute
+import com.example.ui.navigation.SynchronizationRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
 import com.example.updatetransaction.presentation.navigation.updateTransactionDestination
 
@@ -34,7 +37,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = ExpensesRoute,
+        startDestination = SynchronizationRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -115,6 +118,16 @@ fun NavigationGraph(
         )
 
         transactionAnalysisDestination(
+            navController = navController,
+            appComponent = context.appComponent
+        )
+
+        createTransactionDestination(
+            navController = navController,
+            appComponent = context.appComponent
+        )
+
+        synchronizationDestination(
             navController = navController,
             appComponent = context.appComponent
         )

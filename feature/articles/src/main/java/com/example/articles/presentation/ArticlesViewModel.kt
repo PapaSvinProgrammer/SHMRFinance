@@ -15,7 +15,7 @@ import javax.inject.Inject
 private const val SEARCH_JOB = "search"
 private const val GET_CATEGORIES_JOB = "get_categories"
 
-class ArticlesViewModel @Inject constructor(
+internal class ArticlesViewModel @Inject constructor(
     private val getAllCategory: GetAllCategory,
     private val searchCategory: SearchCategory
 ): ViewModel() {

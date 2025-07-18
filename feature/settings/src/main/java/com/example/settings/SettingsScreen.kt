@@ -30,10 +30,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ui.navigation.ExpensesRoute
 import com.example.shmrfinance.settings.R
+import com.example.ui.navigation.SynchronizationRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen() {
+internal fun SettingsScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -101,7 +102,7 @@ private val settingsList = listOf(
     R.string.sounds to ExpensesRoute,
     R.string.hapticks to ExpensesRoute,
     R.string.code_password to ExpensesRoute,
-    R.string.synchronization to ExpensesRoute,
+    R.string.synchronization to SynchronizationRoute,
     R.string.language to ExpensesRoute,
     R.string.about_app to ExpensesRoute
 )

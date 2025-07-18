@@ -17,9 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-private const val GET_TRANSACTION_JOB = "get_transactions"
-
-class TransactionHistoryViewModel @Inject constructor(
+internal class TransactionHistoryViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val getTransactionByType: GetTransactionByType,
     private val saveTransaction: SaveTransaction
@@ -98,5 +96,9 @@ class TransactionHistoryViewModel @Inject constructor(
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()
+    }
+
+    private companion object {
+        const val GET_TRANSACTION_JOB = "get_transactions"
     }
 }
