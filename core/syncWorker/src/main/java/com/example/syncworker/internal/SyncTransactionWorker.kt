@@ -6,11 +6,13 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
-import com.example.data.external.local.TransactionRepositoryRoom
-import com.example.data.external.remote.TransactionRepository
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
+import com.example.network.external.TransactionService
 import com.example.network.internal.common.multiRequest
+import com.example.room.external.TransactionServiceRoom
+import com.example.room.external.WorkLogService
+import com.example.room.external.model.WorkLog
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -22,37 +24,39 @@ import java.util.concurrent.TimeUnit
 internal class SyncTransactionWorker @AssistedInject constructor (
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val transactionRepository: TransactionRepository,
-    private val transactionRepositoryRoom: TransactionRepositoryRoom
+    private val transactionService: TransactionService,
+    private val transactionServiceRoom: TransactionServiceRoom,
+    private val workLogService: WorkLogService
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
+            syncTimeExecution(NAME, workLogService)
+
             syncCreateTransaction()
             syncUpdateTransaction()
             syncDeleteTransaction()
 
-            transactionRepositoryRoom.deleteAll()
-
+            transactionServiceRoom.deleteAll()
             return@withContext Result.success()
         }
     }
 
     suspend fun syncCreateTransaction() {
-        val createdTransactions = transactionRepositoryRoom.getCreated()
+        val createdTransactions = transactionServiceRoom.getCreated()
 
         createdTransactions.onSuccess { list ->
             multiRequest(list) {
-                transactionRepository.create(it)
+                transactionService.create(it)
             }
         }
     }
 
     suspend fun syncUpdateTransaction() {
-        val updatedTransactions = transactionRepositoryRoom.getUpdated()
+        val updatedTransactions = transactionServiceRoom.getUpdated()
 
         updatedTransactions.onSuccess { list ->
             multiRequest(list) { transaction ->
-                transactionRepository.update(
+                transactionService.update(
                     id = transaction.account.id,
                     request = transaction.toRequest()
                 )
@@ -61,11 +65,11 @@ internal class SyncTransactionWorker @AssistedInject constructor (
     }
 
     suspend fun syncDeleteTransaction() {
-        val deletedTransactions = transactionRepositoryRoom.getDeleted()
+        val deletedTransactions = transactionServiceRoom.getDeleted()
 
         deletedTransactions.onSuccess { list ->
             multiRequest(list) { id ->
-                transactionRepository.delete(id)
+                transactionService.delete(id)
             }
         }
     }

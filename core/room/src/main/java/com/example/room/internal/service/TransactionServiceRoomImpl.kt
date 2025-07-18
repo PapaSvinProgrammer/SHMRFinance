@@ -18,8 +18,6 @@ import com.example.utils.RoomThrowable
 import com.example.utils.format.FormatDate
 import javax.inject.Inject
 
-const val MILLIS_IN_DAY = 86_400_000L
-
 internal class TransactionServiceRoomImpl @Inject constructor(
     private val dao: TransactionDao
 ) : TransactionServiceRoom {
@@ -66,7 +64,9 @@ internal class TransactionServiceRoomImpl @Inject constructor(
 
     override suspend fun getById(id: Int): Result<Transaction> {
         return safeCall {
-            dao.getById(id)!!
+            val transaction = dao.getById(id)
+            if (transaction == null) throw RoomThrowable("Not found")
+            transaction
         }.map { it.toDomain() }
     }
 
@@ -116,5 +116,9 @@ internal class TransactionServiceRoomImpl @Inject constructor(
         }.map { list ->
             list.map { it.toInt() }
         }
+    }
+
+    private companion object {
+        const val MILLIS_IN_DAY = 86_400_000L
     }
 }

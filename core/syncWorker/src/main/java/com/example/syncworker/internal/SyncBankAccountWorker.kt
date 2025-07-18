@@ -6,8 +6,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
-import com.example.data.external.local.BankAccountRepositoryRoom
-import com.example.data.external.remote.BankAccountRepository
+import com.example.network.external.BankAccountService
+import com.example.room.external.BankAccountServiceRoom
+import com.example.room.external.WorkLogService
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -19,16 +20,18 @@ import java.util.concurrent.TimeUnit
 internal class SyncBankAccountWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val bankAccountRepository: BankAccountRepository,
-    private val bankAccountRepositoryRoom: BankAccountRepositoryRoom
+    private val bankAccountService: BankAccountService,
+    private val bankAccountServiceRoom: BankAccountServiceRoom,
+    private val workLogService: WorkLogService
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
-            val bankAccounts = bankAccountRepository.getAll()
+            syncTimeExecution(NAME, workLogService)
+            val bankAccounts = bankAccountService.getAll()
 
             bankAccounts.onSuccess {
-                bankAccountRepositoryRoom.insertAll(it).onSuccess {
+                bankAccountServiceRoom.insertAll(it).onSuccess {
                     return@withContext Result.success()
                 }.onFailure {
                     return@withContext Result.retry()

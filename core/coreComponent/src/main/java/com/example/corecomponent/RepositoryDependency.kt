@@ -7,6 +7,7 @@ import com.example.data.external.remote.BankAccountRepository
 import com.example.data.external.remote.CategoryRepository
 import com.example.data.external.remote.PreferencesRepository
 import com.example.data.external.remote.TransactionRepository
+import com.example.room.external.WorkLogService
 
 interface RepositoryDependency {
     val categoryRepository: CategoryRepository
@@ -17,4 +18,5 @@ interface RepositoryDependency {
     val categoryRepositoryRoom: CategoryRepositoryRoom
     val bankAccountRepositoryRoom: BankAccountRepositoryRoom
     val transactionRepositoryRoom: TransactionRepositoryRoom
+    val workLogService: WorkLogService
 }

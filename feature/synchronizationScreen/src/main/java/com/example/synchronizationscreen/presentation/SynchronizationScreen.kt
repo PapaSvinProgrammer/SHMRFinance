@@ -18,13 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.utils.format.FormatDate
+import com.example.shmrfinance.synchronizationScreen.R
+import com.example.synchronizationscreen.utils.PrettyString
+import com.example.synchronizationscreen.utils.toNormalName
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,17 +33,13 @@ internal fun SynchronizationScreen(
     navController: NavController,
     viewModel: SynchronizationViewModel
 ) {
-    val workInfo by viewModel.workInfo.collectAsStateWithLifecycle()
-
-    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
-        viewModel.getWorkInfo()
-    }
+    val workInfo by viewModel.workLogInfo.collectAsStateWithLifecycle(listOf())
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Синхронизация")
+                    Text(text = stringResource(R.string.synchronization))
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -60,16 +57,15 @@ internal fun SynchronizationScreen(
         ) {
             items(
                 items = workInfo,
-                key = { it.id }
+                key = { it.workerName }
             ) {
                 ListItem(
                     headlineContent = {
-                        Text(text = it.tags.first().toNormalName())
+                        Text(text = it.workerName.toNormalName())
                     },
                     trailingContent = {
-                        val isoDate = FormatDate.millisToIsoDate(it.nextScheduleTimeMillis)
                         Text(
-                            text = FormatDate.getPrettyDayAndTime(isoDate),
+                            text = PrettyString.millisToString(it.startTime),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Normal
                         )
@@ -80,11 +76,5 @@ internal fun SynchronizationScreen(
                 HorizontalDivider()
             }
         }
-    }
-}
-
-private fun String.toNormalName(): String {
-    return when (this) {
-        else -> "Неизвестно"
     }
 }

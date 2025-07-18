@@ -6,8 +6,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
-import com.example.data.external.local.CategoryRepositoryRoom
-import com.example.data.external.remote.CategoryRepository
+import com.example.network.external.CategoryService
+import com.example.room.external.CategoryServiceRoom
+import com.example.room.external.WorkLogService
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -18,15 +19,17 @@ import kotlinx.coroutines.withContext
 internal class SyncCategoryWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val categoryRepository: CategoryRepository,
-    private val categoryRepositoryRoom: CategoryRepositoryRoom
+    private val categoryService: CategoryService,
+    private val categoryServiceRoom: CategoryServiceRoom,
+    private val workLogService: WorkLogService
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
-            val categoryResult = categoryRepository.getAll()
+            syncTimeExecution(NAME, workLogService)
+            val categoryResult = categoryService.getAll()
 
             categoryResult.onSuccess {
-                categoryRepositoryRoom.insertAll(it).onSuccess {
+                categoryServiceRoom.insertAll(it).onSuccess {
                     return@withContext Result.success()
                 }.onFailure {
                     return@withContext Result.retry()
