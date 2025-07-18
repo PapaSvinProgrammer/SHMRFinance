@@ -28,13 +28,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.ui.navigation.ExpensesRoute
 import com.example.shmrfinance.settings.R
+import com.example.ui.navigation.NavRoute
 import com.example.ui.navigation.SynchronizationRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsScreen() {
+internal fun SettingsScreen(
+    navController: NavController
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -51,7 +55,9 @@ internal fun SettingsScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
             ChangeThemeContent()
-            SettingsList()
+            SettingsList {
+                navController.navigate(it) { launchSingleTop = true }
+            }
         }
     }
 }
@@ -78,7 +84,9 @@ private fun ChangeThemeContent() {
 }
 
 @Composable
-private fun SettingsList() {
+private fun SettingsList(
+    onClick: (NavRoute) -> Unit
+) {
     settingsList.forEach {
         ListItem(
             headlineContent = { Text(text = stringResource(it.first)) },
@@ -90,7 +98,7 @@ private fun SettingsList() {
                 )
             },
             colors = ListItemDefaults.colors(MaterialTheme.colorScheme.background),
-            modifier = Modifier.clickable {  }
+            modifier = Modifier.clickable { onClick(it.second) }
         )
 
         HorizontalDivider()

@@ -20,9 +20,8 @@ import com.example.splash.splashDestination
 import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
-import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.NavRoute
-import com.example.ui.navigation.SynchronizationRoute
+import com.example.ui.navigation.SplashRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
 import com.example.updatetransaction.presentation.navigation.updateTransactionDestination
 
@@ -37,7 +36,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = SynchronizationRoute,
+        startDestination = SplashRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -85,7 +84,9 @@ fun NavigationGraph(
             appComponent = context.appComponent
         )
 
-        settingsDestination()
+        settingsDestination(
+            navController = navController
+        )
 
         bankAccountListDestination(
             navController = navController,

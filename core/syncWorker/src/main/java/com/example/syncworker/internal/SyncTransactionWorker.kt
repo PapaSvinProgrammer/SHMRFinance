@@ -12,7 +12,6 @@ import com.example.network.external.TransactionService
 import com.example.network.internal.common.multiRequest
 import com.example.room.external.TransactionServiceRoom
 import com.example.room.external.WorkLogService
-import com.example.room.external.model.WorkLog
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
