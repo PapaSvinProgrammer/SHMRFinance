@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bankaccountscreen.GetByIdBankAccount
 import com.example.category.GetAllCategory
-import com.example.data.external.BankAccountRepository
-import com.example.data.external.CategoryRepository
-import com.example.data.external.TransactionRepository
-import com.example.data.internal.di.DataModule
-import com.example.localviewmodelfactory.ViewModelFactory
-import com.example.localviewmodelfactory.ViewModelKey
+import com.example.data.external.remote.BankAccountRepository
+import com.example.data.external.remote.CategoryRepository
+import com.example.data.external.remote.TransactionRepository
+import com.example.localfactory.viewModel.ViewModelFactory
+import com.example.localfactory.viewModel.ViewModelKey
 import com.example.transaction.GetByIdTransaction
 import com.example.transaction.UpdateTransaction
 import com.example.updatetransaction.presentation.UpdateTransactionViewModel
@@ -18,11 +17,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 
-@Module(
-    includes = [
-        DataModule::class
-    ]
-)
+@Module
 internal interface UpdateTransactionModule {
     @Binds
     @UpdateTransactionScope

@@ -13,8 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.common.NetworkThrowable
-import com.example.common.toSlug
+import com.example.utils.NetworkThrowable
+import com.example.utils.toSlug
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen

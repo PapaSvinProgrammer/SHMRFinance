@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.time.tracker)
     alias(libs.plugins.ksp)
     id("com.spotify.ruler")
+    id("kotlin-kapt")
 }
 
 android {
@@ -53,11 +54,12 @@ dependencies {
     implementation(project(":feature:updateBankAccount"))
     implementation(project(":feature:createTransaction"))
     implementation(project(":feature:updateTransaction"))
-    implementation(project(":core:connectivityState"))
+    implementation(project(":feature:transactionAnalysis"))
+    implementation(project(":feature:synchronizationScreen"))
 
     implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
+    kapt(libs.dagger.compiler)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

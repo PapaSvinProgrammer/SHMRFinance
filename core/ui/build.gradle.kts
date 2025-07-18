@@ -1,16 +1,23 @@
-
 plugins {
     id("android-core-module")
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+android {
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
-    api(project(":core:common"))
     api(project(":core:model"))
     api(project(":core:utils"))
-    api(project(":core:navigationRoute"))
 
+    implementation(libs.lottie.compose)
+    implementation(libs.androidx.navigation)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)

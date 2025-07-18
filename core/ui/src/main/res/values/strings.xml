@@ -15,4 +15,9 @@
     <string name="sum">Сумма</string>
     <string name="categories">Категории</string>
     <string name="comment_hint">Введите комментарий</string>
+    <string name="expenses">Расходы</string>
+    <string name="incomes">Доходы</string>
+    <string name="articles">Статьи</string>
+    <string name="settings">Настройки</string>
+    <string name="empty_transaction">Транзакции отсутсвуют</string>
 </resources>

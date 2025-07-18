@@ -23,11 +23,14 @@ import com.example.model.Category
 import com.example.shmrfinance.articles.R
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.widget.components.BasicLoadingScreen
+import com.example.ui.widget.components.DefaultErrorContent
 import com.example.ui.widget.listItems.CategoryListItem
+import com.example.utils.NetworkThrowable
+import com.example.utils.toSlug
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticlesScreen(
+internal fun ArticlesScreen(
     navController: NavController,
     viewModel: ArticlesViewModel
 ) {
@@ -51,7 +54,10 @@ fun ArticlesScreen(
         }
     ) { innerPadding ->
         when (val state = categoryState) {
-            is CategoryUIState.Error -> {}
+            is CategoryUIState.Error -> {
+                val error = (state.error as? NetworkThrowable)?.toSlug()
+                DefaultErrorContent(error ?: "")
+            }
             CategoryUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is CategoryUIState.Success -> {
                 var categoryList = state.data

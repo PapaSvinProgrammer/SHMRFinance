@@ -1,87 +1,93 @@
 package com.example.createbankaccount.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.bankaccountscreen.CreateBankAccount
+import com.example.createbankaccount.presentation.widget.UiState
+import com.example.createbankaccount.presentation.widget.VisibleState
 import com.example.model.AccountRequest
 import com.example.model.CurrencyType
 import com.example.model.toSlug
 import com.example.ui.uiState.BankAccountUIState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.utils.cancelAllJobs
+import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.asStateFlow
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class CreateBankAccountViewModel @Inject constructor(
+internal class CreateBankAccountViewModel @Inject constructor(
     private val createBankAccount: CreateBankAccount
-): ViewModel() {
-    private var jobCreateBankAccount: Job? = null
+) : ViewModel() {
+    private val _uiState = MutableStateFlow(UiState())
+    private val _visibleState = MutableStateFlow(VisibleState())
+    val uiState = _uiState.asStateFlow()
+    val visibleState = _visibleState.asStateFlow()
 
-    private val _name = MutableStateFlow("")
-    private val _balance = MutableStateFlow(BigDecimal(0))
-    private val _currency = MutableStateFlow(CurrencyType.RUB)
-    val name: StateFlow<String> = _name
-    val balance: StateFlow<BigDecimal> = _balance
-    val currency: StateFlow<CurrencyType> = _currency
-
-    private val _errorName = MutableStateFlow(false)
-    val errorName: StateFlow<Boolean> = _errorName
-
-    private val _isStartCreate = MutableStateFlow(false)
     private val _accountState = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
-    val isStartCreate: StateFlow<Boolean> = _isStartCreate
-    val accountState: StateFlow<BankAccountUIState> = _accountState
-
-    private val _visibleCurrencySheet = MutableStateFlow(false)
-    val visibleCurrencySheet: StateFlow<Boolean> = _visibleCurrencySheet
-
+    val accountState = _accountState.asStateFlow()
 
     fun updateVisibleCurrencySheet(state: Boolean) {
-        _visibleCurrencySheet.value = state
+       _visibleState.value = visibleState.value.copy(
+           currencySheet = state
+       )
     }
 
-    fun updateStartCreate(state: Boolean) {
-        _isStartCreate.value = state
+    fun updateVisibleResultDialog(state: Boolean) {
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = state
+        )
     }
 
     fun updateName(text: String) {
-        _name.value = text
+        _uiState.value = uiState.value.copy(
+            name = text
+        )
     }
 
     fun updateBalance(value: BigDecimal) {
-        _balance.value = value
+        _uiState.value = uiState.value.copy(
+            balance = value
+        )
     }
 
     fun updateCurrency(value: CurrencyType) {
-        _currency.value = value
+        _uiState.value = uiState.value.copy(
+            currency = value
+        )
     }
 
     fun updateErrorName(state: Boolean) {
-        _errorName.value = state
+        _uiState.value = uiState.value.copy(
+            errorName = state
+        )
     }
 
-    fun createBankAccount() {
-        _isStartCreate.value = true
-
-        val request = AccountRequest(
-            name = name.value,
-            balance = balance.toString(),
-            currency = currency.value.toSlug()
+    fun createBankAccount() = launchWithoutOld(CREATE_ACCOUNT_JOB) {
+        _visibleState.value = visibleState.value.copy(
+            resultDialog = true
         )
 
-        jobCreateBankAccount?.cancel()
+        val request = AccountRequest(
+            name = uiState.value.name,
+            balance = uiState.value.balance.toString(),
+            currency = uiState.value.currency.toSlug()
+        )
 
-        jobCreateBankAccount = viewModelScope.launch(Dispatchers.IO) {
-            createBankAccount.execute(request)
-                .onSuccess {
-                    _accountState.value = BankAccountUIState.Success(listOf(it))
-                }
-                .onFailure {
-                    _accountState.value = BankAccountUIState.Error(it)
-                }
-        }
+        createBankAccount.execute(request)
+            .onSuccess {
+                _accountState.value = BankAccountUIState.Success(listOf(it))
+            }
+            .onFailure {
+                _accountState.value = BankAccountUIState.Error(it)
+            }
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
+    }
+
+    private companion object {
+        const val CREATE_ACCOUNT_JOB = "create_bank_account"
     }
 }

@@ -36,23 +36,19 @@ import com.example.ui.widget.bottomSheet.CurrencyBottomSheet
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultBankAccountCard
 import com.example.ui.widget.listItems.TransactionListItem
-import com.example.utils.ConvertData
+import com.example.utils.format.ConvertData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateBankAccountScreen(
+internal fun UpdateBankAccountScreen(
     navController: NavController,
     viewModel: UpdateBankAccountViewModel,
     bankAccountId: Int
 ) {
-    val bankAccount by viewModel.bankAccountState.collectAsStateWithLifecycle()
-    val visibleCurrencySheet by viewModel.visibleCurrencySheet.collectAsStateWithLifecycle()
-    val visibleResultDialog by viewModel.visibleResultDialog.collectAsStateWithLifecycle()
     val resultState by viewModel.resultState.collectAsStateWithLifecycle()
-
-    val name by viewModel.name.collectAsStateWithLifecycle()
-    val balance by viewModel.balance.collectAsStateWithLifecycle()
-    val currency by viewModel.currency.collectAsStateWithLifecycle()
+    val bankAccount by viewModel.accountState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val visible by viewModel.visibleState.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getBankAccount(bankAccountId)
@@ -75,7 +71,7 @@ fun UpdateBankAccountScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            if (name.isNotEmpty()) {
+                            if (uiState.name.isNotEmpty()) {
                                 viewModel.updateBankAccount(bankAccountId)
                             }
                         }
@@ -99,20 +95,20 @@ fun UpdateBankAccountScreen(
                         .padding(innerPadding)
                 ) {
                     DefaultBankAccountCard(
-                        name = name,
-                        balance = balance,
-                        currencyType = currency,
+                        name = uiState.name,
+                        balance = uiState.balance,
+                        currencyType = uiState.currency,
                         onValueNameChange = { viewModel.updateName(it) },
                         onValueBalanceChange = {},
                         balanceIsEnable = false,
-                        isErrorName = name.isEmpty()
+                        isErrorName = uiState.name.isEmpty()
                     )
 
                     HorizontalDivider()
 
                     TransactionListItem(
                         title = stringResource(R.string.currency),
-                        amount = ConvertData.getCurrencySymbol(currency.toSlug()),
+                        amount = ConvertData.getCurrencySymbol(uiState.currency.toSlug()),
                         modifier = Modifier.clickable {
                             viewModel.updateVisibleCurrencySheet(true)
                         }
@@ -137,7 +133,7 @@ fun UpdateBankAccountScreen(
             }
         }
 
-        if (visibleCurrencySheet) {
+        if (visible.currencySheet) {
             CurrencyBottomSheet(
                 onDismissRequest = {
                     viewModel.updateVisibleCurrencySheet(false)
@@ -146,11 +142,14 @@ fun UpdateBankAccountScreen(
             )
         }
 
-        if (visibleResultDialog) {
+        if (visible.resultDialog) {
             ResultDialog(
                 type = resultState.toResultType(),
                 error = (resultState as? BankAccountUIState.Error)?.error,
-                onDismissRequest = { navController.popBackStack() }
+                onDismissRequest = {
+                    viewModel.updateVisibleResultDialog(false)
+                    navController.popBackStack()
+                }
             )
         }
     }

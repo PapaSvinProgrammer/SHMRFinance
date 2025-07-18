@@ -6,7 +6,8 @@ plugins {
 dependencies {
     api(project(":core:ui"))
     api(project(":domain:category"))
-    implementation(project(":core:localViewModelFactory"))
+    api(project(":core:coreComponent"))
+    api(project(":core:localFactory"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

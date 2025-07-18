@@ -1,59 +1,73 @@
 package com.example.income.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.data.external.PreferencesRepository
+import com.example.data.external.remote.PreferencesRepository
+import com.example.income.presentation.widget.UiState
 import com.example.model.Transaction
 import com.example.transaction.GetTransactionByType
+import com.example.transaction.SaveTransaction
+import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
-import com.example.utils.FormatDate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.utils.NoSelectBankAccount
+import com.example.utils.cancelAllJobs
+import com.example.utils.format.FormatDate
+import com.example.utils.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import java.math.BigDecimal
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-class IncomeViewModel @Inject constructor(
+internal class IncomeViewModel @Inject constructor(
     private val getTransactionByType: GetTransactionByType,
+    private val saveTransaction: SaveTransaction,
     preferencesRepository: PreferencesRepository
-): ViewModel() {
-    private var jobGetTransaction: Job? = null
+) : ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
 
-    private val _transactionState = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
-    private val _totalAmount = MutableStateFlow(BigDecimal(0))
-    private val _currency = MutableStateFlow<String?>(null)
+    private val _transactions = MutableStateFlow(TransactionUIState.Loading as TransactionUIState)
+    private val _uiState = MutableStateFlow(UiState())
+    val transactions = _transactions.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
-    val transactionState: StateFlow<TransactionUIState> = _transactionState
-    val totalAmount: StateFlow<BigDecimal> = _totalAmount
-    val currency: StateFlow<String?> = _currency
+    fun getTransactions() = launchWithoutOld(GET_TRANSACTIONS) {
+        val currentDate = FormatDate.getCurrentDate()
 
-    fun getTransactions() {
-        jobGetTransaction = viewModelScope.launch(Dispatchers.IO) {
-            val currentDate = FormatDate.getCurrentDate()
+        accountId.collect { id ->
+            if (id != null) {
+                val params = GetTransactionParams(
+                    isIncome = true,
+                    accountId = id,
+                    startDate = currentDate,
+                    endDate = currentDate
+                )
 
-            accountId.collect { id ->
-                if (id != null) {
-                    getTransactionByType.execute(
-                        isIncome = true,
-                        accountId = id,
-                        startDate = currentDate,
-                        endDate = currentDate
-                    ).onSuccess {
-                        updateTransactionState(it)
-                    }.onFailure {
-                        _transactionState.value = TransactionUIState.Error(it)
-                    }
+                getTransactionByType.execute(params).onSuccess {
+                    updateTransactionState(it)
+                    saveTransaction.execute(it)
+                }.onFailure {
+                    _transactions.value = TransactionUIState.Error(it)
                 }
+            }
+            else {
+                _transactions.value = TransactionUIState.Error(NoSelectBankAccount())
             }
         }
     }
 
     private fun updateTransactionState(data: List<Transaction>) {
-        _transactionState.value = TransactionUIState.Success(data)
-        _totalAmount.value = data.sumOf { it.amount }
-        _currency.value = data.firstOrNull()?.account?.currency
+        _transactions.value = TransactionUIState.Success(data)
+
+        _uiState.value = _uiState.value.copy(
+            totalAmount = data.sumOf { it.amount },
+            currency = data.firstOrNull()?.account?.currency
+        )
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
+    }
+
+    private companion object {
+        private const val GET_TRANSACTIONS = "get_transactions"
     }
 }

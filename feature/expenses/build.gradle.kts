@@ -4,9 +4,10 @@ plugins {
 }
 
 dependencies {
+    api(project(":core:coreComponent"))
     api(project(":core:ui"))
     api(project(":domain:transaction"))
-    implementation(project(":core:localViewModelFactory"))
+    implementation(project(":core:localFactory"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

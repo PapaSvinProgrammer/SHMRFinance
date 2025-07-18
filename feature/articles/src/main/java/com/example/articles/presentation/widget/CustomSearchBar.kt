@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.shmrfinance.ui.R
 
 @Composable
-fun CustomSearchBar(
+internal fun CustomSearchBar(
     query: String,
     onValueChange: (String) -> Unit
 ) {

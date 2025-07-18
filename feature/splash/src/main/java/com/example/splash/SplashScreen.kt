@@ -14,11 +14,11 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.navigationroute.ExpensesRoute
+import com.example.ui.navigation.ExpensesRoute
 import com.example.shmrfinance.splash.R
 
 @Composable
-fun SplashScreen(navController: NavController) {
+internal fun SplashScreen(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.anim_splash))
         val state = animateLottieCompositionAsState(composition = composition)

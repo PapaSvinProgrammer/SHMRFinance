@@ -1,13 +1,14 @@
 package com.example.transaction
 
-import com.example.common.request
-import com.example.data.external.TransactionRepository
+import com.example.data.external.remote.TransactionRepository
+import com.example.utils.UseCase
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class DeleteTransaction @Inject constructor(
     private val transactionRepository: TransactionRepository
-) {
-    suspend fun execute(id: Int): Result<Unit> {
-        return request { transactionRepository.delete(id) }
+) : UseCase<Int, Result<Unit>>(Dispatchers.IO) {
+    override suspend fun run(params: Int): Result<Unit> {
+        return transactionRepository.delete(params)
     }
 }

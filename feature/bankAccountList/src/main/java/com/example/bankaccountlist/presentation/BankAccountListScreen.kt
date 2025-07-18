@@ -31,11 +31,14 @@ import com.example.model.BankAccount
 import com.example.shmrfinance.bankAccountList.R
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
-import com.example.utils.ConvertData
+import com.example.ui.widget.components.DefaultErrorContent
+import com.example.utils.NetworkThrowable
+import com.example.utils.format.ConvertData
+import com.example.utils.toSlug
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BankAccountListScreen(
+internal fun BankAccountListScreen(
     navController: NavController,
     viewModel: BankAccountListViewModel
 ) {
@@ -58,7 +61,10 @@ fun BankAccountListScreen(
         }
     ) { innerPadding ->
         when (val state = accountState) {
-            is BankAccountUIState.Error -> {}
+            is BankAccountUIState.Error -> {
+                val error = (state.error as? NetworkThrowable)?.toSlug()
+                DefaultErrorContent(error ?: "")
+            }
             BankAccountUIState.Loading -> BasicLoadingScreen(Modifier.fillMaxSize())
             is BankAccountUIState.Success -> {
                 MainContent(
