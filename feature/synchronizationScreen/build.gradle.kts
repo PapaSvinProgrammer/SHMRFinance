@@ -4,9 +4,10 @@ plugins {
 }
 
 dependencies {
-    api(project(":core:localFactory"))
-    api(project(":core:coreComponent"))
-    api(project(":core:ui"))
+    api(project(":core:syncWorker"))
+    implementation(project(":core:localFactory"))
+    implementation(project(":core:coreComponent"))
+    implementation(project(":core:ui"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

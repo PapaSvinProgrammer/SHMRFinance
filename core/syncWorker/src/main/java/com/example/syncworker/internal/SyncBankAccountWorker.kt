@@ -1,4 +1,4 @@
-package com.example.shmrfinance.syncworker
+package com.example.syncworker.internal
 
 import android.content.Context
 import androidx.work.Constraints
@@ -6,18 +6,22 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
-import com.example.shmrfinance.appComponent
+import com.example.data.external.local.BankAccountRepositoryRoom
+import com.example.data.external.remote.BankAccountRepository
+import com.example.syncworker.internal.di.ChildWorkerFactory
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class SyncBankAccountWorker(
-    context: Context,
-    params: WorkerParameters
+internal class SyncBankAccountWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val bankAccountRepository: BankAccountRepository,
+    private val bankAccountRepositoryRoom: BankAccountRepositoryRoom
 ) : CoroutineWorker(context, params) {
-    val bankAccountRepository = context.appComponent.bankAccountRepository
-    val bankAccountRepositoryRoom = context.appComponent.bankAccountRepositoryRoom
 
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
@@ -35,6 +39,11 @@ class SyncBankAccountWorker(
         }
     }
 
+    @AssistedFactory
+    interface Factory : ChildWorkerFactory {
+        override fun create(context: Context, params: WorkerParameters): SyncBankAccountWorker
+    }
+
     companion object {
         const val NAME = "sync_bank_account_data"
 
@@ -42,17 +51,12 @@ class SyncBankAccountWorker(
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        private val inputData = workDataOf(
-            Constants.NAME_KEY to NAME
-        )
-
         val request = PeriodicWorkRequest
             .Builder(
                 workerClass = SyncBankAccountWorker::class.java,
                 repeatInterval = 12,
                 repeatIntervalTimeUnit = TimeUnit.HOURS
             )
-            .setInputData(inputData)
             .setConstraints(constraints)
             .build()
     }

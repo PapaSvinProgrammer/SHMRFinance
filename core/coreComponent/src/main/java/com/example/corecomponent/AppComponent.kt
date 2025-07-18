@@ -1,10 +1,11 @@
 package com.example.corecomponent
 
 import android.content.Context
-import androidx.work.WorkManager
 import com.example.data.internal.di.DataModule
 import com.example.network.internal.di.NetworkModule
 import com.example.room.internal.di.RoomModule
+import com.example.syncworker.external.WorkManagerModule
+import com.example.syncworker.external.WorkManagerDependency
 import com.example.utils.ApplicationScope
 import dagger.BindsInstance
 import dagger.Component
@@ -18,11 +19,9 @@ import dagger.Component
     ]
 )
 @ApplicationScope
-interface AppComponent: RepositoryDependency {
+interface AppComponent: RepositoryDependency, WorkManagerDependency {
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
-
-    val workManager: WorkManager
 }

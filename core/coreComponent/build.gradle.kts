@@ -6,7 +6,7 @@ plugins {
 dependencies {
     api(project(":core:utils"))
     api(project(":core:data"))
-    api(libs.androidx.work.runtime.ktx)
+    api(project(":core:syncWorker"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

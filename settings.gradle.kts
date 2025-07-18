@@ -1,11 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:synchronizationScreen")
-
-
-include(":feature:transactionAnalysis")
-
-
 includeBuild("build-logic")
 
 pluginManagement {
@@ -40,7 +34,8 @@ listOf(
     "utils",
     "coreComponent",
     "localFactory",
-    "room"
+    "room",
+    "syncWorker"
 ).forEach {
     include(":core:$it")
 }
@@ -65,7 +60,9 @@ listOf(
     "transactionHistory",
     "updateBankAccount",
     "updateTransaction",
-    "createTransaction"
+    "createTransaction",
+    "synchronizationScreen",
+    "transactionAnalysis"
 ).forEach {
     include(":feature:$it")
 }

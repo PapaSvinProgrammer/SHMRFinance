@@ -16,9 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SHMRFinanceTheme {
-                MainScreen(
-                    startRoute = ExpensesRoute
-                )
+                MainScreen(startRoute = ExpensesRoute)
             }
         }
     }

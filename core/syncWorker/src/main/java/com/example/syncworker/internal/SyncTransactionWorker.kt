@@ -1,4 +1,4 @@
-package com.example.shmrfinance.syncworker
+package com.example.syncworker.internal
 
 import android.content.Context
 import androidx.work.Constraints
@@ -6,22 +6,25 @@ import androidx.work.CoroutineWorker
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
+import com.example.data.external.local.TransactionRepositoryRoom
+import com.example.data.external.remote.TransactionRepository
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
 import com.example.network.internal.common.multiRequest
-import com.example.shmrfinance.appComponent
+import com.example.syncworker.internal.di.ChildWorkerFactory
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class SyncTransactionWorker(
-    context: Context,
-    params: WorkerParameters
+internal class SyncTransactionWorker @AssistedInject constructor (
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val transactionRepository: TransactionRepository,
+    private val transactionRepositoryRoom: TransactionRepositoryRoom
 ) : CoroutineWorker(context, params) {
-    val transactionRepositoryRoom = context.appComponent.transactionRepositoryRoom
-    val transactionRepository = context.appComponent.transactionRepository
-
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
             syncCreateTransaction()
@@ -67,6 +70,11 @@ class SyncTransactionWorker(
         }
     }
 
+    @AssistedFactory
+    interface Factory : ChildWorkerFactory {
+        override fun create(context: Context, params: WorkerParameters): SyncTransactionWorker
+    }
+
     companion object {
         const val NAME = "sync_transaction_worker"
 
@@ -74,17 +82,12 @@ class SyncTransactionWorker(
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        private val inputData = workDataOf(
-            Constants.NAME_KEY to NAME
-        )
-
         val request = PeriodicWorkRequest
             .Builder(
                 workerClass = SyncTransactionWorker::class.java,
                 repeatInterval = 4,
                 repeatIntervalTimeUnit = TimeUnit.HOURS
             )
-            .setInputData(inputData)
             .setConstraints(constraints)
             .build()
     }
