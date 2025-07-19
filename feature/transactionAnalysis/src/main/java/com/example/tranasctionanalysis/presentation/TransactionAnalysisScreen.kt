@@ -1,9 +1,7 @@
 package com.example.tranasctionanalysis.presentation
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,10 +26,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.charts.DonutChart
 import com.example.model.Transaction
 import com.example.shmrfinance.transactionAnalysis.R
+import com.example.tranasctionanalysis.presentation.widget.ChartDataBottomSheet
 import com.example.tranasctionanalysis.presentation.widget.DateListItem
+import com.example.tranasctionanalysis.presentation.widget.DonutChartContent
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultErrorContent
@@ -102,6 +100,9 @@ internal fun TransactionAnalysisScreen(
                     },
                     onEndDateChange = {
                         viewModel.updateEndDatePickerVisible(true)
+                    },
+                    onShowMoreChartData = {
+                        viewModel.updateChartSheetVisible(true)
                     }
                 )
             }
@@ -133,6 +134,13 @@ internal fun TransactionAnalysisScreen(
             }
         )
     }
+
+    if (visibleState.chartBottomSheetVisible) {
+        ChartDataBottomSheet(
+            data = chartData,
+            onDismiss = { viewModel.updateChartSheetVisible(false) }
+        )
+    }
 }
 
 @Composable
@@ -145,7 +153,8 @@ private fun MainContent(
     startDate: String,
     endDate: String,
     onStartDateChange: () -> Unit,
-    onEndDateChange: () -> Unit
+    onEndDateChange: () -> Unit,
+    onShowMoreChartData: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         DateListItem(
@@ -178,14 +187,10 @@ private fun MainContent(
         TransactionContent(list) {
             LazyColumn {
                 item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 15.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        DonutChart(data = chartData)
-                    }
+                    DonutChartContent(
+                        chartData = chartData,
+                        onClickButtonMore = onShowMoreChartData
+                    )
                 }
 
                 items(

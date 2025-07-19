@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Transaction
 import com.example.tranasctionanalysis.domain.PrepareChartData
-import com.example.tranasctionanalysis.presentation.widget.UIState
-import com.example.tranasctionanalysis.presentation.widget.VisibleState
+import com.example.tranasctionanalysis.presentation.widget.state.UIState
+import com.example.tranasctionanalysis.presentation.widget.state.VisibleState
 import com.example.transaction.GetTransactionByType
 import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
@@ -65,6 +65,12 @@ internal class TransactionAnalysisViewModel @Inject constructor(
         )
     }
 
+    fun updateChartSheetVisible(state: Boolean) {
+        _visibleState.value = _visibleState.value.copy(
+            chartBottomSheetVisible = state
+        )
+    }
+
     fun getTransactions(isIncome: Boolean) = launchWithoutOld(TRANSACTIONS_JOB) {
         accountId.collect { id ->
             if (id != null) {
@@ -88,7 +94,7 @@ internal class TransactionAnalysisViewModel @Inject constructor(
         }
     }
 
-    private suspend fun prepareChartData(list: List<Transaction>) {
+    private fun prepareChartData(list: List<Transaction>) = launchWithoutOld(PREPARE_DATA_JOB) {
         _chartData.value = prepareChartData.execute(list)
     }
 
@@ -107,5 +113,6 @@ internal class TransactionAnalysisViewModel @Inject constructor(
 
     private companion object {
         const val TRANSACTIONS_JOB = "get_transactions"
+        const val PREPARE_DATA_JOB = "prepare_data"
     }
 }

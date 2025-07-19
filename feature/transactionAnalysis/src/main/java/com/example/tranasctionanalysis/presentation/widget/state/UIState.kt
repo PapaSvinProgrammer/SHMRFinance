@@ -1,4 +1,4 @@
-package com.example.tranasctionanalysis.presentation.widget
+package com.example.tranasctionanalysis.presentation.widget.state
 
 import java.math.BigDecimal
 
