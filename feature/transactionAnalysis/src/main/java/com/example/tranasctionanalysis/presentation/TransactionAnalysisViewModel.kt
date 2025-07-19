@@ -3,6 +3,7 @@ package com.example.tranasctionanalysis.presentation
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Transaction
+import com.example.tranasctionanalysis.domain.PrepareChartData
 import com.example.tranasctionanalysis.presentation.widget.UIState
 import com.example.tranasctionanalysis.presentation.widget.VisibleState
 import com.example.transaction.GetTransactionByType
@@ -19,6 +20,7 @@ import javax.inject.Inject
 internal class TransactionAnalysisViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val getTransactionByType: GetTransactionByType,
+    private val prepareChartData: PrepareChartData,
 ): ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
 
@@ -28,6 +30,9 @@ internal class TransactionAnalysisViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
     val visibleState = _visibleState.asStateFlow()
     val transactionState = _transactionState.asStateFlow()
+
+    private val _chartData = MutableStateFlow<Map<Float, String>>(mapOf())
+    val chartData = _chartData.asStateFlow()
 
     init {
         _uiState.value = _uiState.value.copy(
@@ -72,6 +77,7 @@ internal class TransactionAnalysisViewModel @Inject constructor(
 
                 getTransactionByType.execute(params).onSuccess {
                     updateTransactionState(it)
+                    prepareChartData(it)
                 }.onFailure {
                     _transactionState.value = TransactionUIState.Error(it)
                 }
@@ -80,6 +86,10 @@ internal class TransactionAnalysisViewModel @Inject constructor(
                 _transactionState.value = TransactionUIState.Error(NoSelectBankAccount())
             }
         }
+    }
+
+    private suspend fun prepareChartData(list: List<Transaction>) {
+        _chartData.value = prepareChartData.execute(list)
     }
 
     private fun updateTransactionState(data: List<Transaction>) {

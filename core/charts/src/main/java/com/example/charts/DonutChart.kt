@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,21 +23,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.charts.utils.generateColors
+import kotlin.math.max
 
 @Composable
 fun DonutChart(
-    proportions: List<Float>,
-    labels: List<String>,
-    modifier: Modifier = Modifier
+    data: Map<Float, String>,
+    modifier: Modifier = Modifier,
+    boundSize: Dp = 200.dp
 ) {
-    val total = proportions.sum()
+    val formatData = data.toList()
+    val total = formatData.sumOf { it.first.toDouble() }.toFloat()
+    val colors = generateColors(formatData.size)
+
     val animatedProgress = remember { Animatable(0f) }
-    val colors = generateColors(proportions.size)
 
     LaunchedEffect(Unit) {
         animatedProgress.animateTo(
@@ -45,14 +51,30 @@ fun DonutChart(
         )
     }
 
+    val minSweepAngle = 2f
+
+    val sweepAngles = remember(formatData) {
+        val rawAngles = formatData.map { (it.first / total) * 360f }
+        val adjusted = rawAngles.map { max(it, minSweepAngle) }
+
+        val overshoot = adjusted.sum() - 360f
+
+        if (overshoot > 0f) {
+            val reductionFactor = 360f / adjusted.sum()
+            adjusted.map { it * reductionFactor }
+        } else {
+            adjusted
+        }
+    }
+
     Box(
         modifier = modifier
-            .size(250.dp)
-            .background(Color(0xFFFEF7FF)),
+            .size(boundSize)
+            .padding(10.dp),
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            val stroke = 40f
+            val stroke = 30f
             val radius = size.minDimension / 2
             val topLeft = Offset(
                 (size.width - radius * 2) / 2,
@@ -61,11 +83,11 @@ fun DonutChart(
 
             var startAngle = -90f
 
-            proportions.forEachIndexed { index, proportion ->
-                val sweep = proportion / total * 360f * animatedProgress.value
+            formatData.forEachIndexed { index, _ ->
+                val sweep = sweepAngles[index] * animatedProgress.value
 
                 drawArc(
-                    color = colors[index],
+                    color = colors[index % colors.size],
                     startAngle = startAngle,
                     sweepAngle = sweep,
                     useCenter = false,
@@ -74,26 +96,34 @@ fun DonutChart(
                     topLeft = topLeft
                 )
 
-                startAngle += proportion / total * 360f
+                startAngle += sweepAngles[index]
             }
         }
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            labels.forEachIndexed { index, label ->
+        Column(horizontalAlignment = Alignment.Start) {
+            formatData.take(3).forEachIndexed { index, (_, label) ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
-                            .size(12.dp)
-                            .background(colors[index], shape = CircleShape)
+                            .size(8.dp)
+                            .background(
+                                color = colors[index % colors.size],
+                                shape = CircleShape
+                            )
                     )
+
                     Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
                         text = label,
-                        color = Color.Black
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 13.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
 }
+
