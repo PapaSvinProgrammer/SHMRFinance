@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:charts")
+
+
 includeBuild("build-logic")
 
 pluginManagement {
