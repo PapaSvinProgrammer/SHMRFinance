@@ -28,6 +28,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.bankaccountscreen.presentation.widget.component.ChartContent
+import com.example.bankaccountscreen.presentation.widget.model.ChartType
 import com.example.model.BankAccount
 import com.example.shmrfinance.bankAccountScreen.R
 import com.example.ui.navigation.BankAccountListRoute
@@ -141,6 +143,12 @@ private fun MainContent(
                 colors = ListItemDefaults.colors(MaterialTheme.colorScheme.primaryContainer),
                 title = stringResource(R.string.currency),
                 value = ConvertData.getCurrencySymbol(account.currency)
+            )
+
+            ChartContent(
+                bankAccount = account,
+                chartType = ChartType.COLUMN,
+                onChangeChartType = {}
             )
         }
 

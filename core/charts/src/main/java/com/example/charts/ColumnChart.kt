@@ -29,16 +29,14 @@ import java.math.BigDecimal
 
 @Composable
 fun ColumnChart(
-    data: List<ChartData>,
-    modifier: Modifier
+    y: List<Float>,
+    modifier: Modifier = Modifier
 ) {
     val modelProducer = remember { CartesianChartModelProducer() }
-    val x = data.map { it.x }
-    val y = data.map { it.y }
 
     LaunchedEffect(Unit) {
         modelProducer.runTransaction {
-            columnSeries { series(x, y) }
+            columnSeries { series(y) }
         }
     }
 
