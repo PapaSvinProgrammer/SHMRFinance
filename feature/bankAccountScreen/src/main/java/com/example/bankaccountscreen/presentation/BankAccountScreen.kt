@@ -29,7 +29,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.bankaccountscreen.presentation.widget.component.ChartContent
-import com.example.bankaccountscreen.presentation.widget.model.ChartType
+import com.example.bankaccountscreen.presentation.widget.model.ChartListItem
 import com.example.model.BankAccount
 import com.example.shmrfinance.bankAccountScreen.R
 import com.example.ui.navigation.BankAccountListRoute
@@ -52,6 +52,7 @@ internal fun BankAccountScreen(
     viewModel: BankAccountViewModel
 ) {
     val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
+    val currentChart by viewModel.currentChart.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getBankAccount()
@@ -103,10 +104,14 @@ internal fun BankAccountScreen(
                         .fillMaxSize()
                         .padding(top = innerPadding.calculateTopPadding()),
                     account = state.data.first(),
+                    currentChart = currentChart,
                     onClickCrateAccount = {
                         navController.navigate(CreateBankAccountRoute) {
                             launchSingleTop = true
                         }
+                    },
+                    onChangeChart = {
+                        viewModel.updateCurrentChart(it)
                     }
                 )
             }
@@ -118,7 +123,9 @@ internal fun BankAccountScreen(
 private fun MainContent(
     modifier: Modifier = Modifier,
     account: BankAccount,
-    onClickCrateAccount: () -> Unit
+    currentChart: ChartListItem,
+    onClickCrateAccount: () -> Unit,
+    onChangeChart: (ChartListItem) -> Unit
 ) {
     Box(modifier = modifier) {
         Column {
@@ -147,8 +154,8 @@ private fun MainContent(
 
             ChartContent(
                 bankAccount = account,
-                chartType = ChartType.COLUMN,
-                onChangeChartType = {}
+                currentChart = currentChart,
+                onChangeChart = onChangeChart
             )
         }
 

@@ -3,6 +3,7 @@ package com.example.bankaccountscreen.presentation
 import androidx.lifecycle.ViewModel
 import com.example.bankaccountscreen.GetAllBankAccount
 import com.example.bankaccountscreen.GetByIdBankAccount
+import com.example.bankaccountscreen.presentation.widget.model.ChartListItem
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.BankAccount
 import com.example.ui.uiState.BankAccountUIState
@@ -20,10 +21,12 @@ internal class BankAccountViewModel @Inject constructor(
     private var accountFlow = preferencesRepository.getCurrentAccountId()
 
     private val _currentBankAccount = MutableStateFlow(BankAccountUIState.Loading as BankAccountUIState)
+    private val _currentChart = MutableStateFlow(ChartListItem.ColumnChart as ChartListItem)
     val currentBankAccount = _currentBankAccount.asStateFlow()
+    val currentChart = _currentChart.asStateFlow()
 
-    private fun updateAccountId(id: Int) = launchWithoutOld(UPDATE_ACCOUNT_JOB) {
-        preferencesRepository.setCurrentAccountId(id)
+    fun updateCurrentChart(chart: ChartListItem) {
+        _currentChart.value = chart
     }
 
     fun getBankAccount() = launchWithoutOld(GET_ACCOUNT_JOB) {
@@ -54,6 +57,10 @@ internal class BankAccountViewModel @Inject constructor(
             val temp = accounts.first()
             updateAccountId(temp.id)
         }
+    }
+
+    private fun updateAccountId(id: Int) = launchWithoutOld(UPDATE_ACCOUNT_JOB) {
+        preferencesRepository.setCurrentAccountId(id)
     }
 
     override fun onCleared() {

@@ -19,17 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.example.bankaccountscreen.presentation.widget.listItem.DropDownListItem
-import com.example.bankaccountscreen.presentation.widget.model.DropDownItem
+import com.example.bankaccountscreen.presentation.widget.model.ChartListItem
 
 @Composable
 internal fun BoxScope.SelectableDropDownList(
-    current: DropDownItem,
-    list: List<DropDownItem>,
-    onClick: (DropDownItem) -> Unit
+    current: ChartListItem,
+    list: List<ChartListItem>,
+    onClick: (ChartListItem) -> Unit
 ) {
-    val refactorList = remember(current) {
-        list.takeIf { it != current }?.toList() ?: listOf()
-    }
+    val refactorList = remember(current) { list.weedOutList(current) }
     var isExpanded by remember { mutableStateOf(false) }
     val takeCount = remember(isExpanded) {
         if (isExpanded) refactorList.count() else 0
@@ -40,7 +38,7 @@ internal fun BoxScope.SelectableDropDownList(
             .padding(15.dp)
             .shadow(
                 elevation = 8.dp,
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(20.dp)
             )
             .align(Alignment.TopEnd)
             .background(
@@ -63,9 +61,24 @@ internal fun BoxScope.SelectableDropDownList(
             items(refactorList.take(takeCount)) { item ->
                 DropDownListItem(
                     item = item,
-                    onClick = { }
+                    onClick = {
+                        onClick(item)
+                        isExpanded = !isExpanded
+                    }
                 )
             }
         }
     }
+}
+
+private fun List<ChartListItem>.weedOutList(current: ChartListItem): List<ChartListItem> {
+    val res = mutableListOf<ChartListItem>()
+
+    forEach { item ->
+        if (item != current) {
+            res.add(item)
+        }
+    }
+
+    return res
 }
