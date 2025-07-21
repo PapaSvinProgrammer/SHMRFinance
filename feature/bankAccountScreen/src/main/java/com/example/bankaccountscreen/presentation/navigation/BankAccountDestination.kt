@@ -3,6 +3,7 @@ package com.example.bankaccountscreen.presentation.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -23,9 +24,11 @@ fun NavGraphBuilder.bankAccountDestination(
         popEnterTransition = { fadeIn(animationSpec = tween(500)) },
         popExitTransition = { fadeOut(animationSpec = tween(500)) }
     ) {
-        val component = DaggerBankAccountComponent
-            .factory()
-            .create(appComponent)
+        val component = remember {
+            DaggerBankAccountComponent
+                .factory()
+                .create(appComponent)
+        }
 
         val viewModel: BankAccountViewModel = viewModel(factory = component.viewModelFactory)
 

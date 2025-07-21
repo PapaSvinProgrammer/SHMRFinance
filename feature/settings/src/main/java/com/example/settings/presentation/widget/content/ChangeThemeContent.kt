@@ -1,4 +1,4 @@
-package com.example.settings.presentation.widget
+package com.example.settings.presentation.widget.content
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.HorizontalDivider

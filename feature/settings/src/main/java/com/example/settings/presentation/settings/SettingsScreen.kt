@@ -1,4 +1,4 @@
-package com.example.settings.presentation
+package com.example.settings.presentation.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.settings.presentation.widget.ChangeThemeContent
-import com.example.settings.presentation.widget.SettingsList
+import com.example.settings.presentation.widget.content.ChangeThemeContent
+import com.example.settings.presentation.widget.content.SettingsList
 import com.example.shmrfinance.settings.R
 
 @OptIn(ExperimentalMaterial3Api::class)

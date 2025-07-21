@@ -84,7 +84,7 @@ fun CurrencyBottomSheet(
                         color = MaterialTheme.colorScheme.onError
                     )
                 },
-                colors = ListItemDefaults.colors(MaterialTheme.colorScheme.errorContainer)
+                colors = ListItemDefaults.colors(MaterialTheme.colorScheme.error)
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.example.updatetransaction.presentation.navigation
 
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,9 +18,11 @@ fun NavGraphBuilder.updateTransactionDestination(
 ) {
     composable<UpdateTransactionRoute> {
         val route = it.toRoute<UpdateTransactionRoute>()
-        val component = DaggerUpdateTransactionComponent
-            .factory()
-            .create(appComponent)
+        val component = remember {
+            DaggerUpdateTransactionComponent
+                .factory()
+                .create(appComponent)
+        }
 
         val viewModel: UpdateTransactionViewModel = viewModel(
             factory = component.viewModelFactory

@@ -15,6 +15,7 @@ import javax.inject.Inject
 private const val DATA_STORE_NAME = "SHMR_settings_name"
 private val ACCOUNT_ID = intPreferencesKey("account_id")
 private val DARK_THEME = booleanPreferencesKey("dark_theme")
+private val CURRENT_COLOR = intPreferencesKey("current_color")
 
 internal class PreferencesRepositoryImpl @Inject constructor(
     private val context: Context
@@ -31,6 +32,12 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setCurrentColor(argb: Int) {
+        context.dataStore.edit {
+            it[CURRENT_COLOR] = argb
+        }
+    }
+
     override fun getCurrentAccountId(): Flow<Int?> {
         return context.dataStore.data.map {
             it[ACCOUNT_ID]
@@ -43,8 +50,14 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    companion object {
-        private val Context.dataStore: DataStore<Preferences>
-        by preferencesDataStore(name = DATA_STORE_NAME)
+    override fun getCurrentColor(): Flow<Int> {
+        return context.dataStore.data.map {
+            it[CURRENT_COLOR] ?: DEFAULT_COLOR
+        }
+    }
+
+    private companion object {
+        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)
+        const val DEFAULT_COLOR = 0xFF2AE881.toInt()
     }
 }

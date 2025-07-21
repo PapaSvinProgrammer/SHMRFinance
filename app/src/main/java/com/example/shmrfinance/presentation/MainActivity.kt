@@ -17,7 +17,6 @@ import com.example.corecomponent.AppViewModel
 import com.example.shmrfinance.appComponent
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.theme.SHMRFinanceTheme
-import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: AppViewModel
@@ -31,13 +30,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val isDarkTheme by viewModel.darkTheme.collectAsStateWithLifecycle()
+            val currentColor by viewModel.currentColor.collectAsStateWithLifecycle()
 
             SHMRFinanceTheme(
-                darkTheme = isDarkTheme
+                darkTheme = isDarkTheme,
+                currentColor = Color(currentColor)
             ) {
                 val context = LocalContext.current as ComponentActivity
 
-                DisposableEffect(viewModel.darkTheme) {
+                DisposableEffect(isDarkTheme) {
                     context.enableEdgeToEdge(
                         statusBarStyle = getSystemBarStyle(isDarkTheme),
                         navigationBarStyle = getSystemBarStyle(isDarkTheme)
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
 private fun getSystemBarStyle(isDark: Boolean): SystemBarStyle {
     return when (isDark) {
-        false -> SystemBarStyle.dark(Color.Transparent.toArgb())
-        true -> SystemBarStyle.light(Color.Transparent.toArgb(), Color.White.toArgb())
+        true -> SystemBarStyle.dark(Color.Transparent.toArgb())
+        false -> SystemBarStyle.light(Color.Transparent.toArgb(), Color.White.toArgb())
     }
 }

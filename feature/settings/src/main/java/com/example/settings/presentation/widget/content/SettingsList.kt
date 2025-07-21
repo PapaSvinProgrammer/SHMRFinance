@@ -1,4 +1,4 @@
-package com.example.settings.presentation.widget
+package com.example.settings.presentation.widget.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import com.example.shmrfinance.settings.R
+import com.example.ui.navigation.ColorSelectorRoute
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.NavRoute
 import com.example.ui.navigation.SynchronizationRoute
@@ -41,7 +42,7 @@ internal fun SettingsList(
 }
 
 private val settingsList = listOf(
-    R.string.main_color to ExpensesRoute,
+    R.string.main_color to ColorSelectorRoute,
     R.string.sounds to ExpensesRoute,
     R.string.hapticks to ExpensesRoute,
     R.string.code_password to ExpensesRoute,

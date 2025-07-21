@@ -1,4 +1,4 @@
-package com.example.settings.presentation
+package com.example.settings.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository

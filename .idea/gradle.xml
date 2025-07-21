@@ -40,6 +40,7 @@
             <option value="$PROJECT_DIR$/domain/category" />
             <option value="$PROJECT_DIR$/domain/transaction" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/about" />
             <option value="$PROJECT_DIR$/feature/articles" />
             <option value="$PROJECT_DIR$/feature/bankAccountList" />
             <option value="$PROJECT_DIR$/feature/bankAccountScreen" />
@@ -47,6 +48,7 @@
             <option value="$PROJECT_DIR$/feature/createTransaction" />
             <option value="$PROJECT_DIR$/feature/expenses" />
             <option value="$PROJECT_DIR$/feature/income" />
+            <option value="$PROJECT_DIR$/feature/pinCodeScreen" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/synchronizationScreen" />

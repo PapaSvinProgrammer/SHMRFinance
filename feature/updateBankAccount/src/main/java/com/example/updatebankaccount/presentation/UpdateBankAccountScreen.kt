@@ -121,7 +121,7 @@ internal fun UpdateBankAccountScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 15.dp, vertical = 30.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer
+                            containerColor = MaterialTheme.colorScheme.error
                         ),
                         onClick = {
                             viewModel.deleteBankAccount(bankAccountId)

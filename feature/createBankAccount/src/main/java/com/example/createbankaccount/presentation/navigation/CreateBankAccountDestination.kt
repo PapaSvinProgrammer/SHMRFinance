@@ -1,5 +1,6 @@
 package com.example.createbankaccount.presentation.navigation
 
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,9 +16,11 @@ fun NavGraphBuilder.createBankAccountDestination(
     appComponent: AppComponent
 ) {
     composable<CreateBankAccountRoute> {
-        val component = DaggerCreateBankAccountComponent
-            .factory()
-            .create(appComponent)
+        val component = remember {
+            DaggerCreateBankAccountComponent
+                .factory()
+                .create(appComponent)
+        }
 
         val viewModel: CreateBankAccountViewModel = viewModel(
             factory = component.viewModelFactory

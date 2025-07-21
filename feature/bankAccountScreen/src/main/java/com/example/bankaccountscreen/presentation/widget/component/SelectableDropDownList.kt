@@ -2,8 +2,8 @@ package com.example.bankaccountscreen.presentation.widget.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,17 +33,17 @@ internal fun BoxScope.SelectableDropDownList(
         if (isExpanded) refactorList.count() else 0
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .padding(15.dp)
             .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(20.dp)
+                elevation = 2.dp,
+                shape = RoundedCornerShape(18.dp)
             )
             .align(Alignment.TopEnd)
             .background(
                 shape = RoundedCornerShape(20.dp),
-                color = MaterialTheme.colorScheme.background
+                color = MaterialTheme.colorScheme.surfaceContainer
             )
             .animateContentSize()
     ) {

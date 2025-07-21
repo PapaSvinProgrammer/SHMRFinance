@@ -55,3 +55,9 @@ data class TransactionAnalysisRoute(
 
 @Serializable
 data object SynchronizationRoute : NavRoute
+
+@Serializable
+data object ColorSelectorRoute : NavRoute
+
+@Serializable
+data object LanguageSelectorRoute: NavRoute

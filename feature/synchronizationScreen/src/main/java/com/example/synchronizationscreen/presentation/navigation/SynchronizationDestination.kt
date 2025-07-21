@@ -1,5 +1,6 @@
 package com.example.synchronizationscreen.presentation.navigation
 
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,9 +16,11 @@ fun NavGraphBuilder.synchronizationDestination(
     appComponent: AppComponent
 ) {
     composable<SynchronizationRoute> {
-        val component = DaggerSynchronizationComponent
-            .factory()
-            .create(appComponent)
+        val component = remember {
+            DaggerSynchronizationComponent
+                .factory()
+                .create(appComponent)
+        }
 
         val viewModel: SynchronizationViewModel = viewModel(
             factory = component.viewModelFactory

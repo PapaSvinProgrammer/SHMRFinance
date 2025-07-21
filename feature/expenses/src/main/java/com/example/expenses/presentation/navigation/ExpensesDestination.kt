@@ -3,6 +3,7 @@ package com.example.expenses.presentation.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -24,9 +25,11 @@ fun NavGraphBuilder.expensesDestination(
         popEnterTransition = { fadeIn(animationSpec = tween(500)) },
         popExitTransition = { fadeOut(animationSpec = tween(500)) }
     ) {
-        val component = DaggerExpensesComponent
-            .factory()
-            .create(appComponent)
+        val component = remember {
+            DaggerExpensesComponent
+                .factory()
+                .create(appComponent)
+        }
 
         val viewModel: ExpensesViewModel = viewModel(factory = component.viewModelFactory)
 
