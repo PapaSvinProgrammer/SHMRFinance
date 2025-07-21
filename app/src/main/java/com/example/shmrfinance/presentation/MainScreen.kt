@@ -27,7 +27,7 @@ import com.example.ui.navigation.NavRoute
 import com.example.ui.navigation.SplashRoute
 import com.example.network.connectivityState.NetworkConnectionState
 import com.example.network.connectivityState.rememberConnectivityState
-import com.example.shmrfinance.app.R
+import com.example.shmrfinance.ui.R
 import com.example.shmrfinance.appComponent
 import com.example.ui.navigation.BottomNavigationBar
 

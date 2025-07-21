@@ -27,7 +27,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
-import com.example.shmrfinance.transactionAnalysis.R
+import com.example.shmrfinance.ui.R
 import com.example.tranasctionanalysis.presentation.widget.ChartDataBottomSheet
 import com.example.tranasctionanalysis.presentation.widget.DateListItem
 import com.example.tranasctionanalysis.presentation.widget.DonutChartContent

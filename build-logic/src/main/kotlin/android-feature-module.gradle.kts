@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.gradle.LibraryExtension
 import gradle.kotlin.dsl.accessors._752bc230cc26cba5c4ba4310e67b6c06.implementation
 import org.gradle.kotlin.dsl.configure

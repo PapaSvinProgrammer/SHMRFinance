@@ -24,6 +24,10 @@ android {
         targetSdk = Const.COMPILE_SDK
         multiDexEnabled = true
     }
+
+    androidResources {
+        generateLocaleConfig = true
+    }
 }
 
 buildTimeTracker {

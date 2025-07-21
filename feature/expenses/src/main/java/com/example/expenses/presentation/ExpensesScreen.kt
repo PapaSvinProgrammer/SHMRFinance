@@ -33,7 +33,7 @@ import com.example.model.Transaction
 import com.example.ui.navigation.CreateTransactionRoute
 import com.example.ui.navigation.TransactionHistoryRoute
 import com.example.ui.navigation.UpdateTransactionRoute
-import com.example.shmrfinance.expenses.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomFloatingActionButton

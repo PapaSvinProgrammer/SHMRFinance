@@ -26,5 +26,5 @@ internal interface SettingsModule {
     @SettingsScope
     @IntoMap
     @ViewModelKey(ColorSelectorViewModel::class)
-    fun bindsColorSelectorViewModel(viewModel: ColorSelectorViewModel) : ViewModel
+    fun bindsColorSelectorViewModel(viewModel: ColorSelectorViewModel): ViewModel
 }

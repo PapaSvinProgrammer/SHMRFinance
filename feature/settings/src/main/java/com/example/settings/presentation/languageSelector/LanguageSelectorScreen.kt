@@ -1,4 +1,4 @@
-package com.example.settings.presentation.colorSelector
+package com.example.settings.presentation.languageSelector
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -10,31 +10,28 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.settings.presentation.widget.content.ColorList
-import com.example.ui.theme.primaryLightBlue
-import com.example.ui.theme.primaryLightGreen
-import com.example.ui.theme.primaryLightYellow
+import com.example.settings.presentation.widget.content.LanguageList
+import com.example.settings.presentation.widget.model.languagesList
 import com.example.shmrfinance.ui.R
+import com.example.utils.manager.LanguageManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ColorSelectorScreen(
-    navController: NavController,
-    viewModel: ColorSelectorViewModel
+internal fun LanguageSelectorScreen(
+    navController: NavController
 ) {
-    val currentColor by viewModel.currentColor.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val defaultLanguage = remember { LanguageManager.getDefaultLocale(context) }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(R.string.main_color)) },
+                title = { Text(text = stringResource(R.string.select_language)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -46,17 +43,13 @@ internal fun ColorSelectorScreen(
             )
         }
     ) { innerPadding ->
-        ColorList(
+        LanguageList(
             modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
-            list = colors,
-            current = Color(currentColor),
-            onSelect = { viewModel.setCurrentColor(it.toArgb()) }
+            list = languagesList,
+            currentSlug = defaultLanguage,
+            onClick = {
+                LanguageManager.setDefaultLocale(context, it.slug)
+            }
         )
     }
 }
-
-private val colors = listOf(
-    primaryLightGreen,
-    primaryLightBlue,
-    primaryLightYellow
-)

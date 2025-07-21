@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import com.example.createtransaction.presentation.widget.TransactionResponseUIState
 import com.example.createtransaction.utils.toResultType
 import com.example.ui.navigation.BankAccountListRoute
-import com.example.shmrfinance.createTransaction.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.bottomSheet.CategoriesBottomSheet

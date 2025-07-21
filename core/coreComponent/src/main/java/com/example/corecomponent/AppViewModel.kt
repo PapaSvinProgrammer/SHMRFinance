@@ -2,8 +2,8 @@ package com.example.corecomponent
 
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
-import com.example.utils.cancelAllJobs
-import com.example.utils.launchWithoutOld
+import com.example.utils.manager.cancelAllJobs
+import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class AppViewModel @Inject constructor(
     }
 
     private fun getCurrentColor() = launchWithoutOld {
-        preferencesRepository.getCurrentColor().collect {
+        preferencesRepository.getDefaultColor().collect {
             _currentColor.value = it
         }
     }
@@ -38,8 +38,8 @@ class AppViewModel @Inject constructor(
         super.onCleared()
     }
 
-    private companion object {
-        const val DARK_THEME_JOB = "get_dark_theme"
-        const val DEFAULT_COLOR = 0xFF2AE881.toInt()
+    companion object {
+        private const val DARK_THEME_JOB = "get_dark_theme"
+        const val DEFAULT_COLOR = 0x00000000
     }
 }

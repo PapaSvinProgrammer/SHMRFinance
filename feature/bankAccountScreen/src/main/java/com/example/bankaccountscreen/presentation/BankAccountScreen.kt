@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import com.example.bankaccountscreen.presentation.widget.component.ChartContent
 import com.example.bankaccountscreen.presentation.widget.model.ChartListItem
 import com.example.model.BankAccount
-import com.example.shmrfinance.bankAccountScreen.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.navigation.BankAccountListRoute
 import com.example.ui.navigation.CreateBankAccountRoute
 import com.example.ui.navigation.UpdateBankAccountRoute

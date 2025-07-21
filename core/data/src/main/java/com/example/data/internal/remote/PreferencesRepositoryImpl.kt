@@ -8,14 +8,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.data.external.remote.PreferencesRepository
+import com.example.data.external.remote.PreferencesRepository.Companion.DEFAULT_COLOR_RESULT
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-
-private const val DATA_STORE_NAME = "SHMR_settings_name"
-private val ACCOUNT_ID = intPreferencesKey("account_id")
-private val DARK_THEME = booleanPreferencesKey("dark_theme")
-private val CURRENT_COLOR = intPreferencesKey("current_color")
 
 internal class PreferencesRepositoryImpl @Inject constructor(
     private val context: Context
@@ -32,9 +28,9 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setCurrentColor(argb: Int) {
+    override suspend fun setDefaultColor(argb: Int) {
         context.dataStore.edit {
-            it[CURRENT_COLOR] = argb
+            it[DEFAULT_COLOR] = argb
         }
     }
 
@@ -50,14 +46,18 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCurrentColor(): Flow<Int> {
+    override fun getDefaultColor(): Flow<Int> {
         return context.dataStore.data.map {
-            it[CURRENT_COLOR] ?: DEFAULT_COLOR
+            it[DEFAULT_COLOR] ?: DEFAULT_COLOR_RESULT
         }
     }
 
     private companion object {
+        const val DATA_STORE_NAME = "SHMR_settings_name"
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)
-        const val DEFAULT_COLOR = 0xFF2AE881.toInt()
+
+        val ACCOUNT_ID = intPreferencesKey("account_id")
+        val DARK_THEME = booleanPreferencesKey("dark_theme")
+        val DEFAULT_COLOR = intPreferencesKey("current_color")
     }
 }

@@ -4,18 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.settings.presentation.widget.content.SelectedButton
 
 @Composable
 internal fun ColorListItem(
@@ -33,19 +28,7 @@ internal fun ColorListItem(
                 .fillMaxWidth()
                 .background(color = color)
         ) {
-            val color = if (isSelected)
-                MaterialTheme.colorScheme.onBackground
-            else
-                Color.Transparent
-
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(10.dp),
-                imageVector = Icons.Default.CheckCircle,
-                contentDescription = null,
-                tint = color
-            )
+            SelectedButton(isSelected)
         }
     }
 }

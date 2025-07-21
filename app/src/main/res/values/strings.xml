@@ -1,38 +1,3 @@
 <resources>
-    <string name="app_name">SHMRFinance</string>
-    <string name="expenses">Расходы</string>
-    <string name="incomes">Доходы</string>
-    <string name="bank_account">Счет</string>
-    <string name="articles">Статьи</string>
-    <string name="settings">Настройки</string>
-    <string name="main_color">Основной цвет</string>
-    <string name="sounds">Звуки</string>
-    <string name="hapticks">Хаптики</string>
-    <string name="code_password">Код пароль</string>
-    <string name="synchronization">Синхронизация</string>
-    <string name="language">Язык</string>
-    <string name="about_app">О программе</string>
-    <string name="change_theme_title">Светлая темная авто</string>
-    <string name="search_article">Найти статью</string>
-    <string name="my_articles">Мои статьи</string>
-    <string name="total">Всего</string>
-    <string name="incomes_today">Доходы сегодня</string>
-    <string name="expenses_today">Расходы сегодня</string>
-    <string name="my_bank_account">Мой счет</string>
-    <string name="balance">Баланс</string>
-    <string name="currency">Валюта</string>
-    <string name="name_account">Название счета</string>
-    <string name="name_account_error">Введите название счета</string>
-    <string name="success">Успешно</string>
-    <string name="error">Ошибка</string>
-    <string name="russian_currency">Российский рубль ₽</string>
-    <string name="american_currency">Американский доллар $</string>
-    <string name="euro_currency">Евро €</string>
-    <string name="cancel">Отмена</string>
-    <string name="all_bank_accounts">Все счета</string>
-    <string name="my_history">Моя история</string>
-    <string name="sum">Сумма</string>
-    <string name="start">Начало</string>
-    <string name="end">Конец</string>
-    <string name="no_internet">Отсутсвует интернет</string>
+
 </resources>

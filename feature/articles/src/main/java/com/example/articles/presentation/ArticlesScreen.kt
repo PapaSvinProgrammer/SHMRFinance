@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.articles.presentation.widget.CustomSearchBar
 import com.example.model.Category
-import com.example.shmrfinance.articles.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.uiState.CategoryUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultErrorContent

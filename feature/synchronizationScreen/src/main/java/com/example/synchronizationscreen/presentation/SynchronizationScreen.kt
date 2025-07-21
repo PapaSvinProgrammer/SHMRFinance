@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.shmrfinance.synchronizationScreen.R
+import com.example.shmrfinance.ui.R
 import com.example.synchronizationscreen.utils.PrettyString
 import com.example.synchronizationscreen.utils.toNormalName
 

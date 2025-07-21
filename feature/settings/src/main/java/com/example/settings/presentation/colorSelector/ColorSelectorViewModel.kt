@@ -3,8 +3,8 @@ package com.example.settings.presentation.colorSelector
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
-import com.example.utils.cancelAllJobs
-import com.example.utils.launchWithoutOld
+import com.example.utils.manager.cancelAllJobs
+import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -21,11 +21,11 @@ internal class ColorSelectorViewModel @Inject constructor(
 
     fun setCurrentColor(argb: Int) = launchWithoutOld(SET_CURRENT_COLOR_JOB) {
         Log.d("RRRR", argb.toString())
-        preferencesRepository.setCurrentColor(argb)
+        preferencesRepository.setDefaultColor(argb)
     }
 
     private fun getCurrentColor() = launchWithoutOld(GET_CURRENT_COLOR_JOB) {
-        preferencesRepository.getCurrentColor().collect {
+        preferencesRepository.getDefaultColor().collect {
             _currentColor.value = it
         }
     }

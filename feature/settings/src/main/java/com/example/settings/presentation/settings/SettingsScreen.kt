@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.settings.presentation.widget.content.ChangeThemeContent
 import com.example.settings.presentation.widget.content.SettingsList
-import com.example.shmrfinance.settings.R
+import com.example.shmrfinance.ui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

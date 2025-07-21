@@ -28,7 +28,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.toSlug
-import com.example.shmrfinance.updateBankAccount.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.toResultType
 import com.example.ui.uiState.BankAccountUIState

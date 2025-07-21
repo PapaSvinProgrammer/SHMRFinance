@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="my_bank_account">Мой счет</string>
-    <string name="currency">Валюта</string>
-    <string name="column">Столбчатый</string>
-    <string name="line">Линейный</string>
-</resources>

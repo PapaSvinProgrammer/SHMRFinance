@@ -12,9 +12,11 @@ import com.example.corecomponent.AppComponent
 import com.example.settings.di.DaggerSettingsComponent
 import com.example.settings.presentation.colorSelector.ColorSelectorScreen
 import com.example.settings.presentation.colorSelector.ColorSelectorViewModel
+import com.example.settings.presentation.languageSelector.LanguageSelectorScreen
 import com.example.settings.presentation.settings.SettingsScreen
 import com.example.settings.presentation.settings.SettingsViewModel
 import com.example.ui.navigation.ColorSelectorRoute
+import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.SettingsRoute
 
 fun NavGraphBuilder.settingsDestination(
@@ -58,5 +60,9 @@ fun NavGraphBuilder.settingsDestination(
             navController = navController,
             viewModel = viewModel
         )
+    }
+
+    composable<LanguageSelectorRoute> {
+        LanguageSelectorScreen(navController)
     }
 }

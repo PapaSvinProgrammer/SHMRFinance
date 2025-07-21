@@ -13,9 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
-import com.example.shmrfinance.settings.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.navigation.ColorSelectorRoute
 import com.example.ui.navigation.ExpensesRoute
+import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.NavRoute
 import com.example.ui.navigation.SynchronizationRoute
 
@@ -47,6 +48,6 @@ private val settingsList = listOf(
     R.string.hapticks to ExpensesRoute,
     R.string.code_password to ExpensesRoute,
     R.string.synchronization to SynchronizationRoute,
-    R.string.language to ExpensesRoute,
+    R.string.language to LanguageSelectorRoute,
     R.string.about_app to ExpensesRoute
 )

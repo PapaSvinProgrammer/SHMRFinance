@@ -1,6 +1,6 @@
 package com.example.bankaccountscreen.presentation.widget.model
 
-import com.example.shmrfinance.bankAccountScreen.R
+import com.example.shmrfinance.ui.R
 
 sealed class ChartListItem(
     val icon: Int,

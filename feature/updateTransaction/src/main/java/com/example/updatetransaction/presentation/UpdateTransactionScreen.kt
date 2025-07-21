@@ -33,7 +33,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.ui.navigation.BankAccountListRoute
-import com.example.shmrfinance.updateTransaction.R
+import com.example.shmrfinance.ui.R
 import com.example.ui.dialog.ResultDialog
 import com.example.ui.dialog.toResultType
 import com.example.ui.uiState.BankAccountUIState

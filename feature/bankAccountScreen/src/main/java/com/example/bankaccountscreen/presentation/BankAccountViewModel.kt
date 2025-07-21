@@ -7,8 +7,8 @@ import com.example.bankaccountscreen.presentation.widget.model.ChartListItem
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.BankAccount
 import com.example.ui.uiState.BankAccountUIState
-import com.example.utils.cancelAllJobs
-import com.example.utils.launchWithoutOld
+import com.example.utils.manager.cancelAllJobs
+import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
