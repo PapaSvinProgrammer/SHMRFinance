@@ -15,7 +15,8 @@ import dagger.Component
         DataModule::class,
         NetworkModule::class,
         RoomModule::class,
-        WorkManagerModule::class
+        WorkManagerModule::class,
+        AppModule::class
     ]
 )
 @ApplicationScope
@@ -24,4 +25,6 @@ interface AppComponent: RepositoryDependency, WorkManagerDependency {
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
+
+    val viewModel: AppViewModel
 }

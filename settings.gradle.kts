@@ -1,11 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":core:navigation")
-
-
-include(":core:charts")
-
-
 includeBuild("build-logic")
 
 pluginManagement {
@@ -41,7 +35,9 @@ listOf(
     "coreComponent",
     "localFactory",
     "room",
-    "syncWorker"
+    "syncWorker",
+    "navigation",
+    "charts"
 ).forEach {
     include(":core:$it")
 }

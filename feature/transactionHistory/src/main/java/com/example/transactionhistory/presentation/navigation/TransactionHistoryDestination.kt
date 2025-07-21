@@ -1,6 +1,5 @@
 package com.example.transactionhistory.presentation.navigation
 
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -20,10 +19,7 @@ fun NavGraphBuilder.transactionHistoryDestination(
         val route = it.toRoute<TransactionHistoryRoute>()
         val component = DaggerTransactionHistoryComponent
             .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+            .create(appComponent)
 
         val viewModel: TransactionHistoryViewModel = viewModel(
             factory = component.viewModelFactory

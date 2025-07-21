@@ -3,6 +3,7 @@ package com.example.data.internal.remote
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 private const val DATA_STORE_NAME = "SHMR_settings_name"
 private val ACCOUNT_ID = intPreferencesKey("account_id")
+private val DARK_THEME = booleanPreferencesKey("dark_theme")
 
 internal class PreferencesRepositoryImpl @Inject constructor(
     private val context: Context
@@ -23,9 +25,21 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setDarkTheme(state: Boolean) {
+        context.dataStore.edit {
+            it[DARK_THEME] = state
+        }
+    }
+
     override fun getCurrentAccountId(): Flow<Int?> {
         return context.dataStore.data.map {
             it[ACCOUNT_ID]
+        }
+    }
+
+    override fun getDarkTheme(): Flow<Boolean> {
+        return context.dataStore.data.map {
+            it[DARK_THEME] ?: false
         }
     }
 

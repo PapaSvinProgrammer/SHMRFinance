@@ -1,9 +1,7 @@
 package com.example.tranasctionanalysis.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.corecomponent.AppComponent
-import dagger.BindsInstance
 import dagger.Component
 
 @Component(
@@ -14,10 +12,7 @@ import dagger.Component
 interface TransactionAnalysisComponent {
     @Component.Factory
     interface Factory {
-        fun create(
-            @BindsInstance context: Context,
-            appComponent: AppComponent
-        ): TransactionAnalysisComponent
+        fun create(appComponent: AppComponent): TransactionAnalysisComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

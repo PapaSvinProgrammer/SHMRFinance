@@ -26,10 +26,7 @@ fun NavGraphBuilder.incomeDestination(
     ) {
         val component = DaggerIncomeComponent
             .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+            .create(appComponent)
 
         val viewModel: IncomeViewModel = viewModel(factory = component.viewModelFactory)
 

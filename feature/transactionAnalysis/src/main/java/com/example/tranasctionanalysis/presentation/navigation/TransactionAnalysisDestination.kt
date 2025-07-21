@@ -1,6 +1,5 @@
 package com.example.tranasctionanalysis.presentation.navigation
 
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -19,10 +18,7 @@ fun NavGraphBuilder.transactionAnalysisDestination(
     composable<TransactionAnalysisRoute> {
         val component = DaggerTransactionAnalysisComponent
             .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+            .create(appComponent)
 
         val viewModel: TransactionAnalysisViewModel = viewModel(
             factory = component.viewModelFactory

@@ -14,7 +14,7 @@ import com.example.createbankaccount.presentation.navigation.createBankAccountDe
 import com.example.createtransaction.presentation.navigation.createTransactionDestination
 import com.example.expenses.presentation.navigation.expensesDestination
 import com.example.income.presentation.navigation.incomeDestination
-import com.example.settings.settingsDestination
+import com.example.settings.presentation.navigation.settingsDestination
 import com.example.splash.splashDestination
 import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
@@ -83,7 +83,8 @@ fun NavigationGraph(
         )
 
         settingsDestination(
-            navController = navController
+            navController = navController,
+            appComponent = appComponent
         )
 
         bankAccountListDestination(

@@ -1,18 +1,18 @@
-package com.example.createtransaction.di
+package com.example.settings.di
 
 import androidx.lifecycle.ViewModelProvider
 import com.example.corecomponent.AppComponent
 import dagger.Component
 
 @Component(
-    modules = [CreateTransactionModule::class],
+    modules = [SettingsModule::class],
     dependencies = [AppComponent::class]
 )
-@CreateTransactionScope
-interface CreateTransactionComponent {
+@SettingsScope
+interface SettingsComponent {
     @Component.Factory
     interface Factory {
-        fun create(appComponent: AppComponent): CreateTransactionComponent
+        fun create(appComponent: AppComponent): SettingsComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

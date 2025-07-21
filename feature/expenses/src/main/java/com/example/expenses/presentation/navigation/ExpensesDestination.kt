@@ -26,10 +26,7 @@ fun NavGraphBuilder.expensesDestination(
     ) {
         val component = DaggerExpensesComponent
             .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+            .create(appComponent)
 
         val viewModel: ExpensesViewModel = viewModel(factory = component.viewModelFactory)
 

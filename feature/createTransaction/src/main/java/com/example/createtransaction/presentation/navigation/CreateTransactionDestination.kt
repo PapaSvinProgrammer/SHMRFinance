@@ -1,6 +1,5 @@
 package com.example.createtransaction.presentation.navigation
 
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -20,10 +19,7 @@ fun NavGraphBuilder.createTransactionDestination(
         val route = it.toRoute<CreateTransactionRoute>()
         val component = DaggerCreateTransactionComponent
             .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+            .create(appComponent)
 
         val viewModel: CreateTransactionViewModel = viewModel(
             factory = component.viewModelFactory

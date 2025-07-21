@@ -3,7 +3,6 @@ package com.example.bankaccountscreen.presentation.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -26,10 +25,7 @@ fun NavGraphBuilder.bankAccountDestination(
     ) {
         val component = DaggerBankAccountComponent
             .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+            .create(appComponent)
 
         val viewModel: BankAccountViewModel = viewModel(factory = component.viewModelFactory)
 
