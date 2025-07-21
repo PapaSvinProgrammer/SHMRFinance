@@ -1,21 +1,20 @@
-package com.example.shmrfinance.navigation
+package com.example.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.articles.presentation.navigation.articleDestination
 import com.example.bankaccountlist.presentation.navigation.bankAccountListDestination
 import com.example.bankaccountscreen.presentation.navigation.bankAccountDestination
+import com.example.corecomponent.AppComponent
 import com.example.createbankaccount.presentation.navigation.createBankAccountDestination
 import com.example.createtransaction.presentation.navigation.createTransactionDestination
 import com.example.expenses.presentation.navigation.expensesDestination
 import com.example.income.presentation.navigation.incomeDestination
 import com.example.settings.settingsDestination
-import com.example.shmrfinance.appComponent
 import com.example.splash.splashDestination
 import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
@@ -29,10 +28,9 @@ import com.example.updatetransaction.presentation.navigation.updateTransactionDe
 fun NavigationGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startRoute: NavRoute
+    startRoute: NavRoute,
+    appComponent: AppComponent
 ) {
-    val context = LocalContext.current
-
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -66,22 +64,22 @@ fun NavigationGraph(
 
         expensesDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         incomeDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         articleDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         createBankAccountDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         settingsDestination(
@@ -90,47 +88,47 @@ fun NavigationGraph(
 
         bankAccountListDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         bankAccountDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         transactionHistoryDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         updateBankAccountDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         createBankAccountDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         updateTransactionDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         transactionAnalysisDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         createTransactionDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
 
         synchronizationDestination(
             navController = navController,
-            appComponent = context.appComponent
+            appComponent = appComponent
         )
     }
 }

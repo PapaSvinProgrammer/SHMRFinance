@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:navigation")
+
+
 include(":core:charts")
 
 

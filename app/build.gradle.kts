@@ -42,29 +42,14 @@ ruler {
 }
 
 dependencies {
-    implementation(project(":feature:articles"))
-    implementation(project(":feature:bankAccountList"))
-    implementation(project(":feature:bankAccountScreen"))
-    implementation(project(":feature:createBankAccount"))
-    implementation(project(":feature:expenses"))
-    implementation(project(":feature:income"))
-    implementation(project(":feature:settings"))
-    implementation(project(":feature:splash"))
-    implementation(project(":feature:transactionHistory"))
-    implementation(project(":feature:updateBankAccount"))
-    implementation(project(":feature:createTransaction"))
-    implementation(project(":feature:updateTransaction"))
-    implementation(project(":feature:transactionAnalysis"))
-    implementation(project(":feature:synchronizationScreen"))
+    implementation(project(":core:coreComponent"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:navigation"))
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

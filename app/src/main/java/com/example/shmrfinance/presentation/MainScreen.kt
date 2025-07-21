@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.navigation.NavigationGraph
 import com.example.ui.navigation.BankAccountRoute
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.IncomeRoute
@@ -27,7 +28,7 @@ import com.example.ui.navigation.SplashRoute
 import com.example.network.connectivityState.NetworkConnectionState
 import com.example.network.connectivityState.rememberConnectivityState
 import com.example.shmrfinance.app.R
-import com.example.shmrfinance.navigation.NavigationGraph
+import com.example.shmrfinance.appComponent
 import com.example.ui.navigation.BottomNavigationBar
 
 @Composable
@@ -79,7 +80,8 @@ fun MainScreen(
         NavigationGraph(
             modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
             navController = navController,
-            startRoute = startRoute
+            startRoute = startRoute,
+            appComponent = context.appComponent
         )
     }
 }
