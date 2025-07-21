@@ -1,6 +1,5 @@
 package com.example.settings.presentation.colorSelector
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
 import com.example.utils.manager.cancelAllJobs
@@ -20,7 +19,6 @@ internal class ColorSelectorViewModel @Inject constructor(
     }
 
     fun setCurrentColor(argb: Int) = launchWithoutOld(SET_CURRENT_COLOR_JOB) {
-        Log.d("RRRR", argb.toString())
         preferencesRepository.setDefaultColor(argb)
     }
 

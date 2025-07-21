@@ -15,8 +15,7 @@ import com.example.corecomponent.AppComponent
 import com.example.ui.navigation.ArticlesRoute
 
 fun NavGraphBuilder.articleDestination(
-    appComponent: AppComponent,
-    navController: NavController
+    appComponent: AppComponent
 ) {
     composable<ArticlesRoute>(
         enterTransition = { fadeIn(animationSpec = tween(500)) },
@@ -33,7 +32,6 @@ fun NavGraphBuilder.articleDestination(
         val viewModel: ArticlesViewModel = viewModel(factory = component.viewModelFactory)
 
         ArticlesScreen(
-            navController = navController,
             viewModel = viewModel
         )
     }

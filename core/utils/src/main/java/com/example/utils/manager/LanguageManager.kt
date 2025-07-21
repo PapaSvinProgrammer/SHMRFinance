@@ -2,12 +2,10 @@ package com.example.utils.manager
 
 import android.app.LocaleManager
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import java.util.Locale
 
 object LanguageManager {
     fun setDefaultLocale(context: Context, language: String) {

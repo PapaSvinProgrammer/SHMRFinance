@@ -61,3 +61,6 @@ data object ColorSelectorRoute : NavRoute
 
 @Serializable
 data object LanguageSelectorRoute: NavRoute
+
+@Serializable
+data object AboutRoute : NavRoute

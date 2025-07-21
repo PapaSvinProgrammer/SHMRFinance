@@ -19,13 +19,14 @@ plugins {
 android {
     defaultConfig {
         applicationId = Const.NAMESPACE
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = Const.VERSION_CODE
+        versionName = Const.VERSION_NAME
         targetSdk = Const.COMPILE_SDK
         multiDexEnabled = true
     }
 
     androidResources {
+        @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
     }
 }

@@ -56,4 +56,6 @@
     <string name="select">Choose</string>
     <string name="column">Columnar</string>
     <string name="line">Linear</string>
+    <string name="version_app">Application version: %1$s</string>
+    <string name="date_last_update">Date of last update: %1$s</string>
 </resources>

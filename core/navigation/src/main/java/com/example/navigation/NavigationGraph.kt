@@ -19,7 +19,7 @@ import com.example.splash.splashDestination
 import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
-import com.example.ui.navigation.ColorSelectorRoute
+import com.example.ui.navigation.AboutRoute
 import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.NavRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
@@ -35,7 +35,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = LanguageSelectorRoute,
+        startDestination = AboutRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -73,10 +73,7 @@ fun NavigationGraph(
             appComponent = appComponent
         )
 
-        articleDestination(
-            navController = navController,
-            appComponent = appComponent
-        )
+        articleDestination(appComponent)
 
         createBankAccountDestination(
             navController = navController,

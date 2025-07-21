@@ -31,7 +31,6 @@ import com.example.utils.toSlug
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArticlesScreen(
-    navController: NavController,
     viewModel: ArticlesViewModel
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()

@@ -10,11 +10,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.corecomponent.AppComponent
 import com.example.settings.di.DaggerSettingsComponent
+import com.example.settings.presentation.about.AboutScreen
 import com.example.settings.presentation.colorSelector.ColorSelectorScreen
 import com.example.settings.presentation.colorSelector.ColorSelectorViewModel
 import com.example.settings.presentation.languageSelector.LanguageSelectorScreen
 import com.example.settings.presentation.settings.SettingsScreen
 import com.example.settings.presentation.settings.SettingsViewModel
+import com.example.ui.navigation.AboutRoute
 import com.example.ui.navigation.ColorSelectorRoute
 import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.SettingsRoute
@@ -64,5 +66,9 @@ fun NavGraphBuilder.settingsDestination(
 
     composable<LanguageSelectorRoute> {
         LanguageSelectorScreen(navController)
+    }
+
+    composable<AboutRoute> {
+        AboutScreen(navController)
     }
 }

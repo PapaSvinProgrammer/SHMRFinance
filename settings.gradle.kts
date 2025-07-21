@@ -65,7 +65,6 @@ listOf(
     "createTransaction",
     "synchronizationScreen",
     "transactionAnalysis",
-    "about",
     "pinCodeScreen"
 ).forEach {
     include(":feature:$it")

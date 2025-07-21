@@ -55,4 +55,6 @@
     <string name="select">Выбрать</string>
     <string name="column">Столбчатая</string>
     <string name="line">Линейная</string>
+    <string name="version_app">Версия приложения: %1$s</string>
+    <string name="date_last_update">Дата последнего обновления: %1$s</string>
 </resources>
