@@ -3,12 +3,15 @@ package com.example.syncworker.internal
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.network.external.BankAccountService
 import com.example.room.external.BankAccountServiceRoom
 import com.example.room.external.WorkLogService
+import com.example.syncworker.internal.SyncBankAccountWorker.Companion.NAME
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -49,18 +52,26 @@ internal class SyncBankAccountWorker @AssistedInject constructor(
 
     companion object {
         const val NAME = "sync_bank_account_data"
-
-        private val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val request = PeriodicWorkRequest
-            .Builder(
-                workerClass = SyncBankAccountWorker::class.java,
-                repeatInterval = 12,
-                repeatIntervalTimeUnit = TimeUnit.HOURS
-            )
-            .setConstraints(constraints)
-            .build()
     }
+}
+
+internal fun WorkManager.scheduleSyncBankAccountWork(interval: Int) {
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
+
+    val request = PeriodicWorkRequest
+        .Builder(
+            workerClass = SyncBankAccountWorker::class.java,
+            repeatInterval = interval.toLong(),
+            repeatIntervalTimeUnit = TimeUnit.HOURS
+        )
+        .setConstraints(constraints)
+        .build()
+
+    enqueueUniquePeriodicWork(
+        uniqueWorkName = NAME,
+        existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.REPLACE,
+        request = request
+    )
 }
