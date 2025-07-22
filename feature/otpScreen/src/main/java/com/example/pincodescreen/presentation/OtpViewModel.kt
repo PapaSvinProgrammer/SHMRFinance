@@ -1,0 +1,109 @@
+package com.example.pincodescreen.presentation
+
+import androidx.lifecycle.ViewModel
+import com.example.pincodescreen.domain.CreateNewCode
+import com.example.pincodescreen.domain.GetNextFocusedTextFieldIndex
+import com.example.pincodescreen.domain.GetPreviousFocusedIndex
+import com.example.pincodescreen.presentation.widget.state.OtpAction
+import com.example.pincodescreen.presentation.widget.state.UiState
+import com.example.utils.manager.launchWithoutOld
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+
+internal class OtpViewModel @Inject constructor(
+    private val getNextFocusedTextFieldIndex: GetNextFocusedTextFieldIndex,
+    private val getPreviousFocusedIndex: GetPreviousFocusedIndex,
+    private val createNewCode: CreateNewCode
+) : ViewModel() {
+    private val _state = MutableStateFlow(UiState())
+    private val _defaultCode = MutableStateFlow(Int)
+    val state = _state.asStateFlow()
+    val defaultCode = _defaultCode.asStateFlow()
+
+    fun setDefaultPinCode() = launchWithoutOld(SET_PIN_CODE_JOB) {
+
+    }
+
+    fun getDefaultPinCode() = launchWithoutOld(GET_PIN_CODE_JOB) {
+
+    }
+
+    fun onAction(action: OtpAction) {
+        when (action) {
+            is OtpAction.OnChangeFieldFocused -> {
+                _state.update {
+                    it.copy(focusedIndex = action.index)
+                }
+            }
+
+            is OtpAction.OnEnterNumber -> {
+                enterNumber(action.number, action.index)
+            }
+
+            OtpAction.OnKeyboardBack -> {
+                val previousIndex = getPreviousFocusedIndex.execute(state.value.focusedIndex)
+
+                _state.update {
+                    it.copy(
+                        code = it.code.mapIndexed { index, number ->
+                            if (index == previousIndex) {
+                                null
+                            } else {
+                                number
+                            }
+                        },
+                        focusedIndex = previousIndex
+                    )
+                }
+            }
+        }
+    }
+
+    fun resetCode() {
+        _state.update {
+            it.copy(
+                code = (1..DEFAULT_LENGTH).map { null }
+            )
+        }
+    }
+
+    fun updateValidState(state: Boolean?) {
+        _state.update {
+            it.copy(
+                isValid = state
+            )
+        }
+    }
+
+    private fun enterNumber(number: Int?, index: Int) {
+        val newCode = createNewCode.execute(
+            code = state.value.code,
+            number = number,
+            index = index
+        )
+
+        val wasNumberRemoved = number == null
+
+        _state.update {
+            it.copy(
+                code = newCode,
+                focusedIndex = if (wasNumberRemoved || it.code.getOrNull(index) != null) {
+                    it.focusedIndex
+                } else {
+                    getNextFocusedTextFieldIndex.execute(
+                        currentCode = it.code,
+                        currentFocusedIndex = it.focusedIndex
+                    )
+                }
+            )
+        }
+    }
+
+    companion object {
+        private const val SET_PIN_CODE_JOB = "set_default_pin_code"
+        private const val GET_PIN_CODE_JOB = "get_default_pin_code"
+        const val DEFAULT_LENGTH = 4
+    }
+}

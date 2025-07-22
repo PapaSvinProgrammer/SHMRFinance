@@ -47,7 +47,7 @@
             <option value="$PROJECT_DIR$/feature/createTransaction" />
             <option value="$PROJECT_DIR$/feature/expenses" />
             <option value="$PROJECT_DIR$/feature/income" />
-            <option value="$PROJECT_DIR$/feature/pinCodeScreen" />
+            <option value="$PROJECT_DIR$/feature/otpScreen" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/synchronizationScreen" />

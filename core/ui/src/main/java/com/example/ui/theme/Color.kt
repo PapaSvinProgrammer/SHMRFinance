@@ -2,6 +2,9 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val otpLightGray = Color(0xff262626)
+val otpGray = Color(0xff1c1c1c)
+
 val errorLight = Color(0xFFBA1A1A)
 val onErrorLight = Color(0xFFFFFFFF)
 val errorContainerLight = Color(0xFFFFDAD6)

@@ -17,4 +17,5 @@ dependencies {
     implementation(project(":feature:updateTransaction"))
     implementation(project(":feature:transactionAnalysis"))
     implementation(project(":feature:synchronizationScreen"))
+    implementation(project(":feature:otpScreen"))
 }

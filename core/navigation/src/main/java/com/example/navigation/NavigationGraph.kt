@@ -14,12 +14,14 @@ import com.example.createbankaccount.presentation.navigation.createBankAccountDe
 import com.example.createtransaction.presentation.navigation.createTransactionDestination
 import com.example.expenses.presentation.navigation.expensesDestination
 import com.example.income.presentation.navigation.incomeDestination
+import com.example.pincodescreen.presentation.navigatoin.otpDestination
 import com.example.settings.presentation.navigation.settingsDestination
 import com.example.splash.splashDestination
 import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
 import com.example.ui.navigation.NavRoute
+import com.example.ui.navigation.OtpRoute
 import com.example.ui.navigation.SettingsRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
 import com.example.updatetransaction.presentation.navigation.updateTransactionDestination
@@ -34,7 +36,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = SettingsRoute,
+        startDestination = OtpRoute(isCreate = true),
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -125,6 +127,11 @@ fun NavigationGraph(
         )
 
         synchronizationDestination(
+            navController = navController,
+            appComponent = appComponent
+        )
+
+        otpDestination(
             navController = navController,
             appComponent = appComponent
         )

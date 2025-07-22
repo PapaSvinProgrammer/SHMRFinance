@@ -33,7 +33,7 @@
     <string name="main_color">Основной цвет</string>
     <string name="sounds">Звуки</string>
     <string name="hapticks">Хаптики</string>
-    <string name="code_password">Код пароль</string>
+    <string name="code_password">Код-пароль</string>
     <string name="synchronization">Синхронизация</string>
     <string name="language">Язык</string>
     <string name="about_app">О программе</string>
@@ -58,4 +58,5 @@
     <string name="version_app">Версия приложения: %1$s</string>
     <string name="date_last_update">Дата последнего обновления: %1$s</string>
     <string name="frequency_sync">Частота синхронизации</string>
+    <string name="codes_dont_match">Коды не совпадают</string>
 </resources>

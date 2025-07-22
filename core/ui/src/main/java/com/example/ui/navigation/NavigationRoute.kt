@@ -64,3 +64,8 @@ data object LanguageSelectorRoute: NavRoute
 
 @Serializable
 data object AboutRoute : NavRoute
+
+@Serializable
+data class OtpRoute(
+    val isCreate: Boolean
+) : NavRoute
