@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:security")
+
+
 includeBuild("build-logic")
 
 pluginManagement {
