@@ -14,12 +14,14 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -34,6 +36,7 @@ internal fun SynchronizationScreen(
     viewModel: SynchronizationViewModel
 ) {
     val workInfo by viewModel.workLogInfo.collectAsStateWithLifecycle(listOf())
+    val frequencyClock by viewModel.frequencyClock.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -42,7 +45,12 @@ internal fun SynchronizationScreen(
                     Text(text = stringResource(R.string.synchronization))
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(
+                        onClick = {
+                            viewModel.setFrequencyClock()
+                            navController.popBackStack()
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null
@@ -74,6 +82,32 @@ internal fun SynchronizationScreen(
                 )
 
                 HorizontalDivider()
+            }
+
+            item {
+                Text(
+                    text = stringResource(R.string.frequency_sync),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(15.dp)
+                )
+
+                Slider(
+                    modifier = Modifier.padding(horizontal = 15.dp),
+                    value = frequencyClock.toFloat(),
+                    onValueChange = {
+                        viewModel.updateFrequencyClock(it)
+                    },
+                    valueRange = 6f..24f,
+                    steps = 17
+                )
+
+                Text(
+                    text = frequencyClock.toString(),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                )
             }
         }
     }

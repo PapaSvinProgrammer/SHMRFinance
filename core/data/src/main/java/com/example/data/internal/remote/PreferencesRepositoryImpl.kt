@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.data.external.remote.PreferencesRepository
 import com.example.data.external.remote.PreferencesRepository.Companion.DEFAULT_COLOR_RESULT
+import com.example.data.external.remote.PreferencesRepository.Companion.DEFAULT_FREQUENCY_RESULT
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -34,6 +35,12 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setFrequencyValue(value: Int) {
+        context.dataStore.edit {
+            it[FREQUENCY_SYNC] = value
+        }
+    }
+
     override fun getCurrentAccountId(): Flow<Int?> {
         return context.dataStore.data.map {
             it[ACCOUNT_ID]
@@ -52,6 +59,12 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getFrequencyValue(): Flow<Int> {
+        return context.dataStore.data.map {
+            it[FREQUENCY_SYNC] ?: DEFAULT_FREQUENCY_RESULT
+        }
+    }
+
     private companion object {
         const val DATA_STORE_NAME = "SHMR_settings_name"
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)
@@ -59,5 +72,6 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         val ACCOUNT_ID = intPreferencesKey("account_id")
         val DARK_THEME = booleanPreferencesKey("dark_theme")
         val DEFAULT_COLOR = intPreferencesKey("current_color")
+        val FREQUENCY_SYNC = intPreferencesKey("frequency_synchronization")
     }
 }
