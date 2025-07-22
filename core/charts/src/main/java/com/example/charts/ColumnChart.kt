@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.charts.utils.PrettyValue
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
@@ -67,7 +68,12 @@ private fun ColumnChartImpl(
                 },
                 columnCollectionSpacing = 4.dp,
             ),
-            bottomAxis = HorizontalAxis.rememberBottom(labelRotationDegrees = 45f),
+            bottomAxis = HorizontalAxis.rememberBottom(
+                labelRotationDegrees = 45f,
+                label = rememberAxisLabelComponent(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            ),
             marker = rememberMarker(MarkerValueFormatter),
         ),
         modelProducer = modelProducer,
