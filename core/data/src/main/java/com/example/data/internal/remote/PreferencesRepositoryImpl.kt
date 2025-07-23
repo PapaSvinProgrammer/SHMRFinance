@@ -47,6 +47,12 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setDefaultHaptic(num: Int) {
+        context.dataStore.edit {
+            it[HAPTIC_NUMBER] = num
+        }
+    }
+
     override fun getCurrentAccountId(): Flow<Int?> {
         return context.dataStore.data.map {
             it[ACCOUNT_ID]
@@ -77,6 +83,12 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getDefaultHaptic(): Flow<Int> {
+        return context.dataStore.data.map {
+            it[HAPTIC_NUMBER] ?: -1
+        }
+    }
+
     private companion object {
         const val DATA_STORE_NAME = "SHMR_settings_name"
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)
@@ -86,5 +98,6 @@ internal class PreferencesRepositoryImpl @Inject constructor(
         val DEFAULT_COLOR = intPreferencesKey("current_color")
         val FREQUENCY_SYNC = intPreferencesKey("frequency_synchronization")
         val AUTH_STATE = booleanPreferencesKey("authorization_state")
+        val HAPTIC_NUMBER = intPreferencesKey("haptic_number")
     }
 }

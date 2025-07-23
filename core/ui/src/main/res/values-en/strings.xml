@@ -65,4 +65,5 @@
     <string name="disable_pin_code">Disable pin code</string>
     <string name="input_pin_code">Enter the PIN code</string>
     <string name="reset_pin_code">Reset the PIN code</string>
+    <string name="vibration_press">Vibration when pressed</string>
 </resources>

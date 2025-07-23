@@ -64,4 +64,5 @@
     <string name="disable_pin_code">Выключить пин-код</string>
     <string name="input_pin_code">Введите пин-код</string>
     <string name="reset_pin_code">Сброс пин-кода</string>
+    <string name="vibration_press">Вибрация при нажатии</string>
 </resources>

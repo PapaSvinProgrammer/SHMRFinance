@@ -23,7 +23,7 @@ import com.example.shmrfinance.ui.R
 
 @Composable
 internal fun HapticListItem(
-    index: String,
+    subtitle: String,
     text: String,
     isSelect: Boolean = false,
     onClick: () -> Unit
@@ -49,7 +49,7 @@ internal fun HapticListItem(
                 )
 
                 Text(
-                    text = index,
+                    text = subtitle,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
                 )
