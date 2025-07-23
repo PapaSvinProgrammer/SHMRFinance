@@ -30,33 +30,34 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val isDarkTheme by viewModel.darkTheme.collectAsStateWithLifecycle()
-            val currentColor by viewModel.currentColor.collectAsStateWithLifecycle()
-            val authState by viewModel.authState.collectAsStateWithLifecycle()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            if (currentColor == AppViewModel.DEFAULT_COLOR) return@setContent
+            if (uiState.currentColor == AppViewModel.DEFAULT_COLOR) return@setContent
 
             SHMRFinanceTheme(
-                darkTheme = isDarkTheme,
-                currentColor = Color(currentColor)
+                darkTheme = uiState.darkTheme,
+                currentColor = Color(uiState.currentColor)
             ) {
                 val context = LocalContext.current as ComponentActivity
 
-                DisposableEffect(isDarkTheme) {
+                DisposableEffect(uiState.darkTheme) {
                     context.enableEdgeToEdge(
-                        statusBarStyle = getSystemBarStyle(isDarkTheme),
-                        navigationBarStyle = getSystemBarStyle(isDarkTheme)
+                        statusBarStyle = getSystemBarStyle(uiState.darkTheme),
+                        navigationBarStyle = getSystemBarStyle(uiState.darkTheme)
                     )
 
                     onDispose {  }
                 }
 
-                val startRoute = if (authState)
+                val startRoute = if (uiState.authState)
                     OtpRoute(isCreate = false, isDisable = false)
                 else
                     ExpensesRoute
 
-                MainScreen(startRoute = startRoute)
+                MainScreen(
+                    startRoute = startRoute,
+                    hapticNumber = uiState.hapticNumber
+                )
             }
         }
     }

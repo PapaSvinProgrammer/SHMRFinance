@@ -36,7 +36,8 @@ import com.example.ui.navigation.SplashRoute
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    startRoute: NavRoute
+    startRoute: NavRoute,
+    hapticNumber: Int = -1
 ) {
     var bottomBarVisible by remember { mutableStateOf(false) }
     val navController = rememberNavController()
@@ -69,6 +70,7 @@ fun MainScreen(
         bottomBar = {
             BottomNavigationBar(
                 navController = navController,
+                hapticNumber = hapticNumber,
                 visible = bottomBarVisible
             )
         },

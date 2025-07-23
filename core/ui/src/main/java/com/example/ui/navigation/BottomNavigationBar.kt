@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -26,8 +27,10 @@ import androidx.navigation.NavHostController
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
-    visible: Boolean
+    visible: Boolean,
+    hapticNumber: Int
 ) {
+    val view = LocalView.current
     var selectedIndex by remember { mutableIntStateOf(0) }
 
     AnimatedVisibility(
@@ -42,6 +45,7 @@ fun BottomNavigationBar(
                     NavigationBarItem(
                         selected = isSelected,
                         onClick = {
+                            view.performHapticFeedback(hapticNumber)
                             selectedIndex = BottomBarItems.items.indexOf(it)
                             navController.navigate(it.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
