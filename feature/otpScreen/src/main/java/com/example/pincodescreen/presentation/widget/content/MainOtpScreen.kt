@@ -1,6 +1,7 @@
 package com.example.pincodescreen.presentation.widget.content
 
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -11,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.pincodescreen.presentation.OtpViewModel
@@ -24,6 +27,8 @@ internal fun MainOtpScreen(
     viewModel: OtpViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val defaultCode by viewModel.defaultCode.collectAsStateWithLifecycle()
+
     val focusRequesters = remember { List(4) { FocusRequester() } }
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
@@ -32,6 +37,10 @@ internal fun MainOtpScreen(
         if (state.isValid == true) {
             navController.navigate(ExpensesRoute) { launchSingleTop = true }
         }
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        viewModel.getDefaultPinCode()
     }
 
     LaunchedEffect(state.focusedIndex) {
@@ -48,11 +57,19 @@ internal fun MainOtpScreen(
             focusManager.clearFocus()
             keyboardManager?.hide()
 
-
+            if (state.code.joinToString("") != defaultCode) {
+                viewModel.updateValidState(false)
+                viewModel.resetCode()
+            }
+            else {
+                viewModel.updateValidState(true)
+            }
         }
     }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { innerPadding ->
         MainOtpContent(
             state = state,
             focusRequesters = focusRequesters,

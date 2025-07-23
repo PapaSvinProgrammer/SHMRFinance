@@ -2,7 +2,7 @@ package com.example.pincodescreen.domain
 
 import javax.inject.Inject
 
-class CreateNewCode @Inject constructor() {
+internal class CreateNewCode @Inject constructor() {
     fun execute(
         code: List<Int?>,
         number: Int?,

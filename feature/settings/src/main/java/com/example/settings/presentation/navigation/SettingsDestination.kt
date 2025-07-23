@@ -16,9 +16,11 @@ import com.example.settings.presentation.colorSelector.ColorSelectorViewModel
 import com.example.settings.presentation.languageSelector.LanguageSelectorScreen
 import com.example.settings.presentation.settings.SettingsScreen
 import com.example.settings.presentation.settings.SettingsViewModel
+import com.example.settings.presentation.settingsOtp.SettingsOtpScreen
 import com.example.ui.navigation.AboutRoute
 import com.example.ui.navigation.ColorSelectorRoute
 import com.example.ui.navigation.LanguageSelectorRoute
+import com.example.ui.navigation.SettingsOtpRoute
 import com.example.ui.navigation.SettingsRoute
 
 fun NavGraphBuilder.settingsDestination(
@@ -70,5 +72,9 @@ fun NavGraphBuilder.settingsDestination(
 
     composable<AboutRoute> {
         AboutScreen(navController)
+    }
+
+    composable<SettingsOtpRoute> {
+        SettingsOtpScreen(navController)
     }
 }

@@ -19,6 +19,7 @@ import com.example.ui.navigation.ColorSelectorRoute
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.NavRoute
+import com.example.ui.navigation.SettingsOtpRoute
 import com.example.ui.navigation.SynchronizationRoute
 
 @Composable
@@ -46,7 +47,7 @@ internal fun SettingsList(
 private val settingsList = listOf(
     R.string.main_color to ColorSelectorRoute,
     R.string.hapticks to ExpensesRoute,
-    R.string.code_password to ExpensesRoute,
+    R.string.code_password to SettingsOtpRoute,
     R.string.synchronization to SynchronizationRoute,
     R.string.language to LanguageSelectorRoute,
     R.string.about_app to AboutRoute

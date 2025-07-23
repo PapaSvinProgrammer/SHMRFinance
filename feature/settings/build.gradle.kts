@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:localFactory"))
     implementation(project(":core:coreComponent"))
+    implementation(libs.lottie.compose)
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }

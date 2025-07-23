@@ -22,6 +22,7 @@ import com.example.tranasctionanalysis.presentation.navigation.transactionAnalys
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
 import com.example.ui.navigation.NavRoute
 import com.example.ui.navigation.OtpRoute
+import com.example.ui.navigation.SettingsOtpRoute
 import com.example.ui.navigation.SettingsRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
 import com.example.updatetransaction.presentation.navigation.updateTransactionDestination
@@ -36,7 +37,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = OtpRoute(isCreate = true),
+        startDestination = SettingsOtpRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,

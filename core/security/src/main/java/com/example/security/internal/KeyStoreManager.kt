@@ -2,85 +2,89 @@ package com.example.security.internal
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import java.io.InputStream
-import java.io.OutputStream
+import android.util.Base64
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
-import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.GCMParameterSpec
+import javax.inject.Inject
 
-internal class KeyStoreManager {
-    private val keyStore = KeyStore.getInstance(INSTANCE_VALUE).apply {
+internal class KeyStoreManager @Inject constructor() {
+    private val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE_TYPE).apply {
         load(null)
     }
 
-    private val encryptCipher get() = Cipher.getInstance(TRANSFORMATION).apply {
-        init(Cipher.ENCRYPT_MODE, getKey())
-    }
+    val keyGenParameterSpec = KeyGenParameterSpec
+        .Builder(
+            KEY_ALIES,
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+        )
+        .setBlockModes(BLOCK_MODE)
+        .setEncryptionPaddings(ENCRYPTION_PADDING)
+        .setKeySize(256)
+        .build()
 
-    private fun getDecryptCipherForIv(iv: ByteArray): Cipher {
-        return Cipher.getInstance(TRANSFORMATION).apply {
-            init(Cipher.DECRYPT_MODE, getKey(), IvParameterSpec(iv))
+    init {
+        if (!keyStore.containsAlias(KEY_ALIES)) {
+            generateKey()
         }
     }
 
-    private fun createKey(): SecretKey {
-        return KeyGenerator.getInstance(ALGORITHM).apply {
-            init(
-                KeyGenParameterSpec
-                    .Builder(
-                        SECRET_KEY_NAME,
-                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                    )
-                    .setBlockModes(BLOCK_MODE)
-                    .setEncryptionPaddings(PADDING)
-                    .setUserAuthenticationRequired(false)
-                    .setRandomizedEncryptionRequired(true)
-                    .build()
-            )
-        }.generateKey()
+    private fun generateKey() {
+        val keyGenerator = KeyGenerator.getInstance(
+            ALGORITHM,
+            ANDROID_KEY_STORE_TYPE
+        )
+
+        keyGenerator.init(keyGenParameterSpec)
+        keyGenerator.generateKey()
     }
 
-    private fun getKey(): SecretKey {
-        val existingKey = keyStore.getEntry(SECRET_KEY_NAME, null) as? KeyStore.SecretKeyEntry
-        return existingKey?.secretKey ?: createKey()
+    fun getKey(): SecretKey {
+        val entry = keyStore.getEntry(KEY_ALIES, null) as KeyStore.SecretKeyEntry
+        return entry.secretKey
     }
 
-    fun encrypt(bytes: ByteArray, outputStream: OutputStream): ByteArray {
-        val encryptedBytes = encryptCipher.doFinal(bytes)
+    fun encrypt(data: String): String {
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, getKey())
 
-        outputStream.use {
-            it.write(encryptCipher.iv.size)
-            it.write(encryptCipher.iv)
-            it.write(encryptedBytes.size)
-            it.write(encryptedBytes)
-        }
+        val iv = cipher.iv
 
-        return encryptedBytes
+        val encryptedBytes = cipher.doFinal(data.toByteArray())
+        val combined = ByteArray(iv.size + encryptedBytes.size)
+
+        System.arraycopy(iv, 0, combined, 0, iv.size)
+        System.arraycopy(encryptedBytes, 0, combined, iv.size, encryptedBytes.size)
+
+        return Base64.encodeToString(combined, Base64.DEFAULT)
     }
 
-    fun decrypt(inputStream: InputStream): ByteArray {
-        return inputStream.use {
-            val ivSize = it.read()
-            val iv = ByteArray(ivSize)
-            it.read(iv)
+    fun decrypt(encryptedData: String): String {
+        val combined = Base64.decode(encryptedData, Base64.DEFAULT)
 
-            val encryptedBytesSize = it.read()
-            val encryptedBytes = ByteArray(encryptedBytesSize)
-            it.read(encryptedBytes)
+        val iv = ByteArray(IV_SIZE)
+        System.arraycopy(combined, 0, iv, 0, iv.size)
 
-            getDecryptCipherForIv(iv).doFinal(encryptedBytes)
-        }
+        val encryptedBytes = ByteArray(combined.size - iv.size)
+        System.arraycopy(combined, iv.size, encryptedBytes, 0, encryptedBytes.size)
+
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        val spec = GCMParameterSpec(128, iv)
+        cipher.init(Cipher.DECRYPT_MODE, getKey(), spec)
+
+        return String(cipher.doFinal(encryptedBytes))
     }
 
-    private companion object {
-        const val INSTANCE_VALUE = "AndroidKeyStore"
-        const val SECRET_KEY_NAME = "secret"
+    private companion object Companion {
+        private const val ANDROID_KEY_STORE_TYPE = "AndroidKeyStore"
+        private const val KEY_ALIES = "default_key"
+        private const val IV_SIZE = 12
 
         const val ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
-        const val BLOCK_MODE = KeyProperties.BLOCK_MODE_CBC
-        const val PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
-        const val TRANSFORMATION = "$ALGORITHM/$BLOCK_MODE/$PADDING"
+        const val BLOCK_MODE = KeyProperties.BLOCK_MODE_GCM
+        const val ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_NONE
+        const val TRANSFORMATION = "$ALGORITHM/$BLOCK_MODE/$ENCRYPTION_PADDING"
     }
 }

@@ -1,11 +1,13 @@
 package com.example.pincodescreen.presentation
 
 import androidx.lifecycle.ViewModel
+import com.example.data.external.remote.PreferencesRepository
 import com.example.pincodescreen.domain.CreateNewCode
 import com.example.pincodescreen.domain.GetNextFocusedTextFieldIndex
 import com.example.pincodescreen.domain.GetPreviousFocusedIndex
 import com.example.pincodescreen.presentation.widget.state.OtpAction
 import com.example.pincodescreen.presentation.widget.state.UiState
+import com.example.security.external.KeyStoreRepository
 import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,19 +17,30 @@ import javax.inject.Inject
 internal class OtpViewModel @Inject constructor(
     private val getNextFocusedTextFieldIndex: GetNextFocusedTextFieldIndex,
     private val getPreviousFocusedIndex: GetPreviousFocusedIndex,
-    private val createNewCode: CreateNewCode
+    private val createNewCode: CreateNewCode,
+    private val keyStoreRepository: KeyStoreRepository,
+    private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(UiState())
-    private val _defaultCode = MutableStateFlow(Int)
+    private val _defaultCode = MutableStateFlow("")
     val state = _state.asStateFlow()
     val defaultCode = _defaultCode.asStateFlow()
 
     fun setDefaultPinCode() = launchWithoutOld(SET_PIN_CODE_JOB) {
+        preferencesRepository.setAuthorizationState(true)
+        val res = keyStoreRepository.encrypt(state.value.code.joinToString(""))
 
+        res.onSuccess {
+            _state.value = _state.value.copy(
+                isValid = true
+            )
+        }
     }
 
     fun getDefaultPinCode() = launchWithoutOld(GET_PIN_CODE_JOB) {
-
+        keyStoreRepository.decrypt().onSuccess {
+            _defaultCode.value = it
+        }
     }
 
     fun onAction(action: OtpAction) {

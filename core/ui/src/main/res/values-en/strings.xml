@@ -60,4 +60,5 @@
     <string name="date_last_update">Date of last update: %1$s</string>
     <string name="frequency_sync">Сlock frequency</string>
     <string name="codes_dont_match">"The codes don't match"</string>
+    <string name="repeat_password">Confirm the password</string>
 </resources>

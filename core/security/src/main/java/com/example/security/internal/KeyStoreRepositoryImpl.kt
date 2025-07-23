@@ -1,50 +1,52 @@
 package com.example.security.internal
 
-import android.content.Context
+import android.util.Log
 import com.example.security.external.KeyStoreRepository
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 internal class KeyStoreRepositoryImpl @Inject constructor(
-    private val context: Context,
+    private val fileManager: FileManager,
     private val keyStoreManager: KeyStoreManager
 ): KeyStoreRepository {
     override fun encrypt(value: String): Result<String> {
+        Log.d("RRRR", value.toString())
         return try {
-            val bytes = value.encodeToByteArray()
-            val file = File(context.filesDir, FILE_NAME)
-
-            if (!file.exists()) {
-                file.createNewFile()
-            }
-
-            val fos = FileOutputStream(file)
-
-            val encryptedMessage = keyStoreManager.encrypt(
-                bytes = bytes,
-                outputStream = fos
-            )
-
-            Result.success(encryptedMessage.decodeToString())
+            val encrypted = keyStoreManager.encrypt(value)
+            fileManager.writeToFile(encrypted, FILE_NAME)
+            Result.success(encrypted)
         }
-        catch (e: Exception) {
+        catch (e: Throwable) {
             Result.failure(SecurityException(e.message))
         }
     }
 
-    override fun decrypt(value: String): Result<String> {
+    override fun decrypt(): Result<String> {
         return try {
-            val file = File(context.filesDir, FILE_NAME)
+            val value = fileManager.readFromFile(FILE_NAME)
 
-            val decrypted = keyStoreManager.decrypt(
-                inputStream = FileInputStream(file)
-            )
+            if (value == null) {
+                return Result.failure(SecurityException("No file with name: $FILE_NAME"))
+            }
 
-            Result.success(decrypted.decodeToString())
+            val decrypted = keyStoreManager.decrypt(value)
+            Result.success(decrypted)
         }
-        catch (e: Exception) {
+        catch (e: Throwable) {
+            Log.d("RRRR", e.message.toString())
+            Result.failure(SecurityException(e.message))
+        }
+    }
+
+    override fun delete(): Result<Unit> {
+        return try {
+            val isDelete = fileManager.deleteFile(FILE_NAME)
+
+            when (isDelete) {
+                true -> Result.success(Unit)
+                false -> Result.failure(SecurityException("File can not delete"))
+            }
+        }
+        catch (e: Throwable) {
             Result.failure(SecurityException(e.message))
         }
     }

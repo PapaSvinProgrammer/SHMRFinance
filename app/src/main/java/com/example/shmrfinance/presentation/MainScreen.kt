@@ -20,16 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.navigation.NavigationGraph
+import com.example.network.connectivityState.NetworkConnectionState
+import com.example.network.connectivityState.rememberConnectivityState
+import com.example.shmrfinance.appComponent
+import com.example.shmrfinance.ui.R
 import com.example.ui.navigation.BankAccountRoute
+import com.example.ui.navigation.BottomNavigationBar
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.IncomeRoute
 import com.example.ui.navigation.NavRoute
+import com.example.ui.navigation.OtpRoute
 import com.example.ui.navigation.SplashRoute
-import com.example.network.connectivityState.NetworkConnectionState
-import com.example.network.connectivityState.rememberConnectivityState
-import com.example.shmrfinance.ui.R
-import com.example.shmrfinance.appComponent
-import com.example.ui.navigation.BottomNavigationBar
 
 @Composable
 fun MainScreen(
@@ -89,6 +90,7 @@ fun MainScreen(
 private fun bottomBarIsVisibility(route: String?, onResult: (Boolean) -> Unit) {
     when (route) {
         SplashRoute::class.java.canonicalName -> onResult(false)
+        "${OtpRoute::class.java.canonicalName}/{isCreate}" -> onResult(false)
         else -> onResult(true)
     }
 }

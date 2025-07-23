@@ -38,6 +38,7 @@ internal fun FirstCreateOtpScreen(
     viewModel: OtpViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
     val focusRequesters = remember {
         List(OtpViewModel.DEFAULT_LENGTH) {
             FocusRequester()
@@ -45,6 +46,7 @@ internal fun FirstCreateOtpScreen(
     }
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
+
     var isRepeatInput by remember { mutableStateOf(false) }
     var localCode: List<Int?> by remember {
         mutableStateOf((1..OtpViewModel.DEFAULT_LENGTH).map { null })
@@ -52,7 +54,6 @@ internal fun FirstCreateOtpScreen(
 
     LaunchedEffect(state.isValid) {
         if (state.isValid == true) {
-            viewModel.setDefaultPinCode()
             navController.popBackStack()
         }
     }
@@ -72,7 +73,7 @@ internal fun FirstCreateOtpScreen(
             keyboardManager?.hide()
 
             if (state.code == localCode) {
-                viewModel.updateValidState(true)
+                viewModel.setDefaultPinCode()
             }
 
             if (!isRepeatInput) {
@@ -129,6 +130,7 @@ internal fun FirstCreateOtpScreen(
         ) {
             MainOtpContent(
                 state = state,
+                isRepeat = isRepeatInput,
                 isError = !(state.isValid ?: true),
                 focusRequesters = focusRequesters,
                 onAction = { action ->

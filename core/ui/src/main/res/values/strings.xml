@@ -59,4 +59,5 @@
     <string name="date_last_update">Дата последнего обновления: %1$s</string>
     <string name="frequency_sync">Частота синхронизации</string>
     <string name="codes_dont_match">Коды не совпадают</string>
+    <string name="repeat_password">Подтвердите пароль</string>
 </resources>

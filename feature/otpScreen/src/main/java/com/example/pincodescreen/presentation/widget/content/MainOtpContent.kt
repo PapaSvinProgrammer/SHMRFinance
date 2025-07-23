@@ -4,8 +4,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,20 +30,23 @@ internal fun MainOtpContent(
     focusRequesters: List<FocusRequester>,
     onAction: (OtpAction) -> Unit,
     modifier: Modifier = Modifier,
-    isError: Boolean = false
+    isError: Boolean = false,
+    isRepeat: Boolean = false
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AnimatedVisibility(visible = isError) {
+        AnimatedVisibility(visible = isRepeat) {
             Text(
-                text = stringResource(R.string.codes_dont_match),
+                text = stringResource(R.string.repeat_password),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
         }
+
+        Spacer(modifier = Modifier.height(15.dp))
 
         Row(
             modifier = Modifier.padding(16.dp),
@@ -69,6 +74,16 @@ internal fun MainOtpContent(
                         .aspectRatio(1f)
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        AnimatedVisibility(visible = isError) {
+            Text(
+                text = stringResource(R.string.codes_dont_match),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
