@@ -20,6 +20,7 @@ import com.example.splash.splashDestination
 import com.example.synchronizationscreen.presentation.navigation.synchronizationDestination
 import com.example.tranasctionanalysis.presentation.navigation.transactionAnalysisDestination
 import com.example.transactionhistory.presentation.navigation.transactionHistoryDestination
+import com.example.ui.navigation.HapticSettingsRoute
 import com.example.ui.navigation.NavRoute
 import com.example.updatebankaccount.presentation.navigation.updateBankAccountDestination
 import com.example.updatetransaction.presentation.navigation.updateTransactionDestination
@@ -34,7 +35,7 @@ fun NavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startRoute,
+        startDestination = HapticSettingsRoute,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,

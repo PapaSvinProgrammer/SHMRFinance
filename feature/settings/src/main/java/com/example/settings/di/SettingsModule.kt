@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
 import com.example.settings.presentation.colorSelector.ColorSelectorViewModel
+import com.example.settings.presentation.haptic.HapticViewModel
 import com.example.settings.presentation.settings.SettingsViewModel
 import com.example.settings.presentation.settingsOtp.SettingsOtpViewModel
 import dagger.Binds
@@ -34,4 +35,10 @@ internal interface SettingsModule {
     @IntoMap
     @ViewModelKey(SettingsOtpViewModel::class)
     fun bindsSettingsOtpViewModel(viewModel: SettingsOtpViewModel): ViewModel
+
+    @Binds
+    @SettingsScope
+    @IntoMap
+    @ViewModelKey(HapticViewModel::class)
+    fun bindsHapticViewModel(viewModel: HapticViewModel): ViewModel
 }

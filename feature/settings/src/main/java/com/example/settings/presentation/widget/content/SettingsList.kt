@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.shmrfinance.ui.R
 import com.example.ui.navigation.AboutRoute
 import com.example.ui.navigation.ColorSelectorRoute
-import com.example.ui.navigation.ExpensesRoute
+import com.example.ui.navigation.HapticSettingsRoute
 import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.NavRoute
 import com.example.ui.navigation.SettingsOtpRoute
@@ -46,7 +46,7 @@ internal fun SettingsList(
 
 private val settingsList = listOf(
     R.string.main_color to ColorSelectorRoute,
-    R.string.hapticks to ExpensesRoute,
+    R.string.hapticks to HapticSettingsRoute,
     R.string.code_password to SettingsOtpRoute,
     R.string.synchronization to SynchronizationRoute,
     R.string.language to LanguageSelectorRoute,

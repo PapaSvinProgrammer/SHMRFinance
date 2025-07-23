@@ -93,5 +93,7 @@ compose = [
     "androidx-ui-graphics",
     "androidx-ui-tooling",
     "androidx-material3",
-    "androidx-ui-tooling-preview"
+    "androidx-ui-tooling-preview",
+    "androidx-ui-test-manifest",
+    "androidx-ui-test-junit4"
 ]

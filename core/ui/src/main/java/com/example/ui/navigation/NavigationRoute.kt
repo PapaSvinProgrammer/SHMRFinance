@@ -73,3 +73,6 @@ data class OtpRoute(
 
 @Serializable
 data object SettingsOtpRoute : NavRoute
+
+@Serializable
+data object HapticSettingsRoute : NavRoute

@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun SHMRFinanceTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    currentColor: Color,
+    currentColor: Color = primaryLightGreen,
     content: @Composable () -> Unit
 ) {
     val colorSchemeList = when (currentColor) {

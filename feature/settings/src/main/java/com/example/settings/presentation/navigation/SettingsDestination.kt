@@ -13,6 +13,8 @@ import com.example.settings.di.DaggerSettingsComponent
 import com.example.settings.presentation.about.AboutScreen
 import com.example.settings.presentation.colorSelector.ColorSelectorScreen
 import com.example.settings.presentation.colorSelector.ColorSelectorViewModel
+import com.example.settings.presentation.haptic.HapticSettingsScreen
+import com.example.settings.presentation.haptic.HapticViewModel
 import com.example.settings.presentation.languageSelector.LanguageSelectorScreen
 import com.example.settings.presentation.settings.SettingsScreen
 import com.example.settings.presentation.settings.SettingsViewModel
@@ -20,6 +22,7 @@ import com.example.settings.presentation.settingsOtp.SettingsOtpScreen
 import com.example.settings.presentation.settingsOtp.SettingsOtpViewModel
 import com.example.ui.navigation.AboutRoute
 import com.example.ui.navigation.ColorSelectorRoute
+import com.example.ui.navigation.HapticSettingsRoute
 import com.example.ui.navigation.LanguageSelectorRoute
 import com.example.ui.navigation.SettingsOtpRoute
 import com.example.ui.navigation.SettingsRoute
@@ -85,6 +88,21 @@ fun NavGraphBuilder.settingsDestination(
         )
 
         SettingsOtpScreen(
+            navController = navController,
+            viewModel = viewModel
+        )
+    }
+
+    composable<HapticSettingsRoute> {
+        val component = DaggerSettingsComponent
+            .factory()
+            .create(appComponent)
+
+        val viewModel: HapticViewModel = viewModel(
+            factory = component.viewModelFactory
+        )
+
+        HapticSettingsScreen(
             navController = navController,
             viewModel = viewModel
         )
