@@ -6,6 +6,7 @@ import com.example.localfactory.viewModel.ViewModelFactory
 import com.example.localfactory.viewModel.ViewModelKey
 import com.example.settings.presentation.colorSelector.ColorSelectorViewModel
 import com.example.settings.presentation.settings.SettingsViewModel
+import com.example.settings.presentation.settingsOtp.SettingsOtpViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -27,4 +28,10 @@ internal interface SettingsModule {
     @IntoMap
     @ViewModelKey(ColorSelectorViewModel::class)
     fun bindsColorSelectorViewModel(viewModel: ColorSelectorViewModel): ViewModel
+
+    @Binds
+    @SettingsScope
+    @IntoMap
+    @ViewModelKey(SettingsOtpViewModel::class)
+    fun bindsSettingsOtpViewModel(viewModel: SettingsOtpViewModel): ViewModel
 }

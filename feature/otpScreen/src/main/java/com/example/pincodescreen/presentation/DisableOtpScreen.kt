@@ -1,9 +1,15 @@
-package com.example.pincodescreen.presentation.widget.content
+package com.example.pincodescreen.presentation
 
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,16 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.pincodescreen.presentation.OtpViewModel
-import com.example.pincodescreen.presentation.actionHandler
-import com.example.ui.navigation.ExpensesRoute
+import com.example.pincodescreen.presentation.widget.content.MainOtpContent
+import com.example.pincodescreen.utils.actionHandler
+import com.example.shmrfinance.ui.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MainOtpScreen(
+internal fun DisableOtpScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: OtpViewModel
@@ -33,14 +41,14 @@ internal fun MainOtpScreen(
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(state.isValid) {
-        if (state.isValid == true) {
-            navController.navigate(ExpensesRoute) { launchSingleTop = true }
-        }
-    }
-
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getDefaultPinCode()
+    }
+
+    LaunchedEffect(state.isValid) {
+        if (state.isValid == true) {
+            navController.popBackStack()
+        }
     }
 
     LaunchedEffect(state.focusedIndex) {
@@ -62,16 +70,29 @@ internal fun MainOtpScreen(
                 viewModel.resetCode()
             }
             else {
-                viewModel.updateValidState(true)
+                viewModel.deleteDefaultPinCode()
             }
         }
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(stringResource(R.string.reset_pin_code)) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
     ) { innerPadding ->
         MainOtpContent(
             state = state,
+            isError = !(state.isValid ?: true),
             focusRequesters = focusRequesters,
             onAction = { action ->
                 actionHandler(

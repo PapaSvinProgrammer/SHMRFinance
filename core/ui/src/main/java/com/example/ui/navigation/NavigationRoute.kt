@@ -67,7 +67,8 @@ data object AboutRoute : NavRoute
 
 @Serializable
 data class OtpRoute(
-    val isCreate: Boolean
+    val isCreate: Boolean,
+    val isDisable: Boolean
 ) : NavRoute
 
 @Serializable

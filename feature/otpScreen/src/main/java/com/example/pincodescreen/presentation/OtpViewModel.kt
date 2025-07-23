@@ -8,6 +8,7 @@ import com.example.pincodescreen.domain.GetPreviousFocusedIndex
 import com.example.pincodescreen.presentation.widget.state.OtpAction
 import com.example.pincodescreen.presentation.widget.state.UiState
 import com.example.security.external.KeyStoreRepository
+import com.example.utils.manager.cancelAllJobs
 import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,6 +41,13 @@ internal class OtpViewModel @Inject constructor(
     fun getDefaultPinCode() = launchWithoutOld(GET_PIN_CODE_JOB) {
         keyStoreRepository.decrypt().onSuccess {
             _defaultCode.value = it
+        }
+    }
+
+    fun deleteDefaultPinCode() = launchWithoutOld(DELETE_PIN_CODE_JOB) {
+        preferencesRepository.setAuthorizationState(false)
+        keyStoreRepository.delete().onSuccess {
+            updateValidState(true)
         }
     }
 
@@ -114,9 +122,15 @@ internal class OtpViewModel @Inject constructor(
         }
     }
 
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
+    }
+
     companion object {
         private const val SET_PIN_CODE_JOB = "set_default_pin_code"
         private const val GET_PIN_CODE_JOB = "get_default_pin_code"
+        private const val DELETE_PIN_CODE_JOB = "delete_pin_code"
         const val DEFAULT_LENGTH = 4
     }
 }

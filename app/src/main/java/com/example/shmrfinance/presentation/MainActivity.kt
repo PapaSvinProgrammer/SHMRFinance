@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.corecomponent.AppViewModel
 import com.example.shmrfinance.appComponent
 import com.example.ui.navigation.ExpensesRoute
+import com.example.ui.navigation.OtpRoute
 import com.example.ui.theme.SHMRFinanceTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val isDarkTheme by viewModel.darkTheme.collectAsStateWithLifecycle()
             val currentColor by viewModel.currentColor.collectAsStateWithLifecycle()
+            val authState by viewModel.authState.collectAsStateWithLifecycle()
 
             if (currentColor == AppViewModel.DEFAULT_COLOR) return@setContent
 
@@ -49,7 +51,12 @@ class MainActivity : ComponentActivity() {
                     onDispose {  }
                 }
 
-                MainScreen(startRoute = ExpensesRoute)
+                val startRoute = if (authState)
+                    OtpRoute(isCreate = false, isDisable = false)
+                else
+                    ExpensesRoute
+
+                MainScreen(startRoute = startRoute)
             }
         }
     }

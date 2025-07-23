@@ -13,12 +13,15 @@ class AppViewModel @Inject constructor(
 ): ViewModel() {
     private val _darkTheme = MutableStateFlow(false)
     private val _currentColor = MutableStateFlow(DEFAULT_COLOR)
+    private val _authState = MutableStateFlow(false)
     val darkTheme = _darkTheme.asStateFlow()
     val currentColor = _currentColor.asStateFlow()
+    val authState = _authState.asStateFlow()
 
     init {
         getDarkTheme()
         getCurrentColor()
+        getAuthState()
     }
 
     private fun getDarkTheme() = launchWithoutOld(DARK_THEME_JOB) {
@@ -27,9 +30,15 @@ class AppViewModel @Inject constructor(
         }
     }
 
-    private fun getCurrentColor() = launchWithoutOld {
+    private fun getCurrentColor() = launchWithoutOld(CURRENT_COLOR_JOB) {
         preferencesRepository.getDefaultColor().collect {
             _currentColor.value = it
+        }
+    }
+
+    private fun getAuthState() = launchWithoutOld(AUTH_STATE_JOB) {
+        preferencesRepository.getAuthorizationState().collect {
+            _authState.value = it
         }
     }
 
@@ -40,6 +49,8 @@ class AppViewModel @Inject constructor(
 
     companion object {
         private const val DARK_THEME_JOB = "get_dark_theme"
+        private const val CURRENT_COLOR_JOB = "get_current_color"
+        private const val AUTH_STATE_JOB = "get_auth_state"
         const val DEFAULT_COLOR = 0x00000000
     }
 }

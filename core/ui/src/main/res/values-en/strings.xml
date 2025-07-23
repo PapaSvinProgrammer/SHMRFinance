@@ -61,4 +61,8 @@
     <string name="frequency_sync">Сlock frequency</string>
     <string name="codes_dont_match">"The codes don't match"</string>
     <string name="repeat_password">Confirm the password</string>
+    <string name="enable_pin_code">Enable pin code</string>
+    <string name="disable_pin_code">Disable pin code</string>
+    <string name="input_pin_code">Enter the PIN code</string>
+    <string name="reset_pin_code">Reset the PIN code</string>
 </resources>

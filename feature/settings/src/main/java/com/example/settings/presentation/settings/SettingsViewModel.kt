@@ -2,6 +2,7 @@ package com.example.settings.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
+import com.example.utils.manager.cancelAllJobs
 import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +26,11 @@ internal class SettingsViewModel @Inject constructor(
         preferencesRepository.getDarkTheme().collect {
             _darkTheme.value = it
         }
+    }
+
+    override fun onCleared() {
+        cancelAllJobs()
+        super.onCleared()
     }
 
     private companion object {

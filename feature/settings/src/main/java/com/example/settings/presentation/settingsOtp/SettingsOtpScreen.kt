@@ -23,7 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -34,16 +36,20 @@ import com.example.ui.navigation.OtpRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsOtpScreen(navController: NavController) {
+internal fun SettingsOtpScreen(
+    navController: NavController,
+    viewModel: SettingsOtpViewModel
+) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_password_auth))
     val state = animateLottieCompositionAsState(composition = composition)
+    val authState by viewModel.authState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Код-пароль") },
+                title = { Text(stringResource(R.string.code_password)) },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null
@@ -67,24 +73,69 @@ internal fun SettingsOtpScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ListItem(
-                headlineContent = {
-                    Text(text = "Включить пин-код")
-                },
-                trailingContent = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                colors = ListItemDefaults.colors(MaterialTheme.colorScheme.background),
-                modifier = Modifier.clickable {
-                    navController.navigate(
-                        OtpRoute(isCreate = true)
-                    ) { launchSingleTop = true }
+            when (authState) {
+                true -> {
+                    DisableAuthPassword {
+                        navController.navigate(
+                            OtpRoute(
+                                isCreate = false,
+                                isDisable = true
+                            )
+                        ) { launchSingleTop = true }
+                    }
                 }
-            )
+
+                false -> {
+                    EnableAuthPassword {
+                        navController.navigate(
+                            OtpRoute(
+                                isCreate = true,
+                                isDisable = false
+                            )
+                        ) { launchSingleTop = true }
+                    }
+                }
+            }
         }
     }
+}
+
+@Composable
+private fun EnableAuthPassword(
+    onClick: () -> Unit
+) {
+    ListItem(
+        headlineContent = {
+            Text(text = stringResource(R.string.enable_pin_code))
+        },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        colors = ListItemDefaults.colors(MaterialTheme.colorScheme.background),
+        modifier = Modifier.clickable(onClick = onClick)
+    )
+}
+
+@Composable
+private fun DisableAuthPassword(
+    onClick: () -> Unit
+) {
+    ListItem(
+        headlineContent = {
+            Text(text = stringResource(R.string.disable_pin_code))
+        },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        colors = ListItemDefaults.colors(MaterialTheme.colorScheme.background),
+        modifier = Modifier.clickable(onClick = onClick)
+    )
 }

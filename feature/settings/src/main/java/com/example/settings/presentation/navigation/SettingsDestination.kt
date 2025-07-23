@@ -17,6 +17,7 @@ import com.example.settings.presentation.languageSelector.LanguageSelectorScreen
 import com.example.settings.presentation.settings.SettingsScreen
 import com.example.settings.presentation.settings.SettingsViewModel
 import com.example.settings.presentation.settingsOtp.SettingsOtpScreen
+import com.example.settings.presentation.settingsOtp.SettingsOtpViewModel
 import com.example.ui.navigation.AboutRoute
 import com.example.ui.navigation.ColorSelectorRoute
 import com.example.ui.navigation.LanguageSelectorRoute
@@ -75,6 +76,17 @@ fun NavGraphBuilder.settingsDestination(
     }
 
     composable<SettingsOtpRoute> {
-        SettingsOtpScreen(navController)
+        val component = DaggerSettingsComponent
+            .factory()
+            .create(appComponent)
+
+        val viewModel: SettingsOtpViewModel = viewModel(
+            factory = component.viewModelFactory
+        )
+
+        SettingsOtpScreen(
+            navController = navController,
+            viewModel = viewModel
+        )
     }
 }

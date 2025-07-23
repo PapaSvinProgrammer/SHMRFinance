@@ -1,9 +1,12 @@
-package com.example.pincodescreen.presentation.widget.content
+package com.example.pincodescreen.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
@@ -26,13 +30,13 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.pincodescreen.presentation.OtpViewModel
-import com.example.pincodescreen.presentation.actionHandler
+import com.example.pincodescreen.presentation.widget.content.MainOtpContent
+import com.example.pincodescreen.utils.actionHandler
 import com.example.shmrfinance.ui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun FirstCreateOtpScreen(
+internal fun CreateOtpScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: OtpViewModel
@@ -106,48 +110,56 @@ internal fun FirstCreateOtpScreen(
             )
         }
     ) { innerPadding ->
-        if (!isRepeatInput) {
-            MainOtpContent(
-                state = state,
-                focusRequesters = focusRequesters,
-                onAction = { action ->
-                    actionHandler(
-                        action = action,
-                        viewModel = viewModel,
-                        focusRequesters = focusRequesters
-                    )
-                },
-                modifier = modifier
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
-            )
-        }
-
-        AnimatedVisibility(
-            visible = isRepeatInput,
-            enter = slideInHorizontally(initialOffsetX = { it }),
-            exit = slideOutHorizontally(targetOffsetX = { it })
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MainOtpContent(
-                state = state,
-                isRepeat = isRepeatInput,
-                isError = !(state.isValid ?: true),
-                focusRequesters = focusRequesters,
-                onAction = { action ->
-                    if (state.isValid == false) {
-                        viewModel.updateValidState(null)
-                    }
+            if (!isRepeatInput) {
+                MainOtpContent(
+                    state = state,
+                    focusRequesters = focusRequesters,
+                    onAction = { action ->
+                        actionHandler(
+                            action = action,
+                            viewModel = viewModel,
+                            focusRequesters = focusRequesters
+                        )
+                    },
+                    modifier = modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding)
+                )
+            }
 
-                    actionHandler(
-                        action = action,
-                        viewModel = viewModel,
-                        focusRequesters = focusRequesters
-                    )
-                },
-                modifier = modifier
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
-            )
+            AnimatedVisibility(
+                visible = isRepeatInput,
+                enter = slideInHorizontally(initialOffsetX = { it }),
+                exit = slideOutHorizontally(targetOffsetX = { it })
+            ) {
+                MainOtpContent(
+                    state = state,
+                    isError = !(state.isValid ?: true),
+                    hint = stringResource(R.string.repeat_password),
+                    focusRequesters = focusRequesters,
+                    onAction = { action ->
+                        if (state.isValid == false) {
+                            viewModel.updateValidState(null)
+                        }
+
+                        actionHandler(
+                            action = action,
+                            viewModel = viewModel,
+                            focusRequesters = focusRequesters
+                        )
+                    },
+                    modifier = modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding)
+                )
+            }
         }
     }
 }
