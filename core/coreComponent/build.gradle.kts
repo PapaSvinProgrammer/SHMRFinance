@@ -8,6 +8,7 @@ dependencies {
     api(project(":core:data"))
     api(project(":core:syncWorker"))
     api(project(":core:localFactory"))
+    api(project(":core:security"))
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }
