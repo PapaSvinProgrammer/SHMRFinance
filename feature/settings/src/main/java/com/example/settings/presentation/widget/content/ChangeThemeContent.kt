@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.shmrfinance.ui.R
+import androidx.compose.ui.platform.testTag
 
 @Composable
 internal fun ChangeThemeContent(
@@ -27,7 +28,8 @@ internal fun ChangeThemeContent(
         trailingContent = {
             Switch(
                 checked = isChecked,
-                onCheckedChange = onClick
+                onCheckedChange = onClick,
+                modifier = Modifier.testTag("theme_switch")
             )
         }
     )

@@ -20,4 +20,5 @@ dependencies {
     implementation(libs.lottie.compose)
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
+    testImplementation(kotlin("test"))
 }

@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-internal class SettingsViewModel @Inject constructor(
+internal open class SettingsViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
     private val _darkTheme = MutableStateFlow(false)
-    val darkTheme = _darkTheme.asStateFlow()
+    open val darkTheme = _darkTheme.asStateFlow()
 
     init {
         getDarkTheme()
     }
 
-    fun setDarkTheme(state: Boolean) = launchWithoutOld(SET_DARK_THEME_JOB) {
+    open fun setDarkTheme(state: Boolean) = launchWithoutOld(SET_DARK_THEME_JOB) {
         preferencesRepository.setDarkTheme(state)
     }
 
