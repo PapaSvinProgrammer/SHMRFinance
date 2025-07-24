@@ -34,13 +34,12 @@ import kotlin.math.max
 
 @Composable
 fun DonutChart(
-    data: Map<Float, String>,
+    data: List<Pair<Float, String>>,
     modifier: Modifier = Modifier,
     boundSize: Dp = 200.dp
 ) {
-    val formatData = data.toList()
-    val total = formatData.sumOf { it.first.toDouble() }.toFloat()
-    val colors = generateColors(formatData.size)
+    val total = data.sumOf { it.first.toDouble() }.toFloat()
+    val colors = generateColors(data.size)
 
     val animatedProgress = remember { Animatable(0f) }
 
@@ -53,8 +52,8 @@ fun DonutChart(
 
     val minSweepAngle = 2f
 
-    val sweepAngles = remember(formatData) {
-        val rawAngles = formatData.map { (it.first / total) * 360f }
+    val sweepAngles = remember(data) {
+        val rawAngles = data.map { (it.first / total) * 360f }
         val adjusted = rawAngles.map { max(it, minSweepAngle) }
 
         val overshoot = adjusted.sum() - 360f
@@ -83,7 +82,7 @@ fun DonutChart(
 
             var startAngle = -90f
 
-            formatData.forEachIndexed { index, _ ->
+            data.forEachIndexed { index, _ ->
                 val sweep = sweepAngles[index] * animatedProgress.value
 
                 drawArc(
@@ -101,7 +100,7 @@ fun DonutChart(
         }
 
         Column(horizontalAlignment = Alignment.Start) {
-            formatData.take(3).forEachIndexed { index, (_, label) ->
+            data.take(3).forEachIndexed { index, (_, label) ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier

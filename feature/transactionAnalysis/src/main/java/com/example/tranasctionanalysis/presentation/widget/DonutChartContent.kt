@@ -15,7 +15,7 @@ import com.example.charts.DonutChart
 
 @Composable
 internal fun DonutChartContent(
-    chartData: Map<Float, String>,
+    chartData: List<Pair<Float, String>>,
     onClickButtonMore: () -> Unit
 ) {
     Box(

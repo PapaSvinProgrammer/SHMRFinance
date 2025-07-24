@@ -146,7 +146,7 @@ internal fun TransactionAnalysisScreen(
 @Composable
 private fun MainContent(
     modifier: Modifier = Modifier,
-    chartData: Map<Float, String>,
+    chartData: List<Pair<Float, String>>,
     list: List<Transaction>,
     totalAmount: BigDecimal,
     currency: String,

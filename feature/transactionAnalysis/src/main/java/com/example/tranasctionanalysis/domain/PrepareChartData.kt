@@ -7,12 +7,12 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class PrepareChartData @Inject constructor(
-) : UseCase<List<Transaction>, Map<Float, String>>(Dispatchers.Default) {
-    override suspend fun run(params: List<Transaction>): Map<Float, String> {
+) : UseCase<List<Transaction>, List<Pair<Float, String>>>(Dispatchers.Default) {
+    override suspend fun run(params: List<Transaction>): List<Pair<Float, String>> {
         val totalAmount = params.sumOf { it.amount }
         val groupTransactions = params.groupBy { it.category.id }
 
-        val result = mutableMapOf<Float, String>()
+        val result = mutableListOf<Pair<Float, String>>()
 
         for ((_, value) in groupTransactions) {
             val amount = value.sumOf { it.amount }
@@ -22,9 +22,9 @@ class PrepareChartData @Inject constructor(
             val categoryName = value[0].category.name
 
             val label = "$prettyPercent $categoryName"
-            result[sumPercent.toFloat()] = label
+            result.add(sumPercent.toFloat() to label)
         }
 
-        return result
+        return result.sortedByDescending { it.first }
     }
 }

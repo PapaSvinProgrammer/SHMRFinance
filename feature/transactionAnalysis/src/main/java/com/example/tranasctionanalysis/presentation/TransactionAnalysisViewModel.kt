@@ -3,6 +3,7 @@ package com.example.tranasctionanalysis.presentation
 import androidx.lifecycle.ViewModel
 import com.example.data.external.remote.PreferencesRepository
 import com.example.model.Transaction
+import com.example.tranasctionanalysis.domain.GroupTransactionsByCategory
 import com.example.tranasctionanalysis.domain.PrepareChartData
 import com.example.tranasctionanalysis.presentation.widget.state.UIState
 import com.example.tranasctionanalysis.presentation.widget.state.VisibleState
@@ -10,8 +11,8 @@ import com.example.transaction.GetTransactionByType
 import com.example.transaction.model.GetTransactionParams
 import com.example.ui.uiState.TransactionUIState
 import com.example.utils.NoSelectBankAccount
-import com.example.utils.manager.cancelAllJobs
 import com.example.utils.format.FormatDate
+import com.example.utils.manager.cancelAllJobs
 import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +22,8 @@ internal class TransactionAnalysisViewModel @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val getTransactionByType: GetTransactionByType,
     private val prepareChartData: PrepareChartData,
-): ViewModel() {
+    private val groupTransactionsByCategory: GroupTransactionsByCategory,
+) : ViewModel() {
     private val accountId = preferencesRepository.getCurrentAccountId()
 
     private val _uiState = MutableStateFlow(UIState())
@@ -31,7 +33,7 @@ internal class TransactionAnalysisViewModel @Inject constructor(
     val visibleState = _visibleState.asStateFlow()
     val transactionState = _transactionState.asStateFlow()
 
-    private val _chartData = MutableStateFlow<Map<Float, String>>(mapOf())
+    private val _chartData = MutableStateFlow<List<Pair<Float, String>>>(listOf())
     val chartData = _chartData.asStateFlow()
 
     init {
@@ -87,8 +89,7 @@ internal class TransactionAnalysisViewModel @Inject constructor(
                 }.onFailure {
                     _transactionState.value = TransactionUIState.Error(it)
                 }
-            }
-            else {
+            } else {
                 _transactionState.value = TransactionUIState.Error(NoSelectBankAccount())
             }
         }
@@ -98,8 +99,10 @@ internal class TransactionAnalysisViewModel @Inject constructor(
         _chartData.value = prepareChartData.execute(list)
     }
 
-    private fun updateTransactionState(data: List<Transaction>) {
-        _transactionState.value = TransactionUIState.Success(data)
+    private suspend fun updateTransactionState(data: List<Transaction>) {
+        val grouped = groupTransactionsByCategory.execute(data)
+        _transactionState.value = TransactionUIState.Success(grouped)
+
         _uiState.value = uiState.value.copy(
             total = data.sumOf { it.amount },
             currency = data.firstOrNull()?.account?.currency ?: ""

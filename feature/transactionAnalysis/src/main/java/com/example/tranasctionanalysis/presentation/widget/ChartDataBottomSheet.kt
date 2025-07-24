@@ -21,7 +21,7 @@ import com.example.charts.utils.generateColors
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ChartDataBottomSheet(
-    data: Map<Float, String>,
+    data: List<Pair<Float, String>>,
     onDismiss: () -> Unit
 ) {
     val colors = generateColors(data.size)
@@ -30,7 +30,7 @@ internal fun ChartDataBottomSheet(
         onDismissRequest = onDismiss
     ) {
         LazyColumn {
-            itemsIndexed(items = data.values.toList()) { index, item ->
+            itemsIndexed(items = data) { index, item ->
                 ListItem(
                     leadingContent = {
                         Box(
@@ -42,7 +42,7 @@ internal fun ChartDataBottomSheet(
                                 )
                         )
                     },
-                    headlineContent = { Text(text = item) },
+                    headlineContent = { Text(text = item.second) },
                     colors = ListItemDefaults.colors(Color.Transparent)
                 )
 
