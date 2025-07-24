@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:security")
+
+
 includeBuild("build-logic")
 
 pluginManagement {
@@ -35,7 +38,9 @@ listOf(
     "coreComponent",
     "localFactory",
     "room",
-    "syncWorker"
+    "syncWorker",
+    "navigation",
+    "charts"
 ).forEach {
     include(":core:$it")
 }
@@ -62,7 +67,8 @@ listOf(
     "updateTransaction",
     "createTransaction",
     "synchronizationScreen",
-    "transactionAnalysis"
+    "transactionAnalysis",
+    "otpScreen"
 ).forEach {
     include(":feature:$it")
 }

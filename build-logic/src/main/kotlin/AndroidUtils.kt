@@ -9,6 +9,8 @@ object Const {
     const val COMPILE_SDK = 35
     const val MIN_SDK = 26
     val COMPILE_JDK_VERSION = JavaVersion.VERSION_17
+    val VERSION_NAME = "1.0"
+    val VERSION_CODE = 1
 }
 
 fun BaseExtension.baseAndroidConfig(project: Project) {

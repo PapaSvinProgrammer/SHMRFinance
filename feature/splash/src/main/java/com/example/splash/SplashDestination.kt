@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.ui.navigation.SplashRoute
 
 fun NavGraphBuilder.splashDestination(navController: NavController) {
@@ -15,6 +16,11 @@ fun NavGraphBuilder.splashDestination(navController: NavController) {
         popEnterTransition = { fadeIn(animationSpec = tween(500)) },
         popExitTransition = { fadeOut(animationSpec = tween(500)) }
     ) {
-        SplashScreen(navController = navController)
+        val route = it.toRoute<SplashRoute>()
+
+        SplashScreen(
+            isOtp = route.isOtp,
+            navController = navController
+        )
     }
 }

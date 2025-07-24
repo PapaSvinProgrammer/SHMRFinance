@@ -3,7 +3,7 @@ package com.example.income.presentation.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -24,12 +24,11 @@ fun NavGraphBuilder.incomeDestination(
         popEnterTransition = { fadeIn(animationSpec = tween(500)) },
         popExitTransition = { fadeOut(animationSpec = tween(500)) }
     ) {
-        val component = DaggerIncomeComponent
-            .factory()
-            .create(
-                context = LocalContext.current,
-                appComponent = appComponent
-            )
+        val component = remember {
+            DaggerIncomeComponent
+                .factory()
+                .create(appComponent)
+        }
 
         val viewModel: IncomeViewModel = viewModel(factory = component.viewModelFactory)
 

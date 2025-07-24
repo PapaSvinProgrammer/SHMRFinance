@@ -5,8 +5,8 @@ import com.example.articles.domain.SearchCategory
 import com.example.category.GetAllCategory
 import com.example.model.Category
 import com.example.ui.uiState.CategoryUIState
-import com.example.utils.cancelAllJobs
-import com.example.utils.launchWithoutOld
+import com.example.utils.manager.cancelAllJobs
+import com.example.utils.manager.launchWithoutOld
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -3,12 +3,15 @@ package com.example.syncworker.internal
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.network.external.CategoryService
 import com.example.room.external.CategoryServiceRoom
 import com.example.room.external.WorkLogService
+import com.example.syncworker.internal.SyncCategoryWorker.Companion.NAME
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -47,13 +50,21 @@ internal class SyncCategoryWorker @AssistedInject constructor(
 
     companion object {
         const val NAME = "sync_categories_data"
-
-        private val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val request = OneTimeWorkRequestBuilder<SyncCategoryWorker>()
-            .setConstraints(constraints)
-            .build()
     }
+}
+
+internal fun WorkManager.scheduleSyncCategoryWork() {
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
+
+    val request = OneTimeWorkRequestBuilder<SyncCategoryWorker>()
+        .setConstraints(constraints)
+        .build()
+
+    enqueueUniqueWork(
+        uniqueWorkName = NAME,
+        existingWorkPolicy = ExistingWorkPolicy.REPLACE,
+        request = request
+    )
 }

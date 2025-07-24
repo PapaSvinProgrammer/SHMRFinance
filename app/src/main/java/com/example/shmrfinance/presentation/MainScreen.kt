@@ -3,6 +3,7 @@ package com.example.shmrfinance.presentation
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -19,21 +20,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.navigation.NavigationGraph
+import com.example.network.connectivityState.NetworkConnectionState
+import com.example.network.connectivityState.rememberConnectivityState
+import com.example.shmrfinance.appComponent
+import com.example.shmrfinance.ui.R
 import com.example.ui.navigation.BankAccountRoute
+import com.example.ui.navigation.BottomNavigationBar
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.IncomeRoute
 import com.example.ui.navigation.NavRoute
+import com.example.ui.navigation.OtpRoute
 import com.example.ui.navigation.SplashRoute
-import com.example.network.connectivityState.NetworkConnectionState
-import com.example.network.connectivityState.rememberConnectivityState
-import com.example.shmrfinance.app.R
-import com.example.shmrfinance.navigation.NavigationGraph
-import com.example.ui.navigation.BottomNavigationBar
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    startRoute: NavRoute
+    startRoute: NavRoute,
+    hapticNumber: Int = -1
 ) {
     var bottomBarVisible by remember { mutableStateOf(false) }
     val navController = rememberNavController()
@@ -66,6 +70,7 @@ fun MainScreen(
         bottomBar = {
             BottomNavigationBar(
                 navController = navController,
+                hapticNumber = hapticNumber,
                 visible = bottomBarVisible
             )
         },
@@ -75,18 +80,22 @@ fun MainScreen(
                 route = backStackEntry?.destination?.route
             )
         }
-    ) { innerPadding ->
+    ) { _ ->
         NavigationGraph(
-            modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+            modifier = Modifier
+                .navigationBarsPadding()
+                .padding(bottom = 80.dp),
             navController = navController,
-            startRoute = startRoute
+            startRoute = startRoute,
+            appComponent = context.appComponent
         )
     }
 }
 
 private fun bottomBarIsVisibility(route: String?, onResult: (Boolean) -> Unit) {
     when (route) {
-        SplashRoute::class.java.canonicalName -> onResult(false)
+        "${SplashRoute::class.java.canonicalName}/{isOtp}" -> onResult(false)
+        "${OtpRoute::class.java.canonicalName}/{isCreate}/{isDisable}" -> onResult(false)
         else -> onResult(true)
     }
 }

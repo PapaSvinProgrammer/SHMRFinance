@@ -3,8 +3,10 @@ package com.example.syncworker.internal
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.model.Transaction
 import com.example.model.TransactionRequest
@@ -12,6 +14,7 @@ import com.example.network.external.TransactionService
 import com.example.network.internal.common.multiRequest
 import com.example.room.external.TransactionServiceRoom
 import com.example.room.external.WorkLogService
+import com.example.syncworker.internal.SyncTransactionWorker.Companion.NAME
 import com.example.syncworker.internal.di.ChildWorkerFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -80,19 +83,6 @@ internal class SyncTransactionWorker @AssistedInject constructor (
 
     companion object {
         const val NAME = "sync_transaction_worker"
-
-        private val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val request = PeriodicWorkRequest
-            .Builder(
-                workerClass = SyncTransactionWorker::class.java,
-                repeatInterval = 4,
-                repeatIntervalTimeUnit = TimeUnit.HOURS
-            )
-            .setConstraints(constraints)
-            .build()
     }
 }
 
@@ -103,5 +93,26 @@ private fun Transaction.toRequest(): TransactionRequest {
         amount = amount.toString(),
         transactionDate = transactionDate,
         comment = comment
+    )
+}
+
+internal fun WorkManager.scheduleSyncTransactionWork(interval: Int) {
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
+
+    val request = PeriodicWorkRequest
+        .Builder(
+            workerClass = SyncTransactionWorker::class.java,
+            repeatInterval = interval.toLong(),
+            repeatIntervalTimeUnit = TimeUnit.HOURS
+        )
+        .setConstraints(constraints)
+        .build()
+
+    enqueueUniquePeriodicWork(
+        NAME,
+        ExistingPeriodicWorkPolicy.REPLACE,
+        request
     )
 }

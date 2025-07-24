@@ -5,7 +5,9 @@ import kotlinx.serialization.Serializable
 sealed interface NavRoute
 
 @Serializable
-data object SplashRoute : NavRoute
+data class SplashRoute(
+    val isOtp: Boolean
+) : NavRoute
 
 @Serializable
 data object ExpensesRoute : NavRoute
@@ -55,3 +57,24 @@ data class TransactionAnalysisRoute(
 
 @Serializable
 data object SynchronizationRoute : NavRoute
+
+@Serializable
+data object ColorSelectorRoute : NavRoute
+
+@Serializable
+data object LanguageSelectorRoute: NavRoute
+
+@Serializable
+data object AboutRoute : NavRoute
+
+@Serializable
+data class OtpRoute(
+    val isCreate: Boolean,
+    val isDisable: Boolean
+) : NavRoute
+
+@Serializable
+data object SettingsOtpRoute : NavRoute
+
+@Serializable
+data object HapticSettingsRoute : NavRoute

@@ -1,9 +1,7 @@
 package com.example.expenses.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.corecomponent.AppComponent
-import dagger.BindsInstance
 import dagger.Component
 
 @Component(
@@ -14,10 +12,7 @@ import dagger.Component
 interface ExpensesComponent {
     @Component.Factory
     interface Factory {
-        fun create(
-            @BindsInstance context: Context,
-            appComponent: AppComponent
-        ): ExpensesComponent
+        fun create(appComponent: AppComponent): ExpensesComponent
     }
 
     val viewModelFactory: ViewModelProvider.Factory

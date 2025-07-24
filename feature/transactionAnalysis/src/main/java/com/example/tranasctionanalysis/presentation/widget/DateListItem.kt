@@ -30,7 +30,7 @@ internal fun DateListItem(
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 },
-                colors = SuggestionChipDefaults.suggestionChipColors(MaterialTheme.colorScheme.primary),
+                colors = SuggestionChipDefaults.suggestionChipColors(MaterialTheme.colorScheme.primaryContainer),
                 border = null,
                 shape = CircleShape
             )

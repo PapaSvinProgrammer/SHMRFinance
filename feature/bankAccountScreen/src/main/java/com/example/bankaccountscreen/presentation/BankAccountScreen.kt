@@ -28,11 +28,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.bankaccountscreen.presentation.widget.component.ChartContent
+import com.example.bankaccountscreen.presentation.widget.model.ChartListItem
 import com.example.model.BankAccount
+import com.example.shmrfinance.ui.R
 import com.example.ui.navigation.BankAccountListRoute
 import com.example.ui.navigation.CreateBankAccountRoute
 import com.example.ui.navigation.UpdateBankAccountRoute
-import com.example.shmrfinance.bankAccountScreen.R
 import com.example.ui.uiState.BankAccountUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.CustomFloatingActionButton
@@ -50,6 +52,7 @@ internal fun BankAccountScreen(
     viewModel: BankAccountViewModel
 ) {
     val currentBankAccount by viewModel.currentBankAccount.collectAsStateWithLifecycle()
+    val currentChart by viewModel.currentChart.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getBankAccount()
@@ -101,10 +104,14 @@ internal fun BankAccountScreen(
                         .fillMaxSize()
                         .padding(top = innerPadding.calculateTopPadding()),
                     account = state.data.first(),
+                    currentChart = currentChart,
                     onClickCrateAccount = {
                         navController.navigate(CreateBankAccountRoute) {
                             launchSingleTop = true
                         }
+                    },
+                    onChangeChart = {
+                        viewModel.updateCurrentChart(it)
                     }
                 )
             }
@@ -116,7 +123,9 @@ internal fun BankAccountScreen(
 private fun MainContent(
     modifier: Modifier = Modifier,
     account: BankAccount,
-    onClickCrateAccount: () -> Unit
+    currentChart: ChartListItem,
+    onClickCrateAccount: () -> Unit,
+    onChangeChart: (ChartListItem) -> Unit
 ) {
     Box(modifier = modifier) {
         Column {
@@ -141,6 +150,12 @@ private fun MainContent(
                 colors = ListItemDefaults.colors(MaterialTheme.colorScheme.primaryContainer),
                 title = stringResource(R.string.currency),
                 value = ConvertData.getCurrencySymbol(account.currency)
+            )
+
+            ChartContent(
+                bankAccount = account,
+                currentChart = currentChart,
+                onChangeChart = onChangeChart
             )
         }
 

@@ -27,8 +27,10 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.model.Transaction
-import com.example.shmrfinance.transactionAnalysis.R
+import com.example.shmrfinance.ui.R
+import com.example.tranasctionanalysis.presentation.widget.ChartDataBottomSheet
 import com.example.tranasctionanalysis.presentation.widget.DateListItem
+import com.example.tranasctionanalysis.presentation.widget.DonutChartContent
 import com.example.ui.uiState.TransactionUIState
 import com.example.ui.widget.components.BasicLoadingScreen
 import com.example.ui.widget.components.DefaultErrorContent
@@ -53,6 +55,7 @@ internal fun TransactionAnalysisScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val visibleState by viewModel.visibleState.collectAsStateWithLifecycle()
     val transactionState by viewModel.transactionState.collectAsStateWithLifecycle()
+    val chartData by viewModel.chartData.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.getTransactions(isIncome)
@@ -86,6 +89,7 @@ internal fun TransactionAnalysisScreen(
             is TransactionUIState.Success -> {
                 MainContent(
                     modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
+                    chartData = chartData,
                     list = state.data,
                     totalAmount = uiState.total,
                     currency = uiState.currency,
@@ -96,6 +100,9 @@ internal fun TransactionAnalysisScreen(
                     },
                     onEndDateChange = {
                         viewModel.updateEndDatePickerVisible(true)
+                    },
+                    onShowMoreChartData = {
+                        viewModel.updateChartSheetVisible(true)
                     }
                 )
             }
@@ -127,18 +134,27 @@ internal fun TransactionAnalysisScreen(
             }
         )
     }
+
+    if (visibleState.chartBottomSheetVisible) {
+        ChartDataBottomSheet(
+            data = chartData,
+            onDismiss = { viewModel.updateChartSheetVisible(false) }
+        )
+    }
 }
 
 @Composable
 private fun MainContent(
     modifier: Modifier = Modifier,
+    chartData: Map<Float, String>,
     list: List<Transaction>,
     totalAmount: BigDecimal,
     currency: String,
     startDate: String,
     endDate: String,
     onStartDateChange: () -> Unit,
-    onEndDateChange: () -> Unit
+    onEndDateChange: () -> Unit,
+    onShowMoreChartData: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         DateListItem(
@@ -170,6 +186,13 @@ private fun MainContent(
 
         TransactionContent(list) {
             LazyColumn {
+                item {
+                    DonutChartContent(
+                        chartData = chartData,
+                        onClickButtonMore = onShowMoreChartData
+                    )
+                }
+
                 items(
                     items = list,
                     key = { it.id }
