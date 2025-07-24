@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
+import androidx.compose.ui.platform.testTag
 
 @Composable
 internal fun OtpInputField(
@@ -103,7 +104,8 @@ internal fun OtpInputField(
                     }
 
                     false
-                },
+                }
+                .testTag("OtpInputField"),
             decorationBox = { innerBox ->
                 innerBox()
 

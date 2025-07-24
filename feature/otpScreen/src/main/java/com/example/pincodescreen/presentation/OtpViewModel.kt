@@ -90,7 +90,7 @@ internal class OtpViewModel @Inject constructor(
         }
     }
 
-    fun updateValidState(state: Boolean?) {
+    open fun updateValidState(state: Boolean?) {
         _state.update {
             it.copy(
                 isValid = state
