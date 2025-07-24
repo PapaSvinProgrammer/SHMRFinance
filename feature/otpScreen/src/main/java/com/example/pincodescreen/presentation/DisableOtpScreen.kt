@@ -95,6 +95,10 @@ internal fun DisableOtpScreen(
             isError = !(state.isValid ?: true),
             focusRequesters = focusRequesters,
             onAction = { action ->
+                if (state.isValid == false) {
+                    viewModel.updateValidState(null)
+                }
+
                 actionHandler(
                     action = action,
                     viewModel = viewModel,
