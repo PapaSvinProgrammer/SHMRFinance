@@ -94,7 +94,7 @@ fun MainScreen(
 
 private fun bottomBarIsVisibility(route: String?, onResult: (Boolean) -> Unit) {
     when (route) {
-        SplashRoute::class.java.canonicalName -> onResult(false)
+        "${SplashRoute::class.java.canonicalName}/{isOtp}" -> onResult(false)
         "${OtpRoute::class.java.canonicalName}/{isCreate}/{isDisable}" -> onResult(false)
         else -> onResult(true)
     }

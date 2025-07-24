@@ -17,6 +17,7 @@ import com.example.corecomponent.AppViewModel
 import com.example.shmrfinance.appComponent
 import com.example.ui.navigation.ExpensesRoute
 import com.example.ui.navigation.OtpRoute
+import com.example.ui.navigation.SplashRoute
 import com.example.ui.theme.SHMRFinanceTheme
 
 class MainActivity : ComponentActivity() {
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     ExpensesRoute
 
                 MainScreen(
-                    startRoute = startRoute,
+                    startRoute = SplashRoute(startRoute is OtpRoute),
                     hapticNumber = uiState.hapticNumber
                 )
             }

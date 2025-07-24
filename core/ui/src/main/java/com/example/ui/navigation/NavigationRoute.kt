@@ -5,7 +5,9 @@ import kotlinx.serialization.Serializable
 sealed interface NavRoute
 
 @Serializable
-data object SplashRoute : NavRoute
+data class SplashRoute(
+    val isOtp: Boolean
+) : NavRoute
 
 @Serializable
 data object ExpensesRoute : NavRoute

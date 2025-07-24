@@ -35,7 +35,9 @@ internal fun DefaultOtpScreen(
 
     LaunchedEffect(state.isValid) {
         if (state.isValid == true) {
-            navController.navigate(ExpensesRoute) { launchSingleTop = true }
+            navController.navigate(ExpensesRoute) {
+                launchSingleTop = true
+                popUpTo(navController.graph.id)}
         }
     }
 
